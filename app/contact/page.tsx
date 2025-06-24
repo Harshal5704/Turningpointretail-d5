@@ -32,13 +32,13 @@ export default function ContactPage() {
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-blue-50 to-white">
+      <section className="section-padding bg-gradient-to-br from-blue-50 to-green-50">
         <div className="container-max">
           <div className="text-center mb-16">
             <h1 className="heading-primary mb-6">
-              Get In <span className="text-accent">Touch</span>
+              Get In <span className="text-green-600">Touch</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-green-700 max-w-3xl mx-auto">
               Ready to transform your retail business? Let's discuss how we can help you achieve your goals.
             </p>
           </div>
@@ -51,16 +51,16 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Contact Information</h2>
+              <h2 className="text-3xl font-bold text-green-800 mb-8">Contact Information</h2>
 
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-blue-700" />
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-green-700" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-semibold text-green-800 mb-1">Address</h3>
+                    <p className="text-green-600">
                       No 101, Building 61, Street 57
                       <br />
                       BKK 1, Phnom Penh, Cambodia
@@ -69,32 +69,32 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-blue-700" />
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-green-700" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">+855 86 844 464</p>
+                    <h3 className="font-semibold text-green-800 mb-1">Phone</h3>
+                    <p className="text-green-600">+855 86 844 464</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-blue-700" />
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-green-700" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600">info@turningpointretail.com</p>
+                    <h3 className="font-semibold text-green-800 mb-1">Email</h3>
+                    <p className="text-green-600">info@turningpointretail.com</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-blue-700" />
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-green-700" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
-                    <p className="text-gray-600">
+                    <h3 className="font-semibold text-green-800 mb-1">Business Hours</h3>
+                    <p className="text-green-600">
                       Monday - Friday: 9:00 AM - 6:00 PM
                       <br />
                       Saturday: 9:00 AM - 1:00 PM
@@ -105,19 +105,19 @@ export default function ContactPage() {
 
               {/* Map */}
               <div className="mt-8">
-                <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500">Interactive Map Coming Soon</p>
+                <div className="aspect-video bg-green-50 rounded-lg flex items-center justify-center border border-green-200">
+                  <p className="text-green-600">Interactive Map Coming Soon</p>
                 </div>
               </div>
             </div>
 
             {/* Contact Form */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Send us a Message</h2>
+              <h2 className="text-3xl font-bold text-green-800 mb-8">Send us a Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-green-700 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -127,12 +127,12 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-green-800"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-green-700 mb-2">
                     Email Address *
                   </label>
                   <input
@@ -142,12 +142,12 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-green-800"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-green-700 mb-2">
                     Subject *
                   </label>
                   <input
@@ -157,12 +157,12 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-green-800"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-green-700 mb-2">
                     Message *
                   </label>
                   <textarea
@@ -172,7 +172,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     rows={6}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-green-800"
                   ></textarea>
                 </div>
 

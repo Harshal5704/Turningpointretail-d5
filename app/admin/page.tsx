@@ -107,26 +107,26 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white p-8 rounded-lg shadow-md w-96">
-          <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
+          <h1 className="text-2xl font-bold mb-6 text-center text-green-800">Admin Login</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <label className="block text-sm font-medium text-green-700 mb-2">Email</label>
               <input
                 type="text"
                 value={credentials.email}
                 onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <label className="block text-sm font-medium text-green-700 mb-2">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   value={credentials.password}
                   onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                   required
                 />
                 <button
@@ -134,7 +134,11 @@ export default function AdminPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5 text-green-600" />
+                  ) : (
+                    <Eye className="w-5 h-5 text-green-600" />
+                  )}
                 </button>
               </div>
             </div>
@@ -151,7 +155,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-gray-50 section-padding">
       <div className="container-max">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
+          <h1 className="text-3xl font-bold text-green-800">Admin Panel</h1>
           <button
             onClick={() => {
               setShowForm(true)
@@ -167,44 +171,44 @@ export default function AdminPage() {
 
         {showForm && (
           <div className="bg-white p-8 rounded-lg shadow-md mb-8">
-            <h2 className="text-2xl font-bold mb-6">{editingPost ? "Edit Post" : "Create New Post"}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-green-800">{editingPost ? "Edit Post" : "Create New Post"}</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                <label className="block text-sm font-medium text-green-700 mb-2">Title</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                <label className="block text-sm font-medium text-green-700 mb-2">Content</label>
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   rows={8}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                <label className="block text-sm font-medium text-green-700 mb-2">Image URL</label>
                 <input
                   type="url"
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Author</label>
+                <label className="block text-sm font-medium text-green-700 mb-2">Author</label>
                 <input
                   type="text"
                   value={formData.author}
                   onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                   required
                 />
               </div>
@@ -229,20 +233,20 @@ export default function AdminPage() {
 
         <div className="bg-white rounded-lg shadow-md">
           <div className="p-6 border-b">
-            <h2 className="text-xl font-bold">Blog Posts ({posts.length})</h2>
+            <h2 className="text-xl font-bold text-green-800">Blog Posts ({posts.length})</h2>
           </div>
           <div className="divide-y">
             {posts.map((post) => (
               <div key={post.id} className="p-6 flex justify-between items-start">
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
-                  <p className="text-gray-600 mb-2">{post.content.substring(0, 100)}...</p>
-                  <div className="text-sm text-gray-500">
+                  <h3 className="font-semibold text-lg mb-2 text-green-800">{post.title}</h3>
+                  <p className="text-green-600 mb-2">{post.content.substring(0, 100)}...</p>
+                  <div className="text-sm text-green-600">
                     By {post.author} • {new Date(post.date).toLocaleDateString()}
                   </div>
                 </div>
                 <div className="flex space-x-2 ml-4">
-                  <button onClick={() => handleEdit(post)} className="p-2 text-blue-600 hover:bg-blue-50 rounded">
+                  <button onClick={() => handleEdit(post)} className="p-2 text-green-600 hover:bg-green-50 rounded">
                     <Edit className="w-4 h-4" />
                   </button>
                   <button onClick={() => handleDelete(post.id)} className="p-2 text-red-600 hover:bg-red-50 rounded">
@@ -252,7 +256,7 @@ export default function AdminPage() {
               </div>
             ))}
             {posts.length === 0 && (
-              <div className="p-6 text-center text-gray-500">No blog posts yet. Create your first post!</div>
+              <div className="p-6 text-center text-green-600">No blog posts yet. Create your first post!</div>
             )}
           </div>
         </div>

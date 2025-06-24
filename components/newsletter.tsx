@@ -24,7 +24,7 @@ export function Newsletter() {
           </div>
 
           <h2 className="heading-secondary mb-6">
-            Get the Latest <span className="text-accent">Retail Insights</span>
+            Get the Latest Retail Insights
           </h2>
 
           <p className="text-xl text-slate-600 mb-12 leading-relaxed">

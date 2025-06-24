@@ -42,7 +42,7 @@ export default function AboutPage() {
         <div className="container-max">
           <div className="text-center mb-16">
             <h1 className="heading-primary mb-6">
-              Retail Experts. <span className="text-accent">Global Vision.</span> Local Impact.
+              Retail Experts Global Vision Local Impact.
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Transforming retail landscapes across Southeast Asia through innovative strategies, operational
@@ -67,21 +67,24 @@ export default function AboutPage() {
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
-                <div className="text-2xl font-bold text-blue-700">23+</div>
-                <div className="text-sm text-gray-600">Years Experience</div>
+                <div className="text-2xl font-bold text-green-700">23+</div>
+                <div className="text-sm text-green-600">Years Experience</div>
               </div>
             </div>
 
             <div>
-              <h2 className="heading-secondary">Meet Walter Dantis</h2>
-              <p className="text-lg text-gray-600 mb-6">
+              <h2 className="heading-secondary text-green-800">Meet Walter Dantis</h2>
+              <p className="text-lg text-green-600 mb-6">
                 Founder & CEO with over 23 years of retail excellence across international markets.
               </p>
 
-              <div className="space-y-4 text-gray-700">
+              <div className="space-y-4 text-green-700">
                 <p>
                   Walter brings unparalleled expertise from his leadership roles at prestigious brands including
-                  <span className="font-semibold text-blue-700"> Escada, Marks & Spencer, Kenzo, and Hush Puppies</span>
+                  <span className="font-semibold text-green-800">
+                    {" "}
+                    Escada, Marks & Spencer, Kenzo, and Hush Puppies
+                  </span>
                   . His deep understanding of both global retail standards and Southeast Asian market dynamics makes him
                   uniquely positioned to drive transformational change.
                 </p>
@@ -99,13 +102,13 @@ export default function AboutPage() {
               </div>
 
               <div className="mt-8 grid grid-cols-2 gap-4">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-700">50+</div>
-                  <div className="text-sm text-gray-600">Brands Transformed</div>
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <div className="text-2xl font-bold text-green-700">50+</div>
+                  <div className="text-sm text-green-600">Brands Transformed</div>
                 </div>
-                <div className="bg-amber-50 p-4 rounded-lg">
-                  <div className="text-2xl font-bold text-amber-600">4</div>
-                  <div className="text-sm text-gray-600">Countries Served</div>
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <div className="text-2xl font-bold text-green-700">4</div>
+                  <div className="text-sm text-green-600">Countries Served</div>
                 </div>
               </div>
             </div>
@@ -118,24 +121,25 @@ export default function AboutPage() {
         <div className="container-max">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
-              <p className="text-gray-600">
-                To empower retail businesses across Southeast Asia with innovative strategies, operational excellence,
-                and comprehensive training that drives sustainable growth and success.
+              <h3 className="text-2xl font-bold text-green-800 mb-4">Our Mission</h3>
+              <p className="text-green-600">
+                To empower <span className="text-green-700 font-semibold">retail businesses</span> across Southeast Asia
+                with innovative strategies, operational excellence, and comprehensive training that drives sustainable
+                growth and success.
               </p>
             </div>
 
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
-              <p className="text-gray-600">
+              <h3 className="text-2xl font-bold text-green-800 mb-4">Our Vision</h3>
+              <p className="text-green-600">
                 To be the leading retail consulting partner in Southeast Asia, recognized for transforming businesses
                 and developing retail talent that shapes the future of the industry.
               </p>
             </div>
 
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Values</h3>
-              <p className="text-gray-600">
+              <h3 className="text-2xl font-bold text-green-800 mb-4">Our Values</h3>
+              <p className="text-green-600">
                 Excellence, integrity, innovation, and people-first approach guide everything we do. We believe in
                 building lasting partnerships based on trust and measurable results.
               </p>
@@ -148,8 +152,8 @@ export default function AboutPage() {
       <section className="section-padding">
         <div className="container-max">
           <div className="text-center mb-16">
-            <h2 className="heading-secondary">Our Four Key Pillars</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="heading-secondary text-green-800">Our Four Key Pillars</h2>
+            <p className="text-xl text-green-600 max-w-3xl mx-auto">
               The foundation of our approach to retail transformation and sustainable business growth.
             </p>
           </div>
@@ -157,11 +161,11 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {pillars.map((pillar, index) => (
               <div key={index} className="text-center group">
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-700 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <pillar.icon className="w-10 h-10 text-white" />
+                <div className="w-20 h-20 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <pillar.icon className="w-10 h-10 text-green-100" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{pillar.title}</h3>
-                <p className="text-gray-600">{pillar.description}</p>
+                <h3 className="text-xl font-bold text-green-800 mb-4">{pillar.title}</h3>
+                <p className="text-green-600">{pillar.description}</p>
               </div>
             ))}
           </div>

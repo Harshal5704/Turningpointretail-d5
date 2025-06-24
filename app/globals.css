@@ -2,184 +2,428 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS Variables for Brand Colors */
 :root {
-  --primary: #0f172a;
-  --primary-light: #1e293b;
-  --accent: #3b82f6;
-  --accent-light: #60a5fa;
-  --gold: #f59e0b;
-  --gold-light: #fbbf24;
-  --surface: #f8fafc;
-  --surface-dark: #f1f5f9;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --brand-green-50: #f0fdf4;
+  --brand-green-100: #dcfce7;
+  --brand-green-200: #bbf7d0;
+  --brand-green-300: #86efac;
+  --brand-green-400: #4ade80;
+  --brand-green-500: #22c55e;
+  --brand-green-600: #16a34a;
+  --brand-green-700: #15803d;
+  --brand-green-800: #166534;
+  --brand-green-900: #14532d;
+
+  --brand-yellow-300: #fde047;
+  --brand-yellow-400: #facc15;
+  --brand-yellow-500: #eab308;
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+  cursor: url("/images/turning-point-logomark.png") 16 16, auto;
+}
 
-  body {
-    @apply text-slate-900 bg-white antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  cursor: url("/images/turning-point-logomark.png") 16 16, auto;
+  @apply text-green-800 bg-white antialiased;
+}
 
-  .prose {
-    @apply text-slate-700 max-w-none;
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      @apply text-slate-900 font-bold;
-    }
-    h1 {
-      @apply text-4xl mb-8 mt-0;
-    }
-    h2 {
-      @apply text-3xl mb-6 mt-12 font-bold;
-    }
-    h3 {
-      @apply text-2xl mb-4 mt-8 font-semibold;
-    }
-    p {
-      @apply mb-6 leading-relaxed text-lg;
-    }
-    ul {
-      @apply list-disc pl-6 mb-6 space-y-3;
-    }
-    li {
-      @apply text-lg leading-relaxed;
-    }
-    a {
-      @apply text-blue-600 hover:text-blue-700 transition-colors font-medium;
-    }
+/* Custom cursor for interactive elements */
+a,
+button,
+[role="button"] {
+  cursor: url("/images/turning-point-logomark.png") 16 16, pointer;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
+/* Prose styles for content pages */
+.prose {
+  @apply text-green-700 max-w-none;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-green-800 font-bold;
+}
+
+.prose h1 {
+  @apply text-4xl mb-8 mt-0;
+}
+
+.prose h2 {
+  @apply text-3xl mb-6 mt-12 font-bold;
+}
+
+.prose h3 {
+  @apply text-2xl mb-4 mt-8 font-semibold;
+}
+
+.prose p {
+  @apply mb-6 leading-relaxed text-lg text-green-700;
+}
+
+.prose ul {
+  @apply list-disc pl-6 mb-6 space-y-3;
+}
+
+.prose li {
+  @apply text-lg leading-relaxed text-green-700;
+}
+
+.prose a {
+  @apply text-green-600 hover:text-green-700 transition-colors font-medium;
+}
+
+/* Custom Utility Classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Brand Green Text Utilities */
+  .text-brand-green {
+    color: var(--brand-green-600);
+  }
+
+  .text-brand-green-light {
+    color: var(--brand-green-100);
+  }
+
+  .text-brand-green-dark {
+    color: var(--brand-green-800);
+  }
+}
+
+/* Component Styles */
 @layer components {
-  .btn-primary {
-    @apply bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border-0;
-  }
-
-  .btn-secondary {
-    @apply bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg;
-  }
-
-  .btn-accent {
-    @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+  .container-max {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   .section-padding {
-    @apply py-24 px-4 sm:px-6 lg:px-8;
-  }
-
-  .container-max {
-    @apply max-w-7xl mx-auto;
+    @apply py-16 lg:py-24;
   }
 
   .heading-primary {
-    @apply font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-slate-900 leading-tight tracking-tight;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold text-green-800 leading-tight font-playfair;
   }
 
   .heading-secondary {
-    @apply font-bold text-4xl sm:text-5xl md:text-6xl text-slate-900 mb-8 leading-tight;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-green-800 mb-6 font-playfair;
   }
 
   .heading-tertiary {
-    @apply font-bold text-2xl sm:text-3xl md:text-4xl text-slate-900 mb-6;
+    @apply text-xl font-bold text-green-800 mb-4;
   }
 
-  .text-accent {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text;
+  .btn-primary {
+    @apply inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-green-100 font-semibold rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1;
   }
 
-  .text-gold {
-    @apply bg-gradient-to-r from-amber-500 to-orange-500 text-transparent bg-clip-text;
+  .btn-secondary {
+    @apply inline-flex items-center px-8 py-4 bg-transparent border-2 border-green-600 text-green-600 font-semibold rounded-xl hover:bg-green-600 hover:text-green-100 transition-all duration-300;
   }
 
   .card-modern {
-    @apply bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-blue-200;
+    @apply bg-white rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300;
   }
 
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl;
+    @apply bg-white/90 backdrop-blur-md border border-white/20;
   }
 
-  .gradient-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  .text-accent {
+    @apply bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent;
   }
 
-  .gradient-bg-2 {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  }
-
-  .gradient-bg-3 {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  .text-gold {
+    @apply bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent;
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 1s ease-out;
+/* Animation Classes */
+@layer utilities {
+  .animated-bg {
+    background: linear-gradient(-45deg, #f0fdf4, #dcfce7, #bbf7d0, #86efac);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .float-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .float-delayed {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: -3s;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .rotate-slow {
+    animation: rotate 20s linear infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .pulse-green {
+    animation: pulseGreen 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseGreen {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+  }
+
+  .pulse-yellow {
+    animation: pulseYellow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseYellow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(234, 179, 8, 0);
+    }
+  }
+
+  .bounce-subtle {
+    animation: bounceSubtle 3s ease-in-out infinite;
+  }
+
+  @keyframes bounceSubtle {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  .scale-hover {
+    transition: transform 0.3s ease;
+  }
+
+  .scale-hover:hover {
+    transform: scale(1.05);
+  }
+
+  .slide-in-left {
+    animation: slideInLeft 0.8s ease-out;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in-right {
+    animation: slideInRight 0.8s ease-out;
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in-up {
+    animation: slideInUp 0.8s ease-out;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide-in-down {
+    animation: slideInDown 0.8s ease-out;
+  }
+
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
-.animate-slide-up {
-  animation: slideUp 0.8s ease-out;
+/* Shadcn/ui Base Styles */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 134 61% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 134 61% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 134 61% 20%;
+    --primary: 134 61% 41%;
+    --primary-foreground: 138 76% 97%;
+    --secondary: 138 76% 97%;
+    --secondary-foreground: 134 61% 20%;
+    --muted: 138 76% 97%;
+    --muted-foreground: 134 25% 45%;
+    --accent: 138 76% 97%;
+    --accent-foreground: 134 61% 20%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 138 39% 89%;
+    --input: 138 39% 89%;
+    --ring: 134 61% 41%;
+    --chart-1: 134 61% 41%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 134 61% 4%;
+    --foreground: 138 76% 97%;
+    --card: 134 61% 4%;
+    --card-foreground: 138 76% 97%;
+    --popover: 134 61% 4%;
+    --popover-foreground: 138 76% 97%;
+    --primary: 138 76% 97%;
+    --primary-foreground: 134 61% 20%;
+    --secondary: 134 25% 15%;
+    --secondary-foreground: 138 76% 97%;
+    --muted: 134 25% 15%;
+    --muted-foreground: 134 25% 64%;
+    --accent: 134 25% 15%;
+    --accent-foreground: 138 76% 97%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 138 76% 97%;
+    --border: 134 25% 15%;
+    --input: 134 25% 15%;
+    --ring: 134 61% 83%;
+  }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@layer base {
+  * {
+    @apply border-border;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* Custom scrollbar */
+/* Custom scrollbar with brand colors */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f0fdf4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: linear-gradient(to bottom, #16a34a, #eab308);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(to bottom, #15803d, #ca8a04);
+}
+
+/* Selection colors */
+::selection {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+::-moz-selection {
+  background: #dcfce7;
+  color: #15803d;
 }

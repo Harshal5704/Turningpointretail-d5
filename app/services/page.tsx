@@ -18,12 +18,12 @@ export default function ServicesPage() {
         <div className="container-max">
           <div className="text-center mb-16">
             <FadeIn>
-              <h1 className="heading-primary mb-6">
-                Comprehensive <span className="text-accent">Retail Solutions</span>
+              <h1 className="heading-primary mb-6 text-green-800">
+                Comprehensive Retail Solutions
               </h1>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-green-600 max-w-3xl mx-auto">
                 From store operations to digital transformation, we provide end-to-end retail consulting services
                 tailored to the Southeast Asian market.
               </p>
@@ -40,16 +40,16 @@ export default function ServicesPage() {
               <ScrollReveal key={service.id} delay={index * 0.1}>
                 <Link href={`/services/${service.id}`}>
                   <div className="bg-white p-8 rounded-xl shadow-sm border hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-700 to-amber-500 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <service.icon className="w-8 h-8 text-white" />
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <service.icon className="w-8 h-8 text-green-100" />
                     </div>
 
-                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-xl font-bold text-green-800 mb-4 group-hover:text-green-600 transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-gray-600 mb-6">{service.description}</p>
+                    <p className="text-green-600 mb-6">{service.description}</p>
 
-                    <div className="flex items-center text-blue-700 font-semibold group-hover:text-blue-800">
+                    <div className="flex items-center text-green-700 font-semibold group-hover:text-green-800">
                       Learn More
                       <svg
                         className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
@@ -70,15 +70,17 @@ export default function ServicesPage() {
 
       {/* CTA Section */}
       <ScrollReveal>
-        <section className="section-padding bg-gradient-to-r from-blue-700 to-blue-800">
+        <section className="section-padding bg-gradient-to-r from-green-700 to-green-800">
           <div className="container-max text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Transform Your Retail Business?</h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-green-100 mb-6">
+              Ready to Transform Your <span className="text-green-200">Retail Business</span>?
+            </h2>
+            <p className="text-xl text-green-200 mb-8 max-w-2xl mx-auto">
               Let's discuss how our expertise can help you achieve your retail goals and drive sustainable growth.
             </p>
             <AnimatedButton
               href="/contact"
-              className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg font-semibold text-lg"
+              className="bg-green-100 hover:bg-green-50 text-green-800 px-8 py-4 rounded-lg font-semibold text-lg"
             >
               Get Started Today
             </AnimatedButton>
