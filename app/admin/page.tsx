@@ -36,7 +36,7 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (credentials.email === "turningpointretail.com" && credentials.password === "turningpointretal2025") {
+    if (credentials.email === "turningpointretail@gmail.com" && credentials.password === "turningpointretail@2025") {
       setIsAuthenticated(true)
     } else {
       alert("Invalid credentials")
