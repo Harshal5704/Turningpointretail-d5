@@ -24,6 +24,7 @@ export interface ServiceData {
   overview: string
   features: string[]
   benefits: string[]
+  image: string
   testimonial?: {
     quote: string
     author: string
@@ -45,6 +46,7 @@ export const servicesData: ServiceData[] = [
       "Optimize your retail operations with proven systems and processes that drive efficiency and profitability.",
     overview:
       "Transform your retail operations with our comprehensive store management solutions. We help you streamline processes, optimize inventory, and create efficient workflows that maximize profitability while enhancing customer experience.",
+    image: "/images/services/store-operations.jpg", // Updated path
     features: [
       "Inventory Management Systems",
       "Staff Scheduling & Training",
@@ -73,6 +75,7 @@ export const servicesData: ServiceData[] = [
     description: "Comprehensive training programs for retail excellence and leadership development.",
     overview:
       "Empower your team with cutting-edge retail skills through our comprehensive Skill Academy. From frontline staff to senior management, we provide tailored training programs that drive performance and career growth.",
+    image: "/images/services/skill-academy.jpg", // Updated path
     features: [
       "Leadership Development Programs",
       "Customer Service Excellence",
@@ -101,6 +104,7 @@ export const servicesData: ServiceData[] = [
     description: "Create memorable experiences that drive customer loyalty and repeat business.",
     overview:
       "Design and implement customer experience strategies that differentiate your brand and build lasting relationships. We help you understand your customers' journey and create touchpoints that exceed expectations.",
+    image: "/images/services/customer-experience.jpg", // Updated path
     features: [
       "Customer Journey Mapping",
       "Service Design & Standards",
@@ -123,6 +127,7 @@ export const servicesData: ServiceData[] = [
     description: "Build strong brand presence that resonates with your target market.",
     overview:
       "Develop a compelling brand identity that stands out in the competitive retail landscape. From visual identity to brand messaging, we help you create a cohesive brand experience across all touchpoints.",
+    image: "/images/services/branding-identity.jpg", // Updated path
     features: [
       "Brand Strategy Development",
       "Visual Identity Design",
@@ -145,6 +150,7 @@ export const servicesData: ServiceData[] = [
     description: "Data-driven insights for informed decision making and strategic planning.",
     overview:
       "Harness the power of data to make informed business decisions. Our BI solutions provide real-time insights into sales performance, customer behavior, and market trends to drive strategic growth.",
+    image: "/images/services/retail-business-intelligence.jpg", // Updated path
     features: [
       "Sales Analytics & Reporting",
       "Market Research & Analysis",
@@ -167,6 +173,7 @@ export const servicesData: ServiceData[] = [
     description: "Scale your business through strategic franchise expansion and comprehensive support systems.",
     overview:
       "Expand your retail concept through proven franchise development strategies. We guide you through every step of the franchising process, from model development to ongoing support systems.",
+    image: "/images/services/franchise-development.jpg", // Updated path
     features: [
       "Franchise Model Development",
       "Partner Selection & Screening",
@@ -189,6 +196,7 @@ export const servicesData: ServiceData[] = [
     description: "Streamline operations with comprehensive SOPs and quality standards.",
     overview:
       "Create standardized processes that ensure consistency, quality, and efficiency across all your retail operations. Our SOPs provide clear guidelines for every aspect of your business.",
+    image: "/images/services/standard-operating-procedures.jpg", // Updated path
     features: [
       "Process Documentation",
       "Quality Standards Development",
@@ -211,6 +219,7 @@ export const servicesData: ServiceData[] = [
     description: "Technology solutions to modernize your operations and enhance efficiency.",
     overview:
       "Implement cutting-edge retail technology solutions that streamline operations, improve customer experience, and provide valuable business insights for data-driven decision making.",
+    image: "/images/services/retail-software-solutions.jpg", // Updated path
     features: [
       "Point of Sale (POS) Systems",
       "Inventory Management Software",
@@ -233,6 +242,7 @@ export const servicesData: ServiceData[] = [
     description: "Leverage artificial intelligence for competitive advantage and predictive insights.",
     overview:
       "Harness the power of artificial intelligence to gain deeper insights into customer behavior, optimize pricing strategies, and predict market trends for strategic advantage.",
+    image: "/images/services/ai-retail-analytics.jpg", // Updated path
     features: [
       "Predictive Analytics",
       "Customer Behavior Analysis",
@@ -255,6 +265,7 @@ export const servicesData: ServiceData[] = [
     description: "Create compelling product displays that drive sales and enhance brand experience.",
     overview:
       "Transform your retail space into a compelling brand experience through strategic visual merchandising. We help you create displays that attract customers and drive purchasing decisions.",
+    image: "/images/services/visual-merchandising.jpg", // Updated path
     features: [
       "Store Layout Design",
       "Product Placement Strategy",
@@ -277,6 +288,7 @@ export const servicesData: ServiceData[] = [
     description: "Seamlessly blend online and offline retail experiences for omnichannel success.",
     overview:
       "Create a unified retail experience across all channels. Our e-commerce integration solutions help you connect online and offline operations for seamless customer journeys.",
+    image: "/images/services/ecommerce-integration.jpg", // Updated path
     features: [
       "Omnichannel Strategy Development",
       "Online Store Setup & Design",
@@ -299,6 +311,7 @@ export const servicesData: ServiceData[] = [
     description: "Successfully launch in new markets across Southeast Asia with strategic planning.",
     overview:
       "Navigate new market entry with confidence through our comprehensive market entry strategies. We provide deep market insights and strategic planning for successful expansion.",
+    image: "/images/services/market-entry-strategy.jpg", // Updated path
     features: [
       "Market Analysis & Research",
       "Competitive Landscape Assessment",
@@ -321,6 +334,7 @@ export const servicesData: ServiceData[] = [
     description: "Modernize your retail operations with comprehensive digital solutions.",
     overview:
       "Transform your retail business for the digital age. Our digital transformation services help you leverage technology to improve operations, enhance customer experience, and drive growth.",
+    image: "/images/services/digital-transformation.jpg", // Updated path
     features: [
       "Technology Roadmap Development",
       "System Integration & Migration",
@@ -343,6 +357,7 @@ export const servicesData: ServiceData[] = [
     description: "Protect your business with comprehensive risk assessment and mitigation strategies.",
     overview:
       "Safeguard your retail business against potential risks through comprehensive risk management strategies. We help you identify, assess, and mitigate risks across all business operations.",
+    image: "/images/services/risk-management.jpg", // Updated path
     features: [
       "Risk Assessment & Analysis",
       "Mitigation Strategy Development",
@@ -365,6 +380,7 @@ export const servicesData: ServiceData[] = [
     description: "Expand your retail presence across international markets with strategic guidance.",
     overview:
       "Successfully expand your retail business internationally with our comprehensive expansion strategies. We provide market insights, cultural adaptation guidance, and operational support.",
+    image: "/images/services/international-expansion.jpg", // Updated path
     features: [
       "International Market Research",
       "Regulatory Compliance Support",
@@ -387,6 +403,7 @@ export const servicesData: ServiceData[] = [
     description: "Maximize efficiency and profitability across all retail operations.",
     overview:
       "Optimize every aspect of your retail performance through data-driven strategies and proven methodologies. We help you identify improvement opportunities and implement solutions that drive results.",
+    image: "/images/services/performance-optimization.jpg", // Updated path
     features: [
       "KPI Development & Tracking",
       "Process Improvement Analysis",

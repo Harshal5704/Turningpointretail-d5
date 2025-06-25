@@ -32,27 +32,22 @@ export function Navigation() {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? "glass-effect shadow-2xl" : "bg-transparent"
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-xl border-b border-green-100" : "bg-transparent"
       }`}
     >
-      <div className="container-max">
+      <div className="container mx-auto px-6">
         <div className="flex justify-between items-center py-4">
-          {/* Logo - No animations */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg">
+          {/* New Professional Logo */}
+          <Link href="/" className="flex items-center group">
+            <div className="relative">
               <Image
-                src="/images/turning-point-logomark.png"
-                alt="Turning Point Logo"
-                width={48}
-                height={48}
-                className="object-contain"
+                src="/images/turning-point-new-logo.png"
+                alt="Turning Point Retail Solutions"
+                width={280}
+                height={80}
+                className="object-contain group-hover:scale-105 transition-transform duration-300"
+                priority
               />
-            </div>
-            <div>
-              <div className="font-bold text-2xl text-green-800 group-hover:text-green-600 transition-colors">
-                Turning Point
-              </div>
-              <div className="text-xs text-gray-500 font-medium tracking-wider uppercase">Retail Solutions</div>
             </div>
           </Link>
 
@@ -62,10 +57,9 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`font-semibold text-base transition-all duration-300 relative group slide-in-down ${
+                className={`font-semibold text-base transition-all duration-300 relative group ${
                   pathname === item.href ? "text-green-600" : "text-gray-700 hover:text-green-600"
                 }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-600 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
@@ -74,12 +68,12 @@ export function Navigation() {
 
             {/* Language Switcher */}
             <div className="relative group">
-              <button className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors font-medium scale-hover">
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors font-medium">
                 <Globe className="w-5 h-5" />
                 <span>EN</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-xl border border-green-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 slide-in-down">
+              <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-xl border border-green-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                 {languages.map((lang) => (
                   <button
                     key={lang}
@@ -91,14 +85,17 @@ export function Navigation() {
               </div>
             </div>
 
-            <Link href="/contact" className="btn-primary bounce-subtle">
+            <Link
+              href="/contact"
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-green-100 px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            >
               Get Started
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="lg:hidden p-2 rounded-xl bg-green-100 hover:bg-green-200 transition-colors scale-hover"
+            className="lg:hidden p-2 rounded-xl bg-green-100 hover:bg-green-200 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6 text-green-600" /> : <Menu className="w-6 h-6 text-green-600" />}
@@ -107,18 +104,17 @@ export function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden py-6 border-t border-green-200 glass-effect rounded-b-2xl mt-4 slide-in-down">
+          <div className="lg:hidden py-6 border-t border-green-200 bg-white/95 backdrop-blur-md rounded-b-2xl mt-4">
             <div className="space-y-4">
               {navItems.map((item, index) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block py-3 px-4 font-semibold text-lg rounded-xl transition-colors slide-in-left ${
+                  className={`block py-3 px-4 font-semibold text-lg rounded-xl transition-colors ${
                     pathname === item.href
                       ? "text-green-600 bg-green-50"
                       : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
@@ -133,7 +129,7 @@ export function Navigation() {
                   {languages.map((lang) => (
                     <button
                       key={lang}
-                      className={`py-2 px-3 rounded-lg text-sm font-medium transition-colors scale-hover ${
+                      className={`py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                         lang === "EN" ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-600 hover:bg-green-100"
                       }`}
                     >
@@ -143,7 +139,11 @@ export function Navigation() {
                 </div>
               </div>
               <div className="px-4">
-                <Link href="/contact" className="btn-primary w-full text-center" onClick={() => setIsOpen(false)}>
+                <Link
+                  href="/contact"
+                  className="block w-full text-center bg-gradient-to-r from-green-600 to-green-700 text-green-100 py-3 rounded-xl font-semibold transition-all duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
                   Get Started
                 </Link>
               </div>
