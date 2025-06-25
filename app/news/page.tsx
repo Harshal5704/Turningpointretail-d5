@@ -2,20 +2,13 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Calendar, User, ArrowRight } from "lucide-react"
-
-interface BlogPost {
-  id: string
-  title: string
-  content: string
-  image: string
-  date: string
-  author: string
-}
+import { Calendar, User, ArrowRight, AlertCircle } from "lucide-react"
+import type { BlogPost } from "@/lib/supabase"
 
 export default function NewsPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string>("")
 
   useEffect(() => {
     fetchPosts()
@@ -23,31 +16,21 @@ export default function NewsPage() {
 
   const fetchPosts = async () => {
     try {
+      setLoading(true)
+      setError("")
+
       const response = await fetch("/api/blog")
 
-      // Check if the response is ok before trying to parse JSON
       if (!response.ok) {
-        console.error(`HTTP error! status: ${response.status}`)
-        return
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
       }
 
-      // Check if the response has content
-      const text = await response.text()
-      if (!text) {
-        console.log("Empty response from API")
-        return
-      }
-
-      // Try to parse JSON
-      try {
-        const data = JSON.parse(text)
-        setPosts(data)
-      } catch (parseError) {
-        console.error("Failed to parse JSON:", parseError)
-        console.error("Response text:", text)
-      }
+      const data = await response.json()
+      setPosts(data)
     } catch (error) {
       console.error("Error fetching posts:", error)
+      setError(`Failed to load posts: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
       setLoading(false)
     }
@@ -56,7 +39,25 @@ export default function NewsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-700"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-700 mx-auto mb-4"></div>
+          <p className="text-green-600">Loading latest news...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-6">
+          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-red-800 mb-2">Error Loading News</h2>
+          <p className="text-red-600 mb-4">{error}</p>
+          <button onClick={fetchPosts} className="btn-primary">
+            Try Again
+          </button>
+        </div>
       </div>
     )
   }
@@ -105,7 +106,7 @@ export default function NewsPage() {
                   <div className="p-6">
                     <div className="flex items-center text-sm text-green-600 mb-3">
                       <Calendar className="w-4 h-4 mr-2" />
-                      {new Date(post.date).toLocaleDateString()}
+                      {new Date(post.created_at).toLocaleDateString()}
                       <User className="w-4 h-4 ml-4 mr-2" />
                       {post.author}
                     </div>

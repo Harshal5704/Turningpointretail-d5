@@ -13,18 +13,18 @@ export const metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in pt-24">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-green-50 to-white">
+      <section className="section-padding bg-gradient-to-br from-green-50 via-white to-yellow-50">
         <div className="container-max">
           <div className="text-center mb-16">
             <FadeIn>
-              <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-green-800 mb-6 leading-tight">
                 Comprehensive <span className="text-green-600">Retail Solutions</span>
               </h1>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <p className="text-xl text-green-600 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl md:text-2xl text-green-600 max-w-4xl mx-auto leading-relaxed">
                 From store operations to digital transformation, we provide end-to-end retail consulting services
                 tailored to the Southeast Asian market with proven results and measurable impact.
               </p>
@@ -34,13 +34,13 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Grid with Internet-Sourced Images */}
-      <section className="section-padding">
+      <section className="section-padding bg-white">
         <div className="container-max">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {servicesData.map((service, index) => (
               <ScrollReveal key={service.id} delay={index * 0.1}>
                 <Link href={`/services/${service.id}`}>
-                  <div className="bg-white rounded-2xl shadow-lg border border-green-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 cursor-pointer group overflow-hidden">
+                  <div className="bg-white rounded-3xl shadow-lg border border-green-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 cursor-pointer group overflow-hidden">
                     {/* Service Image */}
                     <div className="relative h-56 overflow-hidden">
                       <Image
@@ -53,20 +53,20 @@ export default function ServicesPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-green-900/60 via-green-900/20 to-transparent"></div>
 
                       {/* Service Icon Overlay */}
-                      <div className="absolute top-4 right-4 w-14 h-14 bg-green-600/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
+                      <div className="absolute top-4 right-4 w-14 h-14 bg-green-600/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
                         <service.icon className="w-7 h-7 text-green-100" />
                       </div>
 
                       {/* Service Category Badge */}
                       <div className="absolute bottom-4 left-4">
-                        <span className="px-3 py-1 bg-green-100/90 backdrop-blur-sm text-green-800 rounded-full text-sm font-semibold">
+                        <span className="px-4 py-2 bg-green-100/90 backdrop-blur-sm text-green-800 rounded-full text-sm font-semibold">
                           Professional Service
                         </span>
                       </div>
                     </div>
 
                     {/* Service Content */}
-                    <div className="p-6">
+                    <div className="p-8">
                       <h3 className="text-xl font-bold text-green-800 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
                         {service.title}
                       </h3>
@@ -120,8 +120,8 @@ export default function ServicesPage() {
         <section className="section-padding bg-gradient-to-r from-green-50 to-yellow-50">
           <div className="container-max">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-green-800 mb-4">Why Choose Our Services?</h2>
-              <p className="text-xl text-green-600 max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Why Choose Our Services?</h2>
+              <p className="text-xl text-green-600 max-w-3xl mx-auto">
                 Proven expertise delivering measurable results across Southeast Asia's retail landscape
               </p>
             </div>
@@ -134,9 +134,9 @@ export default function ServicesPage() {
                 { number: "98%", label: "Client Success Rate", icon: "✅", desc: "Satisfied customers" },
               ].map((stat, index) => (
                 <FadeIn key={index} delay={index * 0.1}>
-                  <div className="text-center p-6 bg-white rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
-                    <div className="text-4xl mb-4">{stat.icon}</div>
-                    <div className="text-3xl font-bold text-green-800 mb-2">{stat.number}</div>
+                  <div className="text-center p-8 bg-white rounded-3xl shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
+                    <div className="text-5xl mb-4">{stat.icon}</div>
+                    <div className="text-4xl font-bold text-green-800 mb-2">{stat.number}</div>
                     <div className="text-green-600 font-semibold mb-1">{stat.label}</div>
                     <div className="text-green-500 text-sm">{stat.desc}</div>
                   </div>
@@ -149,11 +149,11 @@ export default function ServicesPage() {
 
       {/* Service Categories */}
       <ScrollReveal>
-        <section className="section-padding">
+        <section className="section-padding bg-white">
           <div className="container-max">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-green-800 mb-4">Service Categories</h2>
-              <p className="text-xl text-green-600 max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">Service Categories</h2>
+              <p className="text-xl text-green-600 max-w-3xl mx-auto">
                 Organized expertise across key retail business areas
               </p>
             </div>
@@ -186,17 +186,17 @@ export default function ServicesPage() {
                 },
               ].map((category, index) => (
                 <FadeIn key={index} delay={index * 0.1}>
-                  <div className="bg-white p-6 rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
+                  <div className="bg-white p-8 rounded-3xl shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
                     <div
-                      className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}
+                      className={`w-20 h-20 bg-gradient-to-r ${category.color} rounded-3xl flex items-center justify-center mx-auto mb-6`}
                     >
-                      <span className="text-2xl">{category.icon}</span>
+                      <span className="text-3xl">{category.icon}</span>
                     </div>
-                    <h3 className="text-lg font-bold text-green-800 mb-3 text-center">{category.category}</h3>
-                    <ul className="space-y-2">
+                    <h3 className="text-lg font-bold text-green-800 mb-4 text-center">{category.category}</h3>
+                    <ul className="space-y-3">
                       {category.services.map((service, idx) => (
                         <li key={idx} className="text-green-600 text-sm flex items-center">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
                           {service}
                         </li>
                       ))}
@@ -216,21 +216,21 @@ export default function ServicesPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-green-100 mb-6">
               Ready to Transform Your <span className="text-green-200">Retail Business</span>?
             </h2>
-            <p className="text-xl text-green-200 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-green-200 mb-8 max-w-3xl mx-auto">
               Let's discuss how our comprehensive services can help you achieve your retail goals and drive sustainable
               growth across Southeast Asia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <AnimatedButton
                 href="/contact"
-                className="bg-green-100 hover:bg-green-50 text-green-800 px-8 py-4 rounded-lg font-semibold text-lg shadow-lg"
+                className="bg-green-100 hover:bg-green-50 text-green-800 px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg"
               >
                 Schedule Free Consultation
               </AnimatedButton>
               <AnimatedButton
                 href="/services"
                 variant="secondary"
-                className="border-2 border-green-100 text-green-100 hover:bg-green-100 hover:text-green-800 px-8 py-4 rounded-lg font-semibold text-lg"
+                className="border-2 border-green-100 text-green-100 hover:bg-green-100 hover:text-green-800 px-8 py-4 rounded-2xl font-semibold text-lg"
               >
                 Explore All Services
               </AnimatedButton>

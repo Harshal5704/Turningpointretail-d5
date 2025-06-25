@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description:
     "Expert retail consulting services in Cambodia and Southeast Asia. 23+ years of experience with leading brands like Escada, M&S, Kenzo, and Hush Puppies.",
   keywords: "retail consulting, Cambodia, Southeast Asia, franchise development, store operations, retail training",
+  generator: "v0.dev",
 }
 
 export default function RootLayout({

@@ -1,18 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
-import { Eye, EyeOff, Plus, Trash2, Edit, Upload, X } from "lucide-react"
-
-interface BlogPost {
-  id: string
-  title: string
-  content: string
-  image: string
-  date: string
-  author: string
-}
+import { Eye, EyeOff, Plus, Trash2, Edit, Upload, X, AlertCircle, CheckCircle } from "lucide-react"
+import type { BlogPost } from "@/lib/supabase"
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -30,7 +21,9 @@ export default function AdminPage() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>("")
   const [uploadMethod, setUploadMethod] = useState<"file" | "url">("file")
-  const [isUploading, setIsUploading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string>("")
+  const [success, setSuccess] = useState<string>("")
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -38,22 +31,44 @@ export default function AdminPage() {
     }
   }, [isAuthenticated])
 
+  // Clear messages after 5 seconds
+  useEffect(() => {
+    if (error || success) {
+      const timer = setTimeout(() => {
+        setError("")
+        setSuccess("")
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [error, success])
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     if (credentials.email === "turningpointretail@gmail.com" && credentials.password === "turningpointretail@2025") {
       setIsAuthenticated(true)
+      setSuccess("Successfully logged in!")
     } else {
-      alert("Invalid credentials")
+      setError("Invalid credentials. Please try again.")
     }
   }
 
   const fetchPosts = async () => {
     try {
+      setIsLoading(true)
       const response = await fetch("/api/blog")
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+      }
+
       const data = await response.json()
       setPosts(data)
     } catch (error) {
       console.error("Error fetching posts:", error)
+      setError(`Failed to fetch posts: ${error instanceof Error ? error.message : "Unknown error"}`)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -62,13 +77,13 @@ export default function AdminPage() {
     if (file) {
       // Validate file type
       if (!file.type.startsWith("image/")) {
-        alert("Please select a valid image file")
+        setError("Please select a valid image file")
         return
       }
 
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert("Image size should be less than 5MB")
+        setError("Image size should be less than 5MB")
         return
       }
 
@@ -92,32 +107,6 @@ export default function AdminPage() {
     }
   }
 
-  const uploadImageToCloudinary = async (file: File): Promise<string> => {
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("upload_preset", "blog_images") // You'll need to set this up in Cloudinary
-
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/your-cloud-name/image/upload`, // Replace with your Cloudinary cloud name
-        {
-          method: "POST",
-          body: formData,
-        },
-      )
-
-      if (!response.ok) {
-        throw new Error("Upload failed")
-      }
-
-      const data = await response.json()
-      return data.secure_url
-    } catch (error) {
-      console.error("Error uploading to Cloudinary:", error)
-      throw error
-    }
-  }
-
   const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -129,22 +118,27 @@ export default function AdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsUploading(true)
+    setIsLoading(true)
+    setError("")
+    setSuccess("")
 
     try {
+      // Validate required fields
+      if (!formData.title.trim() || !formData.content.trim() || !formData.author.trim()) {
+        setError("Please fill in all required fields")
+        setIsLoading(false)
+        return
+      }
+
       let imageUrl = formData.image
 
-      // If user uploaded a file, convert to base64 or upload to cloud service
+      // If user uploaded a file, convert to base64
       if (imageFile && uploadMethod === "file") {
         try {
-          // Option 1: Convert to base64 (for simple storage)
           imageUrl = await convertToBase64(imageFile)
-
-          // Option 2: Upload to Cloudinary (uncomment if you have Cloudinary set up)
-          // imageUrl = await uploadImageToCloudinary(imageFile)
         } catch (error) {
-          alert("Error uploading image. Please try again.")
-          setIsUploading(false)
+          setError("Error processing image. Please try again.")
+          setIsLoading(false)
           return
         }
       }
@@ -152,8 +146,14 @@ export default function AdminPage() {
       const postData = {
         ...formData,
         image: imageUrl,
-        id: editingPost?.id || Date.now().toString(),
-        date: editingPost?.date || new Date().toISOString(),
+        title: formData.title.trim(),
+        content: formData.content.trim(),
+        author: formData.author.trim(),
+      }
+
+      // Add ID for updates
+      if (editingPost) {
+        postData.id = editingPost.id
       }
 
       const response = await fetch("/api/blog", {
@@ -162,17 +162,20 @@ export default function AdminPage() {
         body: JSON.stringify(postData),
       })
 
-      if (response.ok) {
-        fetchPosts()
-        resetForm()
-      } else {
-        alert("Error saving post. Please try again.")
+      const responseData = await response.json()
+
+      if (!response.ok) {
+        throw new Error(responseData.error || `HTTP error! status: ${response.status}`)
       }
+
+      setSuccess(editingPost ? "Post updated successfully!" : "Post created successfully!")
+      fetchPosts()
+      resetForm()
     } catch (error) {
       console.error("Error saving post:", error)
-      alert("Error saving post. Please try again.")
+      setError(`Failed to save post: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
-      setIsUploading(false)
+      setIsLoading(false)
     }
   }
 
@@ -186,15 +189,26 @@ export default function AdminPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this post?")) {
-      try {
-        const response = await fetch(`/api/blog?id=${id}`, { method: "DELETE" })
-        if (response.ok) {
-          fetchPosts()
-        }
-      } catch (error) {
-        console.error("Error deleting post:", error)
+    if (!confirm("Are you sure you want to delete this post?")) {
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      const response = await fetch(`/api/blog?id=${id}`, { method: "DELETE" })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
       }
+
+      setSuccess("Post deleted successfully!")
+      fetchPosts()
+    } catch (error) {
+      console.error("Error deleting post:", error)
+      setError(`Failed to delete post: ${error instanceof Error ? error.message : "Unknown error"}`)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -203,10 +217,10 @@ export default function AdminPage() {
     setFormData({
       title: post.title,
       content: post.content,
-      image: post.image,
+      image: post.image || "",
       author: post.author,
     })
-    setImagePreview(post.image)
+    setImagePreview(post.image || "")
     setUploadMethod("url")
     setShowForm(true)
   }
@@ -227,6 +241,14 @@ export default function AdminPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white p-8 rounded-lg shadow-md w-96">
           <h1 className="text-2xl font-bold mb-6 text-center text-green-800">Admin Login</h1>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md flex items-center">
+              <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
+              <span className="text-red-700 text-sm">{error}</span>
+            </div>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-green-700 mb-2">Email</label>
@@ -274,9 +296,28 @@ export default function AdminPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="pt-32 pb-16">
         <div className="container-max max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Status Messages */}
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md flex items-center">
+              <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+              <span className="text-red-700">{error}</span>
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md flex items-center">
+              <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+              <span className="text-green-700">{success}</span>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <h1 className="text-3xl font-bold text-green-800">Admin Panel</h1>
-            <button onClick={handleNewPost} className="btn-primary flex items-center whitespace-nowrap">
+            <button
+              onClick={handleNewPost}
+              className="btn-primary flex items-center whitespace-nowrap"
+              disabled={isLoading}
+            >
               <Plus className="w-5 h-5 mr-2" />
               New Post
             </button>
@@ -289,24 +330,30 @@ export default function AdminPage() {
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-2">Title</label>
+                  <label className="block text-sm font-medium text-green-700 mb-2">
+                    Title <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-2">Content</label>
+                  <label className="block text-sm font-medium text-green-700 mb-2">
+                    Content <span className="text-red-500">*</span>
+                  </label>
                   <textarea
                     value={formData.content}
                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                     rows={8}
                     className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -324,6 +371,7 @@ export default function AdminPage() {
                         checked={uploadMethod === "file"}
                         onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
                         className="mr-2"
+                        disabled={isLoading}
                       />
                       <span className="text-green-700">Upload from device</span>
                     </label>
@@ -335,6 +383,7 @@ export default function AdminPage() {
                         checked={uploadMethod === "url"}
                         onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
                         className="mr-2"
+                        disabled={isLoading}
                       />
                       <span className="text-green-700">Use image URL</span>
                     </label>
@@ -349,8 +398,12 @@ export default function AdminPage() {
                           onChange={handleImageFileChange}
                           className="hidden"
                           id="image-upload"
+                          disabled={isLoading}
                         />
-                        <label htmlFor="image-upload" className="cursor-pointer flex flex-col items-center">
+                        <label
+                          htmlFor="image-upload"
+                          className={`cursor-pointer flex flex-col items-center ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                        >
                           <Upload className="w-12 h-12 text-green-500 mb-2" />
                           <span className="text-green-700 font-medium">Click to upload image</span>
                           <span className="text-green-600 text-sm mt-1">PNG, JPG, GIF up to 5MB</span>
@@ -365,6 +418,7 @@ export default function AdminPage() {
                         onChange={(e) => handleImageUrlChange(e.target.value)}
                         placeholder="https://example.com/image.jpg"
                         className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                        disabled={isLoading}
                       />
                     </div>
                   )}
@@ -382,6 +436,7 @@ export default function AdminPage() {
                         type="button"
                         onClick={removeImage}
                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                        disabled={isLoading}
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -390,13 +445,16 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-2">Author</label>
+                  <label className="block text-sm font-medium text-green-700 mb-2">
+                    Author <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
                     value={formData.author}
                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                     className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -404,9 +462,9 @@ export default function AdminPage() {
                   <button
                     type="submit"
                     className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isUploading}
+                    disabled={isLoading}
                   >
-                    {isUploading ? (
+                    {isLoading ? (
                       <span className="flex items-center">
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                         {editingPost ? "Updating..." : "Creating..."}
@@ -417,7 +475,7 @@ export default function AdminPage() {
                       "Create Post"
                     )}
                   </button>
-                  <button type="button" onClick={resetForm} className="btn-secondary">
+                  <button type="button" onClick={resetForm} className="btn-secondary" disabled={isLoading}>
                     Cancel
                   </button>
                 </div>
@@ -428,7 +486,10 @@ export default function AdminPage() {
           {/* Posts List Section */}
           <div className="bg-white rounded-lg shadow-md">
             <div className="p-6 border-b">
-              <h2 className="text-xl font-bold text-green-800">Blog Posts ({posts.length})</h2>
+              <h2 className="text-xl font-bold text-green-800">
+                Blog Posts ({posts.length})
+                {isLoading && <span className="text-sm font-normal text-green-600 ml-2">(Loading...)</span>}
+              </h2>
             </div>
             <div className="divide-y">
               {posts.map((post) => (
@@ -438,7 +499,7 @@ export default function AdminPage() {
                       <h3 className="font-semibold text-lg mb-2 text-green-800 break-words">{post.title}</h3>
                       <p className="text-green-600 mb-2 break-words">{post.content.substring(0, 100)}...</p>
                       <div className="text-sm text-green-600">
-                        By {post.author} • {new Date(post.date).toLocaleDateString()}
+                        By {post.author} • {new Date(post.created_at).toLocaleDateString()}
                       </div>
                       {post.image && (
                         <div className="mt-3">
@@ -459,6 +520,7 @@ export default function AdminPage() {
                         onClick={() => handleEdit(post)}
                         className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
                         title="Edit post"
+                        disabled={isLoading}
                       >
                         <Edit className="w-4 h-4" />
                       </button>
@@ -466,6 +528,7 @@ export default function AdminPage() {
                         onClick={() => handleDelete(post.id)}
                         className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
                         title="Delete post"
+                        disabled={isLoading}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -473,7 +536,7 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
-              {posts.length === 0 && (
+              {posts.length === 0 && !isLoading && (
                 <div className="p-6 text-center text-green-600">No blog posts yet. Create your first post!</div>
               )}
             </div>

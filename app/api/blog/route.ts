@@ -1,156 +1,96 @@
-import type { NextRequest } from "next/server"
-import { writeFile, readFile, mkdir } from "fs/promises"
-import { existsSync } from "fs"
-import path from "path"
-
-interface BlogPost {
-  id: string
-  title: string
-  content: string
-  image: string
-  date: string
-  author: string
-}
-
-const DATA_DIR = path.join(process.cwd(), "data")
-const POSTS_FILE = path.join(DATA_DIR, "posts.json")
-
-// Ensure data directory exists
-async function ensureDataDir() {
-  if (!existsSync(DATA_DIR)) {
-    await mkdir(DATA_DIR, { recursive: true })
-  }
-}
-
-// Read posts from file
-async function readPosts(): Promise<BlogPost[]> {
-  try {
-    await ensureDataDir()
-    if (!existsSync(POSTS_FILE)) {
-      return []
-    }
-    const data = await readFile(POSTS_FILE, "utf-8")
-    return JSON.parse(data)
-  } catch (error) {
-    console.error("Error reading posts:", error)
-    return []
-  }
-}
-
-// Write posts to file
-async function writePosts(posts: BlogPost[]): Promise<void> {
-  try {
-    await ensureDataDir()
-    await writeFile(POSTS_FILE, JSON.stringify(posts, null, 2))
-  } catch (error) {
-    console.error("Error writing posts:", error)
-    throw error
-  }
-}
+import { type NextRequest, NextResponse } from "next/server"
+import { supabase } from "@/lib/supabase"
 
 export async function GET() {
   try {
-    const posts = await readPosts()
+    const { data: posts, error } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .order("created_at", { ascending: false })
 
-    // Sort posts by date (newest first)
-    const sortedPosts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to fetch posts", details: error.message }, { status: 500 })
+    }
 
-    return Response.json(sortedPosts, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    return NextResponse.json(posts || [], { status: 200 })
   } catch (error) {
-    console.error("Blog API GET error:", error)
-    return Response.json(
-      { error: "Failed to fetch posts" },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    )
+    console.error("Unexpected error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const newPost: BlogPost = await request.json()
+    const body = await request.json()
 
     // Validate required fields
-    if (!newPost.title || !newPost.content || !newPost.author) {
-      return Response.json({ error: "Missing required fields" }, { status: 400 })
+    if (!body.title || !body.content || !body.author) {
+      return NextResponse.json(
+        { error: "Missing required fields: title, content, and author are required" },
+        { status: 400 },
+      )
     }
 
-    // Ensure the post has an ID and date
-    if (!newPost.id) {
-      newPost.id = Date.now().toString()
-    }
-    if (!newPost.date) {
-      newPost.date = new Date().toISOString()
+    const newPost = {
+      title: body.title.trim(),
+      content: body.content.trim(),
+      image: body.image?.trim() || null,
+      author: body.author.trim(),
     }
 
-    const posts = await readPosts()
-    posts.push(newPost)
-    await writePosts(posts)
+    const { data, error } = await supabase.from("blog_posts").insert([newPost]).select().single()
 
-    return Response.json(newPost, {
-      status: 201,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (error) {
+      console.error("Supabase insert error:", error)
+      return NextResponse.json({ error: "Failed to create post", details: error.message }, { status: 500 })
+    }
+
+    return NextResponse.json(data, { status: 201 })
   } catch (error) {
-    console.error("Blog API POST error:", error)
-    return Response.json(
-      { error: "Failed to create post" },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    )
+    console.error("Unexpected error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    const updatedPost: BlogPost = await request.json()
+    const body = await request.json()
 
-    if (!updatedPost.id) {
-      return Response.json({ error: "Post ID is required" }, { status: 400 })
+    if (!body.id) {
+      return NextResponse.json({ error: "Post ID is required" }, { status: 400 })
     }
 
-    const posts = await readPosts()
-    const postIndex = posts.findIndex((post) => post.id === updatedPost.id)
-
-    if (postIndex === -1) {
-      return Response.json({ error: "Post not found" }, { status: 404 })
+    // Validate required fields
+    if (!body.title || !body.content || !body.author) {
+      return NextResponse.json(
+        { error: "Missing required fields: title, content, and author are required" },
+        { status: 400 },
+      )
     }
 
-    posts[postIndex] = updatedPost
-    await writePosts(posts)
+    const updatedPost = {
+      title: body.title.trim(),
+      content: body.content.trim(),
+      image: body.image?.trim() || null,
+      author: body.author.trim(),
+    }
 
-    return Response.json(updatedPost, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    const { data, error } = await supabase.from("blog_posts").update(updatedPost).eq("id", body.id).select().single()
+
+    if (error) {
+      console.error("Supabase update error:", error)
+      return NextResponse.json({ error: "Failed to update post", details: error.message }, { status: 500 })
+    }
+
+    if (!data) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 })
+    }
+
+    return NextResponse.json(data, { status: 200 })
   } catch (error) {
-    console.error("Blog API PUT error:", error)
-    return Response.json(
-      { error: "Failed to update post" },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    )
+    console.error("Unexpected error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
 
@@ -160,37 +100,19 @@ export async function DELETE(request: NextRequest) {
     const id = url.searchParams.get("id")
 
     if (!id) {
-      return Response.json({ error: "Post ID is required" }, { status: 400 })
+      return NextResponse.json({ error: "Post ID is required" }, { status: 400 })
     }
 
-    const posts = await readPosts()
-    const filteredPosts = posts.filter((post) => post.id !== id)
+    const { error } = await supabase.from("blog_posts").delete().eq("id", id)
 
-    if (posts.length === filteredPosts.length) {
-      return Response.json({ error: "Post not found" }, { status: 404 })
+    if (error) {
+      console.error("Supabase delete error:", error)
+      return NextResponse.json({ error: "Failed to delete post", details: error.message }, { status: 500 })
     }
 
-    await writePosts(filteredPosts)
-
-    return Response.json(
-      { message: "Post deleted successfully" },
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    )
+    return NextResponse.json({ message: "Post deleted successfully" }, { status: 200 })
   } catch (error) {
-    console.error("Blog API DELETE error:", error)
-    return Response.json(
-      { error: "Failed to delete post" },
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    )
+    console.error("Unexpected error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
