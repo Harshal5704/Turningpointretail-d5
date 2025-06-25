@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { Eye, EyeOff, Plus, Trash2, Edit } from "lucide-react"
+import { Eye, EyeOff, Plus, Trash2, Edit, Upload, X } from "lucide-react"
 
 interface BlogPost {
   id: string
@@ -27,6 +27,10 @@ export default function AdminPage() {
     image: "",
     author: "Walter Dantis",
   })
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string>("")
+  const [uploadMethod, setUploadMethod] = useState<"file" | "url">("file")
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -53,15 +57,105 @@ export default function AdminPage() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const postData = {
-      ...formData,
-      id: editingPost?.id || Date.now().toString(),
-      date: editingPost?.date || new Date().toISOString(),
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        alert("Please select a valid image file")
+        return
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image size should be less than 5MB")
+        return
+      }
+
+      setImageFile(file)
+
+      // Create preview
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string)
+      }
+      reader.readAsDataURL(file)
     }
+  }
+
+  const handleImageUrlChange = (url: string) => {
+    setFormData({ ...formData, image: url })
+    if (url) {
+      setImagePreview(url)
+    } else {
+      setImagePreview("")
+    }
+  }
+
+  const uploadImageToCloudinary = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("upload_preset", "blog_images") // You'll need to set this up in Cloudinary
 
     try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/your-cloud-name/image/upload`, // Replace with your Cloudinary cloud name
+        {
+          method: "POST",
+          body: formData,
+        },
+      )
+
+      if (!response.ok) {
+        throw new Error("Upload failed")
+      }
+
+      const data = await response.json()
+      return data.secure_url
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error)
+      throw error
+    }
+  }
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = (error) => reject(error)
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsUploading(true)
+
+    try {
+      let imageUrl = formData.image
+
+      // If user uploaded a file, convert to base64 or upload to cloud service
+      if (imageFile && uploadMethod === "file") {
+        try {
+          // Option 1: Convert to base64 (for simple storage)
+          imageUrl = await convertToBase64(imageFile)
+
+          // Option 2: Upload to Cloudinary (uncomment if you have Cloudinary set up)
+          // imageUrl = await uploadImageToCloudinary(imageFile)
+        } catch (error) {
+          alert("Error uploading image. Please try again.")
+          setIsUploading(false)
+          return
+        }
+      }
+
+      const postData = {
+        ...formData,
+        image: imageUrl,
+        id: editingPost?.id || Date.now().toString(),
+        date: editingPost?.date || new Date().toISOString(),
+      }
+
       const response = await fetch("/api/blog", {
         method: editingPost ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,13 +164,25 @@ export default function AdminPage() {
 
       if (response.ok) {
         fetchPosts()
-        setFormData({ title: "", content: "", image: "", author: "Walter Dantis" })
-        setShowForm(false)
-        setEditingPost(null)
+        resetForm()
+      } else {
+        alert("Error saving post. Please try again.")
       }
     } catch (error) {
       console.error("Error saving post:", error)
+      alert("Error saving post. Please try again.")
+    } finally {
+      setIsUploading(false)
     }
+  }
+
+  const resetForm = () => {
+    setFormData({ title: "", content: "", image: "", author: "Walter Dantis" })
+    setImageFile(null)
+    setImagePreview("")
+    setShowForm(false)
+    setEditingPost(null)
+    setUploadMethod("file")
   }
 
   const handleDelete = async (id: string) => {
@@ -100,7 +206,20 @@ export default function AdminPage() {
       image: post.image,
       author: post.author,
     })
+    setImagePreview(post.image)
+    setUploadMethod("url")
     setShowForm(true)
+  }
+
+  const handleNewPost = () => {
+    resetForm()
+    setShowForm(true)
+  }
+
+  const removeImage = () => {
+    setImageFile(null)
+    setImagePreview("")
+    setFormData({ ...formData, image: "" })
   }
 
   if (!isAuthenticated) {
@@ -152,112 +271,212 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 section-padding">
-      <div className="container-max">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-green-800">Admin Panel</h1>
-          <button
-            onClick={() => {
-              setShowForm(true)
-              setEditingPost(null)
-              setFormData({ title: "", content: "", image: "", author: "Walter Dantis" })
-            }}
-            className="btn-primary flex items-center"
-          >
-            <Plus className="w-5 h-5 mr-2" />
-            New Post
-          </button>
-        </div>
-
-        {showForm && (
-          <div className="bg-white p-8 rounded-lg shadow-md mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-green-800">{editingPost ? "Edit Post" : "Create New Post"}</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-green-700 mb-2">Title</label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-green-700 mb-2">Content</label>
-                <textarea
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  rows={8}
-                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-green-700 mb-2">Image URL</label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-green-700 mb-2">Author</label>
-                <input
-                  type="text"
-                  value={formData.author}
-                  onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                  className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                  required
-                />
-              </div>
-              <div className="flex space-x-4">
-                <button type="submit" className="btn-primary">
-                  {editingPost ? "Update Post" : "Create Post"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowForm(false)
-                    setEditingPost(null)
-                  }}
-                  className="btn-secondary"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+    <div className="min-h-screen bg-gray-50">
+      <div className="pt-32 pb-16">
+        <div className="container-max max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <h1 className="text-3xl font-bold text-green-800">Admin Panel</h1>
+            <button onClick={handleNewPost} className="btn-primary flex items-center whitespace-nowrap">
+              <Plus className="w-5 h-5 mr-2" />
+              New Post
+            </button>
           </div>
-        )}
 
-        <div className="bg-white rounded-lg shadow-md">
-          <div className="p-6 border-b">
-            <h2 className="text-xl font-bold text-green-800">Blog Posts ({posts.length})</h2>
-          </div>
-          <div className="divide-y">
-            {posts.map((post) => (
-              <div key={post.id} className="p-6 flex justify-between items-start">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg mb-2 text-green-800">{post.title}</h3>
-                  <p className="text-green-600 mb-2">{post.content.substring(0, 100)}...</p>
-                  <div className="text-sm text-green-600">
-                    By {post.author} • {new Date(post.date).toLocaleDateString()}
+          {showForm && (
+            <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md mb-8">
+              <h2 className="text-2xl font-bold mb-6 text-green-800">
+                {editingPost ? "Edit Post" : "Create New Post"}
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-green-700 mb-2">Title</label>
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-green-700 mb-2">Content</label>
+                  <textarea
+                    value={formData.content}
+                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                    rows={8}
+                    className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                    required
+                  />
+                </div>
+
+                {/* Image Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-green-700 mb-3">Post Image</label>
+
+                  {/* Upload Method Toggle */}
+                  <div className="flex gap-4 mb-4">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="uploadMethod"
+                        value="file"
+                        checked={uploadMethod === "file"}
+                        onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
+                        className="mr-2"
+                      />
+                      <span className="text-green-700">Upload from device</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="uploadMethod"
+                        value="url"
+                        checked={uploadMethod === "url"}
+                        onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
+                        className="mr-2"
+                      />
+                      <span className="text-green-700">Use image URL</span>
+                    </label>
+                  </div>
+
+                  {uploadMethod === "file" ? (
+                    <div>
+                      <div className="border-2 border-dashed border-green-300 rounded-lg p-6 text-center">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageFileChange}
+                          className="hidden"
+                          id="image-upload"
+                        />
+                        <label htmlFor="image-upload" className="cursor-pointer flex flex-col items-center">
+                          <Upload className="w-12 h-12 text-green-500 mb-2" />
+                          <span className="text-green-700 font-medium">Click to upload image</span>
+                          <span className="text-green-600 text-sm mt-1">PNG, JPG, GIF up to 5MB</span>
+                        </label>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        type="url"
+                        value={formData.image}
+                        onChange={(e) => handleImageUrlChange(e.target.value)}
+                        placeholder="https://example.com/image.jpg"
+                        className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                      />
+                    </div>
+                  )}
+
+                  {/* Image Preview */}
+                  {imagePreview && (
+                    <div className="mt-4 relative inline-block">
+                      <img
+                        src={imagePreview || "/placeholder.svg"}
+                        alt="Preview"
+                        className="w-48 h-32 object-cover rounded-lg border border-green-200"
+                        onError={() => setImagePreview("")}
+                      />
+                      <button
+                        type="button"
+                        onClick={removeImage}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-green-700 mb-2">Author</label>
+                  <input
+                    type="text"
+                    value={formData.author}
+                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                    className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                    required
+                  />
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    type="submit"
+                    className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isUploading}
+                  >
+                    {isUploading ? (
+                      <span className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        {editingPost ? "Updating..." : "Creating..."}
+                      </span>
+                    ) : editingPost ? (
+                      "Update Post"
+                    ) : (
+                      "Create Post"
+                    )}
+                  </button>
+                  <button type="button" onClick={resetForm} className="btn-secondary">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* Posts List Section */}
+          <div className="bg-white rounded-lg shadow-md">
+            <div className="p-6 border-b">
+              <h2 className="text-xl font-bold text-green-800">Blog Posts ({posts.length})</h2>
+            </div>
+            <div className="divide-y">
+              {posts.map((post) => (
+                <div key={post.id} className="p-6">
+                  <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-lg mb-2 text-green-800 break-words">{post.title}</h3>
+                      <p className="text-green-600 mb-2 break-words">{post.content.substring(0, 100)}...</p>
+                      <div className="text-sm text-green-600">
+                        By {post.author} • {new Date(post.date).toLocaleDateString()}
+                      </div>
+                      {post.image && (
+                        <div className="mt-3">
+                          <img
+                            src={post.image || "/placeholder.svg"}
+                            alt={post.title}
+                            className="w-32 h-20 object-cover rounded-md"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.style.display = "none"
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex gap-2 flex-shrink-0">
+                      <button
+                        onClick={() => handleEdit(post)}
+                        className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
+                        title="Edit post"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(post.id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                        title="Delete post"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="flex space-x-2 ml-4">
-                  <button onClick={() => handleEdit(post)} className="p-2 text-green-600 hover:bg-green-50 rounded">
-                    <Edit className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => handleDelete(post.id)} className="p-2 text-red-600 hover:bg-red-50 rounded">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-            {posts.length === 0 && (
-              <div className="p-6 text-center text-green-600">No blog posts yet. Create your first post!</div>
-            )}
+              ))}
+              {posts.length === 0 && (
+                <div className="p-6 text-center text-green-600">No blog posts yet. Create your first post!</div>
+              )}
+            </div>
           </div>
         </div>
       </div>

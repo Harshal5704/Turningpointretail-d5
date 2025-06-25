@@ -63,17 +63,11 @@ export default function NewsPage() {
 
   return (
     <div className="animate-fade-in">
-      {/* Hero Section */}
+      {/* Simplified Header Section */}
       <section className="section-padding bg-gradient-to-br from-blue-50 to-white">
         <div className="container-max">
           <div className="text-center mb-16">
-            <h1 className="heading-primary mb-6 text-green-800">
-              News & Events
-            </h1>
-            <p className="text-xl text-green-600 max-w-3xl mx-auto">
-              Stay updated with the latest retail insights, industry trends, and company updates from Turning Point
-              Retail Solutions.
-            </p>
+            <h1 className="heading-primary mb-6 text-green-800">News & Events</h1>
           </div>
         </div>
       </section>

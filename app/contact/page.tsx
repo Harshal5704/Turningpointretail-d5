@@ -38,9 +38,6 @@ export default function ContactPage() {
             <h1 className="heading-primary mb-6">
               Get In <span className="text-green-600">Touch</span>
             </h1>
-            <p className="text-xl text-green-700 max-w-3xl mx-auto">
-              Ready to transform your retail business? Let's discuss how we can help you achieve your goals.
-            </p>
           </div>
         </div>
       </section>
