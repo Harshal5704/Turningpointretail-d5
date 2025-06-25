@@ -24,6 +24,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JTL2Z93K7M"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-JTL2Z93K7M');
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased overflow-x-hidden`}>
         {" "}
         {/* Added overflow-x-hidden */}
