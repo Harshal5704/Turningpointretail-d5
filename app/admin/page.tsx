@@ -2,8 +2,11 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Eye, EyeOff, Plus, Trash2, Edit, Upload, X, AlertCircle, CheckCircle } from "lucide-react"
+import { Eye, EyeOff, Plus, Trash2, Edit, Upload, X, AlertCircle, CheckCircle, BarChart3, FileText } from "lucide-react"
+import AnalyticsDashboard from "@/components/analytics-dashboard"
 import type { BlogPost } from "@/lib/supabase"
+
+type AdminTab = "posts" | "analytics"
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -24,12 +27,13 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>("")
   const [success, setSuccess] = useState<string>("")
+  const [activeTab, setActiveTab] = useState<AdminTab>("posts")
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && activeTab === "posts") {
       fetchPosts()
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, activeTab])
 
   // Clear messages after 5 seconds
   useEffect(() => {
@@ -295,7 +299,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="pt-32 pb-16">
-        <div className="container-max max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-max max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Status Messages */}
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md flex items-center">
@@ -311,236 +315,275 @@ export default function AdminPage() {
             </div>
           )}
 
+          {/* Header with Tabs */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            <h1 className="text-3xl font-bold text-green-800">Admin Panel</h1>
-            <button
-              onClick={handleNewPost}
-              className="btn-primary flex items-center whitespace-nowrap"
-              disabled={isLoading}
-            >
-              <Plus className="w-5 h-5 mr-2" />
-              New Post
-            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-green-800">Admin Panel</h1>
+              <p className="text-green-600 mt-1">Manage your website content and analytics</p>
+            </div>
+
+            {/* Tab Navigation */}
+            <div className="flex bg-white rounded-lg p-1 shadow-sm border border-green-200">
+              <button
+                onClick={() => setActiveTab("posts")}
+                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === "posts" ? "bg-green-100 text-green-800" : "text-green-600 hover:text-green-800"
+                }`}
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Blog Posts
+              </button>
+              <button
+                onClick={() => setActiveTab("analytics")}
+                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === "analytics" ? "bg-green-100 text-green-800" : "text-green-600 hover:text-green-800"
+                }`}
+              >
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Analytics
+              </button>
+            </div>
           </div>
 
-          {showForm && (
-            <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md mb-8">
-              <h2 className="text-2xl font-bold mb-6 text-green-800">
-                {editingPost ? "Edit Post" : "Create New Post"}
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-green-700 mb-2">
-                    Title <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
+          {/* Tab Content */}
+          {activeTab === "analytics" ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <AnalyticsDashboard />
+            </div>
+          ) : (
+            <>
+              {/* New Post Button */}
+              <div className="flex justify-end mb-6">
+                <button
+                  onClick={handleNewPost}
+                  className="btn-primary flex items-center whitespace-nowrap"
+                  disabled={isLoading}
+                >
+                  <Plus className="w-5 h-5 mr-2" />
+                  New Post
+                </button>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-green-700 mb-2">
-                    Content <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    rows={8}
-                    className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-
-                {/* Image Upload Section */}
-                <div>
-                  <label className="block text-sm font-medium text-green-700 mb-3">Post Image</label>
-
-                  {/* Upload Method Toggle */}
-                  <div className="flex gap-4 mb-4">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="uploadMethod"
-                        value="file"
-                        checked={uploadMethod === "file"}
-                        onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
-                        className="mr-2"
-                        disabled={isLoading}
-                      />
-                      <span className="text-green-700">Upload from device</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="uploadMethod"
-                        value="url"
-                        checked={uploadMethod === "url"}
-                        onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
-                        className="mr-2"
-                        disabled={isLoading}
-                      />
-                      <span className="text-green-700">Use image URL</span>
-                    </label>
-                  </div>
-
-                  {uploadMethod === "file" ? (
+              {showForm && (
+                <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md mb-8">
+                  <h2 className="text-2xl font-bold mb-6 text-green-800">
+                    {editingPost ? "Edit Post" : "Create New Post"}
+                  </h2>
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <div className="border-2 border-dashed border-green-300 rounded-lg p-6 text-center">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageFileChange}
-                          className="hidden"
-                          id="image-upload"
-                          disabled={isLoading}
-                        />
-                        <label
-                          htmlFor="image-upload"
-                          className={`cursor-pointer flex flex-col items-center ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                        >
-                          <Upload className="w-12 h-12 text-green-500 mb-2" />
-                          <span className="text-green-700 font-medium">Click to upload image</span>
-                          <span className="text-green-600 text-sm mt-1">PNG, JPG, GIF up to 5MB</span>
+                      <label className="block text-sm font-medium text-green-700 mb-2">
+                        Title <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                        required
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-green-700 mb-2">
+                        Content <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        value={formData.content}
+                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                        rows={8}
+                        className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                        required
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    {/* Image Upload Section */}
+                    <div>
+                      <label className="block text-sm font-medium text-green-700 mb-3">Post Image</label>
+
+                      {/* Upload Method Toggle */}
+                      <div className="flex gap-4 mb-4">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="uploadMethod"
+                            value="file"
+                            checked={uploadMethod === "file"}
+                            onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
+                            className="mr-2"
+                            disabled={isLoading}
+                          />
+                          <span className="text-green-700">Upload from device</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="uploadMethod"
+                            value="url"
+                            checked={uploadMethod === "url"}
+                            onChange={(e) => setUploadMethod(e.target.value as "file" | "url")}
+                            className="mr-2"
+                            disabled={isLoading}
+                          />
+                          <span className="text-green-700">Use image URL</span>
                         </label>
                       </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <input
-                        type="url"
-                        value={formData.image}
-                        onChange={(e) => handleImageUrlChange(e.target.value)}
-                        placeholder="https://example.com/image.jpg"
-                        className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                        disabled={isLoading}
-                      />
-                    </div>
-                  )}
 
-                  {/* Image Preview */}
-                  {imagePreview && (
-                    <div className="mt-4 relative inline-block">
-                      <img
-                        src={imagePreview || "/placeholder.svg"}
-                        alt="Preview"
-                        className="w-48 h-32 object-cover rounded-lg border border-green-200"
-                        onError={() => setImagePreview("")}
-                      />
-                      <button
-                        type="button"
-                        onClick={removeImage}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                        disabled={isLoading}
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-green-700 mb-2">
-                    Author <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.author}
-                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                    className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <button
-                    type="submit"
-                    className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <span className="flex items-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        {editingPost ? "Updating..." : "Creating..."}
-                      </span>
-                    ) : editingPost ? (
-                      "Update Post"
-                    ) : (
-                      "Create Post"
-                    )}
-                  </button>
-                  <button type="button" onClick={resetForm} className="btn-secondary" disabled={isLoading}>
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-
-          {/* Posts List Section */}
-          <div className="bg-white rounded-lg shadow-md">
-            <div className="p-6 border-b">
-              <h2 className="text-xl font-bold text-green-800">
-                Blog Posts ({posts.length})
-                {isLoading && <span className="text-sm font-normal text-green-600 ml-2">(Loading...)</span>}
-              </h2>
-            </div>
-            <div className="divide-y">
-              {posts.map((post) => (
-                <div key={post.id} className="p-6">
-                  <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg mb-2 text-green-800 break-words">{post.title}</h3>
-                      <p className="text-green-600 mb-2 break-words">{post.content.substring(0, 100)}...</p>
-                      <div className="text-sm text-green-600">
-                        By {post.author} • {new Date(post.created_at).toLocaleDateString()}
-                      </div>
-                      {post.image && (
-                        <div className="mt-3">
-                          <img
-                            src={post.image || "/placeholder.svg"}
-                            alt={post.title}
-                            className="w-32 h-20 object-cover rounded-md"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement
-                              target.style.display = "none"
-                            }}
+                      {uploadMethod === "file" ? (
+                        <div>
+                          <div className="border-2 border-dashed border-green-300 rounded-lg p-6 text-center">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageFileChange}
+                              className="hidden"
+                              id="image-upload"
+                              disabled={isLoading}
+                            />
+                            <label
+                              htmlFor="image-upload"
+                              className={`cursor-pointer flex flex-col items-center ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            >
+                              <Upload className="w-12 h-12 text-green-500 mb-2" />
+                              <span className="text-green-700 font-medium">Click to upload image</span>
+                              <span className="text-green-600 text-sm mt-1">PNG, JPG, GIF up to 5MB</span>
+                            </label>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <input
+                            type="url"
+                            value={formData.image}
+                            onChange={(e) => handleImageUrlChange(e.target.value)}
+                            placeholder="https://example.com/image.jpg"
+                            className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                            disabled={isLoading}
                           />
                         </div>
                       )}
+
+                      {/* Image Preview */}
+                      {imagePreview && (
+                        <div className="mt-4 relative inline-block">
+                          <img
+                            src={imagePreview || "/placeholder.svg"}
+                            alt="Preview"
+                            className="w-48 h-32 object-cover rounded-lg border border-green-200"
+                            onError={() => setImagePreview("")}
+                          />
+                          <button
+                            type="button"
+                            onClick={removeImage}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                            disabled={isLoading}
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex gap-2 flex-shrink-0">
+
+                    <div>
+                      <label className="block text-sm font-medium text-green-700 mb-2">
+                        Author <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.author}
+                        onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                        className="w-full px-3 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-500 text-green-800"
+                        required
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-4">
                       <button
-                        onClick={() => handleEdit(post)}
-                        className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
-                        title="Edit post"
+                        type="submit"
+                        className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled={isLoading}
                       >
-                        <Edit className="w-4 h-4" />
+                        {isLoading ? (
+                          <span className="flex items-center">
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            {editingPost ? "Updating..." : "Creating..."}
+                          </span>
+                        ) : editingPost ? (
+                          "Update Post"
+                        ) : (
+                          "Create Post"
+                        )}
                       </button>
-                      <button
-                        onClick={() => handleDelete(post.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
-                        title="Delete post"
-                        disabled={isLoading}
-                      >
-                        <Trash2 className="w-4 h-4" />
+                      <button type="button" onClick={resetForm} className="btn-secondary" disabled={isLoading}>
+                        Cancel
                       </button>
                     </div>
-                  </div>
+                  </form>
                 </div>
-              ))}
-              {posts.length === 0 && !isLoading && (
-                <div className="p-6 text-center text-green-600">No blog posts yet. Create your first post!</div>
               )}
-            </div>
-          </div>
+
+              {/* Posts List Section */}
+              <div className="bg-white rounded-lg shadow-md">
+                <div className="p-6 border-b">
+                  <h2 className="text-xl font-bold text-green-800">
+                    Blog Posts ({posts.length})
+                    {isLoading && <span className="text-sm font-normal text-green-600 ml-2">(Loading...)</span>}
+                  </h2>
+                </div>
+                <div className="divide-y">
+                  {posts.map((post) => (
+                    <div key={post.id} className="p-6">
+                      <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-lg mb-2 text-green-800 break-words">{post.title}</h3>
+                          <p className="text-green-600 mb-2 break-words">{post.content.substring(0, 100)}...</p>
+                          <div className="text-sm text-green-600">
+                            By {post.author} • {new Date(post.created_at).toLocaleDateString()}
+                          </div>
+                          {post.image && (
+                            <div className="mt-3">
+                              <img
+                                src={post.image || "/placeholder.svg"}
+                                alt={post.title}
+                                className="w-32 h-20 object-cover rounded-md"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement
+                                  target.style.display = "none"
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex gap-2 flex-shrink-0">
+                          <button
+                            onClick={() => handleEdit(post)}
+                            className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
+                            title="Edit post"
+                            disabled={isLoading}
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(post.id)}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                            title="Delete post"
+                            disabled={isLoading}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {posts.length === 0 && !isLoading && (
+                    <div className="p-6 text-center text-green-600">No blog posts yet. Create your first post!</div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
