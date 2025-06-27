@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation"
-import { getServiceById, servicesData } from "@/lib/services-data"
+import { getServiceBySlug, getAllServices } from "@/lib/services-data"
 import { FadeIn } from "@/components/animations/fade-in"
 import { SlideUp } from "@/components/animations/slide-up"
 import { ScrollReveal } from "@/components/animations/scroll-reveal"
 import { AnimatedButton } from "@/components/animations/animated-button"
-import { ArrowLeft, CheckCircle, Quote, Star, Award, Users, TrendingUp } from "lucide-react"
+import { ArrowLeft, CheckCircle, Star, Award, Users, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -15,13 +15,14 @@ interface ServicePageProps {
 }
 
 export async function generateStaticParams() {
-  return servicesData.map((service) => ({
-    slug: service.id,
+  const allServices = getAllServices()
+  return allServices.map((service) => ({
+    slug: service.slug,
   }))
 }
 
 export async function generateMetadata({ params }: ServicePageProps) {
-  const service = getServiceById(params.slug)
+  const service = getServiceBySlug(params.slug)
 
   if (!service) {
     return {
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: ServicePageProps) {
 }
 
 export default function ServicePage({ params }: ServicePageProps) {
-  const service = getServiceById(params.slug)
+  const service = getServiceBySlug(params.slug)
 
   if (!service) {
     notFound()
@@ -44,8 +45,6 @@ export default function ServicePage({ params }: ServicePageProps) {
 
   return (
     <div className="animate-fade-in" style={{ paddingTop: "var(--header-height)" }}>
-      {" "}
-      {/* Added top padding */}
       {/* Breadcrumb */}
       <section className="bg-gray-50 py-8">
         <div className="container-max">
@@ -60,6 +59,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </FadeIn>
         </div>
       </section>
+
       {/* Hero Section with Internet-Sourced Image */}
       <section className="section-padding bg-gradient-to-br from-green-50 to-white">
         <div className="container-max">
@@ -69,7 +69,7 @@ export default function ServicePage({ params }: ServicePageProps) {
               <FadeIn>
                 <div className="flex items-center mb-6">
                   <div className="w-20 h-20 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-                    <service.icon className="w-10 h-10 text-green-100" />
+                    <Award className="w-10 h-10 text-green-100" />
                   </div>
                   <div>
                     <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
@@ -84,7 +84,7 @@ export default function ServicePage({ params }: ServicePageProps) {
               </SlideUp>
 
               <FadeIn delay={0.4}>
-                <p className="text-xl text-green-600 leading-relaxed mb-8">{service.overview}</p>
+                <p className="text-xl text-green-600 leading-relaxed mb-8">{service.description}</p>
               </FadeIn>
 
               <FadeIn delay={0.5}>
@@ -140,7 +140,7 @@ export default function ServicePage({ params }: ServicePageProps) {
 
                 {/* Floating Elements */}
                 <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl">
-                  <service.icon className="w-12 h-12 text-green-800" />
+                  <Award className="w-12 h-12 text-green-800" />
                 </div>
                 <div className="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-xl">
                   <Award className="w-10 h-10 text-green-100" />
@@ -153,6 +153,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </div>
       </section>
+
       {/* Service Highlights */}
       <ScrollReveal>
         <section className="section-padding bg-gradient-to-r from-green-50 to-yellow-50">
@@ -185,6 +186,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </section>
       </ScrollReveal>
+
       {/* Features & Benefits with Enhanced Layout */}
       <section className="section-padding">
         <div className="container-max">
@@ -237,6 +239,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </div>
       </section>
+
       {/* Process Overview */}
       <ScrollReveal>
         <section className="section-padding bg-gradient-to-r from-green-50 to-yellow-50">
@@ -249,20 +252,13 @@ export default function ServicePage({ params }: ServicePageProps) {
             </div>
 
             <div className="grid md:grid-cols-4 gap-8">
-              {[
-                { step: "Discovery", desc: "Understanding your business needs and challenges", icon: "🔍" },
-                { step: "Strategy", desc: "Developing customized solutions and roadmap", icon: "📋" },
-                { step: "Implementation", desc: "Executing the plan with expert guidance", icon: "⚡" },
-                { step: "Results", desc: "Measuring success and continuous improvement", icon: "📈" },
-              ].map((item, index) => (
+              {service.process.map((step, index) => (
                 <FadeIn key={index} delay={index * 0.2}>
                   <div className="text-center bg-white p-6 rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
-                    <div className="text-4xl mb-4">{item.icon}</div>
                     <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                       <span className="text-2xl font-bold text-green-100">{index + 1}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-green-800 mb-2">{item.step}</h3>
-                    <p className="text-green-600">{item.desc}</p>
+                    <h3 className="text-xl font-bold text-green-800 mb-2">{step}</h3>
                     <div className="w-12 h-1 bg-green-500 mx-auto mt-4 rounded-full"></div>
                   </div>
                 </FadeIn>
@@ -271,37 +267,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </section>
       </ScrollReveal>
-      {/* Testimonial */}
-      {service.testimonial && (
-        <ScrollReveal>
-          <section className="section-padding">
-            <div className="container-max">
-              <div className="max-w-4xl mx-auto">
-                <div className="bg-white p-8 md:p-12 rounded-3xl shadow-2xl border border-green-100">
-                  <Quote className="w-12 h-12 text-green-500 mb-6" />
-                  <blockquote className="text-2xl text-green-700 font-light mb-8 leading-relaxed italic">
-                    "{service.testimonial.quote}"
-                  </blockquote>
-                  <div className="flex items-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mr-6 shadow-lg">
-                      <span className="text-green-100 font-bold text-lg">
-                        {service.testimonial.author
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="font-bold text-green-800 text-lg">{service.testimonial.author}</div>
-                      <div className="text-green-600 font-semibold">{service.testimonial.company}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </ScrollReveal>
-      )}
+
       {/* Case Study */}
       {service.caseStudy && (
         <ScrollReveal>
@@ -311,7 +277,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 <h2 className="text-3xl font-bold text-green-100 mb-8">Success Story</h2>
                 <div className="bg-green-600/20 backdrop-blur-sm p-8 md:p-12 rounded-3xl border border-green-500/30 shadow-2xl">
                   <h3 className="text-2xl font-bold mb-6 text-green-100">{service.caseStudy.title}</h3>
-                  <p className="text-green-200 mb-8 text-lg leading-relaxed">{service.caseStudy.description}</p>
+                  <p className="text-green-200 mb-8 text-lg leading-relaxed">{service.caseStudy.challenge}</p>
                   <div className="grid md:grid-cols-3 gap-8">
                     {service.caseStudy.results.map((result, index) => (
                       <div key={index} className="text-center">
@@ -326,6 +292,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </section>
         </ScrollReveal>
       )}
+
       {/* Enhanced CTA Section */}
       <ScrollReveal>
         <section className="section-padding bg-gradient-to-r from-green-500 to-green-600">
@@ -347,7 +314,7 @@ export default function ServicePage({ params }: ServicePageProps) {
               <AnimatedButton
                 href="/contact"
                 variant="secondary"
-                className="border-2 border-100 text-green-100 hover:bg-green-100 hover:text-green-800 px-8 py-4 rounded-lg font-semibold text-lg"
+                className="border-2 border-green-100 text-green-100 hover:bg-green-100 hover:text-green-800 px-8 py-4 rounded-lg font-semibold text-lg"
               >
                 Request Detailed Proposal
               </AnimatedButton>

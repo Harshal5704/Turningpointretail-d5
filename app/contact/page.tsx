@@ -4,12 +4,22 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle } from "lucide-react"
+import { FadeIn } from "@/components/animations/fade-in"
+import { SlideUp } from "@/components/animations/slide-up"
+import { ScrollReveal } from "@/components/animations/scroll-reveal"
+import { AnimatedButton } from "@/components/animations/animated-button"
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send,
+  CheckCircle,
+  AlertCircle,
+  Building2,
+  Globe,
+  MessageSquare,
+} from "lucide-react"
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -23,10 +33,8 @@ type ContactFormData = z.infer<typeof contactSchema>
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null
-    message: string
-  }>({ type: null, message: "" })
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [statusMessage, setStatusMessage] = useState("")
 
   const {
     register,
@@ -39,7 +47,7 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
-    setSubmitStatus({ type: null, message: "" })
+    setSubmitStatus("idle")
 
     try {
       const response = await fetch("/api/contact", {
@@ -53,104 +61,169 @@ export default function ContactPage() {
       const result = await response.json()
 
       if (response.ok) {
-        setSubmitStatus({
-          type: "success",
-          message: "Thank you for your message! We'll get back to you within 24 hours.",
-        })
+        setSubmitStatus("success")
+        setStatusMessage(result.message || "Thank you for your message! We will get back to you soon.")
         reset()
+
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus("idle")
+          setStatusMessage("")
+        }, 5000)
       } else {
-        setSubmitStatus({
-          type: "error",
-          message: result.error || "Something went wrong. Please try again.",
-        })
+        setSubmitStatus("error")
+        setStatusMessage(result.error || "Something went wrong. Please try again.")
       }
     } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: "Network error. Please check your connection and try again.",
-      })
+      setSubmitStatus("error")
+      setStatusMessage("Network error. Please check your connection and try again.")
     } finally {
       setIsSubmitting(false)
-      // Clear status after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus({ type: null, message: "" })
-      }, 5000)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-32 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <Badge variant="secondary" className="mb-4 px-4 py-2">
-            Get In Touch
-          </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
-            Contact Us
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Ready to transform your retail business? Let's discuss how our expertise can help you achieve operational
-            excellence and drive sustainable growth.
-          </p>
-        </div>
+    <div className="animate-fade-in" style={{ paddingTop: "var(--header-height)" }}>
+      {/* Hero Section */}
+      <section className="section-padding bg-gradient-to-br from-green-50 to-white">
+        <div className="container-max">
+          <div className="text-center mb-16">
+            <FadeIn>
+              <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold mb-6 inline-block">
+                Get In Touch
+              </span>
+            </FadeIn>
+            <SlideUp delay={0.2}>
+              <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-6">
+                Let's Transform Your Retail Business
+              </h1>
+            </SlideUp>
+            <FadeIn delay={0.4}>
+              <p className="text-xl text-green-600 max-w-3xl mx-auto leading-relaxed">
+                Ready to take your retail operations to the next level? Our expert team is here to help you achieve
+                sustainable growth and operational excellence.
+              </p>
+            </FadeIn>
+          </div>
 
-        <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <Card className="shadow-xl border-0">
-              <CardHeader className="bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-t-lg">
-                <CardTitle className="text-2xl">Send us a Message</CardTitle>
-                <CardDescription className="text-green-100">
-                  Fill out the form below and we'll get back to you as soon as possible.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-8">
+          {/* Contact Information Cards */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <ScrollReveal delay={0.1}>
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-shadow">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <MapPin className="w-8 h-8 text-green-100" />
+                </div>
+                <h3 className="text-xl font-bold text-green-800 mb-4">Visit Our Office</h3>
+                <p className="text-green-600 mb-4">
+                  Office no: 2602, 26th floor
+                  <br />
+                  Diamond twin towers
+                  <br />
+                  Koh Pich, Phnom Penh, Cambodia
+                </p>
+                <a
+                  href="https://maps.google.com/?q=Diamond+twin+towers+Koh+Pich+Phnom+Penh+Cambodia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-600 hover:text-green-700 font-semibold inline-flex items-center"
+                >
+                  <Globe className="w-4 h-4 mr-2" />
+                  View on Map
+                </a>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2}>
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-shadow">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Phone className="w-8 h-8 text-blue-100" />
+                </div>
+                <h3 className="text-xl font-bold text-green-800 mb-4">Call Us</h3>
+                <p className="text-green-600 mb-2">Ready to discuss your project?</p>
+                <p className="text-2xl font-bold text-green-700 mb-4">+855 86 844 464</p>
+                <p className="text-sm text-green-500">
+                  <Clock className="w-4 h-4 inline mr-1" />
+                  Response within 2 hours
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.3}>
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-shadow">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Mail className="w-8 h-8 text-purple-100" />
+                </div>
+                <h3 className="text-xl font-bold text-green-800 mb-4">Email Us</h3>
+                <p className="text-green-600 mb-2">Send us a detailed message</p>
+                <p className="text-lg font-semibold text-green-700 mb-4">info@turningpointretail.com</p>
+                <p className="text-sm text-green-500">
+                  <Clock className="w-4 h-4 inline mr-1" />
+                  Response within 24 hours
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="section-padding">
+        <div className="container-max">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Form */}
+            <ScrollReveal>
+              <div className="bg-white p-8 md:p-12 rounded-3xl shadow-2xl border border-green-100">
+                <div className="mb-8">
+                  <h2 className="text-3xl font-bold text-green-800 mb-4 flex items-center">
+                    <MessageSquare className="w-8 h-8 mr-3 text-green-600" />
+                    Send Us a Message
+                  </h2>
+                  <p className="text-green-600">
+                    Fill out the form below and we'll get back to you as soon as possible.
+                  </p>
+                </div>
+
                 {/* Status Messages */}
-                {submitStatus.type && (
-                  <div
-                    className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
-                      submitStatus.type === "success"
-                        ? "bg-green-50 text-green-800 border border-green-200"
-                        : "bg-red-50 text-red-800 border border-red-200"
-                    }`}
-                  >
-                    {submitStatus.type === "success" ? (
-                      <CheckCircle className="h-5 w-5 flex-shrink-0" />
-                    ) : (
-                      <AlertCircle className="h-5 w-5 flex-shrink-0" />
-                    )}
-                    <p className="font-medium">{submitStatus.message}</p>
+                {submitStatus === "success" && (
+                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
+                    <p className="text-green-700">{statusMessage}</p>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
+                    <AlertCircle className="w-5 h-5 text-red-600 mr-3 flex-shrink-0" />
+                    <p className="text-red-700">{statusMessage}</p>
                   </div>
                 )}
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="name" className="block text-sm font-semibold text-green-700 mb-2">
                         Full Name *
                       </label>
-                      <Input
-                        id="name"
+                      <input
                         {...register("name")}
-                        className="h-12"
+                        type="text"
+                        id="name"
+                        className="w-full px-4 py-3 border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                         placeholder="Your full name"
-                        disabled={isSubmitting}
                       />
                       {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="email" className="block text-sm font-semibold text-green-700 mb-2">
                         Email Address *
                       </label>
-                      <Input
-                        id="email"
-                        type="email"
+                      <input
                         {...register("email")}
-                        className="h-12"
+                        type="email"
+                        id="email"
+                        className="w-full px-4 py-3 border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                         placeholder="your.email@company.com"
-                        disabled={isSubmitting}
                       />
                       {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
                     </div>
@@ -158,176 +231,152 @@ export default function ContactPage() {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="company" className="block text-sm font-semibold text-green-700 mb-2">
                         Company Name
                       </label>
-                      <Input
-                        id="company"
+                      <input
                         {...register("company")}
-                        className="h-12"
+                        type="text"
+                        id="company"
+                        className="w-full px-4 py-3 border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                         placeholder="Your company name"
-                        disabled={isSubmitting}
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="phone" className="block text-sm font-semibold text-green-700 mb-2">
                         Phone Number
                       </label>
-                      <Input
-                        id="phone"
+                      <input
                         {...register("phone")}
-                        className="h-12"
+                        type="tel"
+                        id="phone"
+                        className="w-full px-4 py-3 border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                         placeholder="+855 XX XXX XXX"
-                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="message" className="block text-sm font-semibold text-green-700 mb-2">
                       Message *
                     </label>
-                    <Textarea
-                      id="message"
+                    <textarea
                       {...register("message")}
+                      id="message"
                       rows={6}
+                      className="w-full px-4 py-3 border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors resize-vertical"
                       placeholder="Tell us about your project, challenges, or how we can help you..."
-                      disabled={isSubmitting}
                     />
                     {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>}
                   </div>
 
-                  <Button
+                  <AnimatedButton
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-12 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold"
+                    className="w-full bg-green-600 text-green-100 hover:bg-green-700 px-8 py-4 rounded-lg font-semibold text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
                     {isSubmitting ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-100 mr-3"></div>
                         Sending Message...
                       </>
                     ) : (
                       <>
-                        <Send className="h-4 w-4 mr-2" />
+                        <Send className="w-5 h-5 mr-3" />
                         Send Message
                       </>
                     )}
-                  </Button>
+                  </AnimatedButton>
 
-                  <p className="text-sm text-gray-500 text-center">
-                    We typically respond within 24 hours during business days.
+                  <p className="text-sm text-green-600 text-center">
+                    * Required fields. We typically respond within 24 hours.
                   </p>
                 </form>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </ScrollReveal>
 
-          {/* Contact Information */}
-          <div className="space-y-8">
-            {/* Office Location */}
-            <Card className="shadow-lg border-0">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl flex items-center justify-center">
-                    <MapPin className="h-6 w-6 text-white" />
+            {/* Business Hours & Additional Info */}
+            <ScrollReveal delay={0.2}>
+              <div className="space-y-8">
+                {/* Business Hours */}
+                <div className="bg-gradient-to-r from-green-50 to-green-100 p-8 rounded-2xl border border-green-200">
+                  <h3 className="text-2xl font-bold text-green-800 mb-6 flex items-center">
+                    <Clock className="w-6 h-6 mr-3" />
+                    Business Hours
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-700 font-semibold">Monday - Friday</span>
+                      <span className="text-green-600">9:00 AM - 6:00 PM</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-700 font-semibold">Saturday</span>
+                      <span className="text-green-600">10:00 AM - 4:00 PM</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-700 font-semibold">Sunday</span>
+                      <span className="text-green-600">Closed</span>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900">Our Office</h3>
-                    <p className="text-gray-600">Visit us in Phnom Penh</p>
+                  <div className="mt-6 p-4 bg-green-200/50 rounded-lg">
+                    <p className="text-green-700 text-sm">
+                      <strong>Emergency Support:</strong> Available 24/7 for existing clients
+                    </p>
                   </div>
                 </div>
-                <div className="text-gray-700 space-y-1">
-                  <p>Office no: 2602, 26th floor</p>
-                  <p>Diamond twin towers, Koh Pich</p>
-                  <p>Phnom Penh, Cambodia</p>
-                </div>
-                <a
-                  href="https://maps.app.goo.gl/fhauFtEvrKS6hN5E7?g_st=com.google.maps.preview.copy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-green-600 hover:text-green-700 font-medium mt-3 transition-colors"
-                >
-                  View on Google Maps
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
-                </a>
-              </CardContent>
-            </Card>
 
-            {/* Phone */}
-            <Card className="shadow-lg border-0">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                    <Phone className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900">Phone</h3>
-                    <p className="text-gray-600">Call us directly</p>
+                {/* Why Choose Us */}
+                <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100">
+                  <h3 className="text-2xl font-bold text-green-800 mb-6 flex items-center">
+                    <Building2 className="w-6 h-6 mr-3" />
+                    Why Choose Us?
+                  </h3>
+                  <div className="space-y-4">
+                    {[
+                      "Expert team with 15+ years of retail experience",
+                      "Proven track record across Southeast Asia",
+                      "Customized solutions for your specific needs",
+                      "Ongoing support and consultation",
+                      "Data-driven approach with measurable results",
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-green-700">{item}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="text-gray-700">
-                  <p className="font-medium">+855 86 844 464</p>
-                  <p className="text-sm text-gray-500 mt-1">Response within 2 hours</p>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* Email */}
-            <Card className="shadow-lg border-0">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
-                    <Mail className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900">Email</h3>
-                    <p className="text-gray-600">Send us an email</p>
-                  </div>
-                </div>
-                <div className="text-gray-700">
-                  <p className="font-medium">info@turningpointretail.com</p>
-                  <p className="text-sm text-gray-500 mt-1">Response within 24 hours</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Business Hours */}
-            <Card className="shadow-lg border-0">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-orange-600 to-red-600 rounded-xl flex items-center justify-center">
-                    <Clock className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900">Business Hours</h3>
-                    <p className="text-gray-600">Cambodia Time (ICT)</p>
+                {/* Quick Response Promise */}
+                <div className="bg-gradient-to-r from-green-600 to-green-700 p-8 rounded-2xl text-white">
+                  <h3 className="text-xl font-bold mb-4">Our Response Promise</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-bold">1</span>
+                      </div>
+                      <span>Initial response within 24 hours</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-bold">2</span>
+                      </div>
+                      <span>Detailed proposal within 3-5 business days</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-bold">3</span>
+                      </div>
+                      <span>Project kickoff within 1-2 weeks</span>
+                    </div>
                   </div>
                 </div>
-                <div className="text-gray-700 space-y-1">
-                  <p>
-                    <span className="font-medium">Monday - Friday:</span> 9:00 AM - 6:00 PM
-                  </p>
-                  <p>
-                    <span className="font-medium">Saturday:</span> 9:00 AM - 1:00 PM
-                  </p>
-                  <p>
-                    <span className="font-medium">Sunday:</span> Closed
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
