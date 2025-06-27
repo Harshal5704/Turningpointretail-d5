@@ -1,234 +1,173 @@
-import { FadeIn } from "@/components/animations/fade-in"
+"use client"
 
-export const metadata = {
-  title: "Terms & Conditions | Turning Point Retail Solutions",
-  description: "Read the Terms and Conditions for Turning Point Retail Solutions.",
-}
+import { FadeIn } from "@/components/animations/fade-in"
+import { ScrollReveal } from "@/components/animations/scroll-reveal"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function TermsAndConditionsPage() {
+  const sections = [
+    {
+      title: "Acceptance of Terms",
+      content: [
+        "By accessing and using our services, you accept and agree to be bound by these terms",
+        "If you do not agree to these terms, you may not use our services",
+        "We reserve the right to modify these terms at any time",
+        "Continued use of our services constitutes acceptance of modified terms",
+      ],
+    },
+    {
+      title: "Services Description",
+      content: [
+        "We provide retail consulting and business advisory services",
+        "Services include but are not limited to strategic planning, operations optimization, and training",
+        "Service delivery may vary based on client requirements and agreements",
+        "We reserve the right to modify or discontinue services with notice",
+      ],
+    },
+    {
+      title: "Client Responsibilities",
+      content: [
+        "Provide accurate and complete information for service delivery",
+        "Cooperate with our team and follow recommended implementations",
+        "Maintain confidentiality of proprietary methodologies and materials",
+        "Make timely payments as agreed in service contracts",
+      ],
+    },
+    {
+      title: "Intellectual Property",
+      content: [
+        "All methodologies, frameworks, and materials remain our intellectual property",
+        "Clients receive limited license to use materials for their business operations",
+        "Reproduction or distribution of materials requires written permission",
+        "Client data and business information remain the property of the client",
+      ],
+    },
+    {
+      title: "Limitation of Liability",
+      content: [
+        "Our liability is limited to the amount paid for services",
+        "We are not liable for indirect, consequential, or punitive damages",
+        "Business results may vary and are not guaranteed",
+        "Clients are responsible for implementation decisions and outcomes",
+      ],
+    },
+    {
+      title: "Confidentiality",
+      content: [
+        "We maintain strict confidentiality of all client information",
+        "Non-disclosure agreements may be required for sensitive projects",
+        "Client information is not shared with third parties without consent",
+        "Confidentiality obligations survive termination of services",
+      ],
+    },
+  ]
+
   return (
-    <div className="animate-fade-in">
-      <section className="section-padding bg-gradient-to-br from-blue-50 to-white">
+    <div className="animate-fade-in pt-32">
+      {" "}
+      {/* Increased padding to fix navbar overlap */}
+      {/* Hero Section */}
+      <section className="section-padding bg-gradient-to-br from-green-50 to-white">
         <div className="container-max">
           <FadeIn>
-            <h1 className="heading-primary mb-6 text-center">Terms & Conditions</h1>
+            <div className="text-center mb-16">
+              <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm font-semibold">
+                Legal
+              </Badge>
+              <h1 className="heading-primary mb-6">Terms & Conditions</h1>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Please read these terms and conditions carefully before using our services.
+              </p>
+              <p className="text-sm text-gray-500 mt-4">Last updated: {new Date().toLocaleDateString()}</p>
+            </div>
           </FadeIn>
         </div>
       </section>
+      {/* Terms Content */}
+      <section className="section-padding bg-white">
+        <div className="container-max max-w-4xl">
+          <div className="space-y-12">
+            {/* Introduction */}
+            <ScrollReveal>
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-8">
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900">Introduction</h2>
+                  <div className="prose prose-gray max-w-none">
+                    <p className="text-gray-600 leading-relaxed mb-4">
+                      These Terms and Conditions ("Terms") govern your use of Turning Point Retail's services and
+                      website. These Terms apply to all visitors, users, and others who access or use our services.
+                    </p>
+                    <p className="text-gray-600 leading-relaxed">
+                      By accessing or using our services, you agree to be bound by these Terms. If you disagree with any
+                      part of these terms, then you may not access our services.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-      <section className="section-padding">
-        <div className="container-max prose prose-lg max-w-4xl mx-auto">
-          <FadeIn delay={0.2}>
-            <p>Welcome to www.turningpointretail.com!</p>
-            <p>
-              These terms and conditions outline the rules and regulations for the use of the Turning Point Retail
-              Solutions Website, located at https://turningpointretail.com.
-            </p>
-            <p>
-              By accessing this website we assume you accept these terms and conditions. Do not continue to use
-              https://turningpointretail.com if you do not agree to take all of the terms and conditions stated on this
-              page.
-            </p>
-            <p>
-              The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice
-              and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this website and compliant
-              to the Company’s terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our
-              Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the
-              offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the
-              Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of
-              provision of the Company’s stated services, in accordance with and subject to, prevailing law of
-              Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization
-              and/or he/she or they, are taken as interchangeable and therefore as referring to same.
-            </p>
+            {/* Terms Sections */}
+            {sections.map((section, index) => (
+              <ScrollReveal key={index} delay={index * 0.1}>
+                <Card className="border-0 shadow-lg">
+                  <CardContent className="p-8">
+                    <h2 className="text-2xl font-bold mb-6 text-gray-900">{section.title}</h2>
+                    <ul className="space-y-3">
+                      {section.content.map((item, itemIndex) => (
+                        <li key={itemIndex} className="flex items-start space-x-3">
+                          <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
+                          <span className="text-gray-600 leading-relaxed">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
+            ))}
 
-            <h2>Cookies</h2>
-            <p>
-              We employ the use of cookies. By accessing https://turningpointretail.com, you agreed to use cookies in
-              agreement with the Turning Point Retail Solutions Privacy Policy.
-            </p>
-            <p>
-              Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are
-              used by our website to enable the functionality of certain areas to make it easier for people visiting our
-              website. Some of our affiliate/advertising partners may also use cookies.
-            </p>
+            {/* Governing Law */}
+            <ScrollReveal>
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-8">
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900">Governing Law</h2>
+                  <div className="prose prose-gray max-w-none">
+                    <p className="text-gray-600 leading-relaxed mb-4">
+                      These Terms shall be interpreted and governed by the laws of Cambodia. Any disputes arising from
+                      these Terms or our services shall be subject to the exclusive jurisdiction of the courts of
+                      Cambodia.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-            <h2>License</h2>
-            <p>
-              Unless otherwise stated, Turning Point Retail Solutions and/or its licensors own the intellectual property
-              rights for all material on https://turningpointretail.com All intellectual property rights are reserved.
-              You may access this from https://turningpointretail.com for your own personal use subjected to
-              restrictions set in these terms and conditions.
-            </p>
-            <p>You must not:</p>
-            <ul>
-              <li>Republish material from https://turningpointretail.com</li>
-              <li>Sell, rent or sub-license material from https://turningpointretail.com</li>
-              <li>Reproduce, duplicate or copy material from https://turningpointretail.com</li>
-              <li>Redistribute content from https://turningpointretail.com</li>
-            </ul>
-            <p>This Agreement shall begin on the date hereof.</p>
-            <p>
-              Parts of this website offer an opportunity for users to post and exchange opinions and information in
-              certain areas of the website. Turning Point Retail Solutions does not filter, edit, publish or review
-              Comments prior to their presence on the website. Comments do not reflect the views and opinions of Turning
-              Point Retail Solutions, its agents and/or affiliates. Comments reflect the views and opinions of the
-              person who post their views and opinions. To the extent permitted by applicable laws, Turning Point Retail
-              Solutions shall not be liable for the Comments or for any liability, damages or expenses caused and/or
-              suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
-            </p>
-            <p>
-              Turning Point Retail Solutions reserves the right to monitor all Comments and to remove any Comments which
-              can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
-            </p>
-            <p>You warrant and represent that:</p>
-            <ul>
-              <li>
-                You are entitled to post the Comments on our website and have all necessary licenses and consents to do
-                so;
-              </li>
-              <li>
-                The Comments do not invade any intellectual property right, including without limitation copyright,
-                patent or trademark of any third party;
-              </li>
-              <li>
-                The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material
-                which is an invasion of privacy
-              </li>
-              <li>
-                The Comments will not be used to solicit or promote business or custom or present commercial activities
-                or unlawful activity.
-              </li>
-            </ul>
-            <p>
-              You hereby grant Turning Point Retail Solutions a non-exclusive license to use, reproduce, edit and
-              authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
-            </p>
-
-            <h2>Hyperlinking to our Content</h2>
-            <p>The following organizations may link to our Website without prior written approval:</p>
-            <ul>
-              <li>Government agencies;</li>
-              <li>Search engines;</li>
-              <li>News organizations;</li>
-              <li>
-                Online directory distributors may link to our Website in the same manner as they hyperlink to the
-                Websites of other listed businesses; and
-              </li>
-              <li>
-                System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls,
-                and charity fundraising groups which may not hyperlink to our Web site.
-              </li>
-            </ul>
-            <p>
-              These organizations may link to our home page, to publications or to other Website information so long as
-              the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval
-              of the linking party and its products and/or services; and (c) fits within the context of the linking
-              party’s site.
-            </p>
-            <p>We may consider and approve other link requests from the following types of organizations:</p>
-            <ul>
-              <li>commonly-known consumer and/or business information sources;</li>
-              <li>dot.com community sites;</li>
-              <li>associations or other groups representing charities;</li>
-              <li>online directory distributors;</li>
-              <li>internet portals;</li>
-              <li>accounting, law and consulting firms; and</li>
-              <li>educational institutions and trade associations.</li>
-            </ul>
-            <p>
-              We will approve link requests from these organizations if we decide that: (a) the link would not make us
-              look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any
-              negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the
-              absence of Turning Point Retail Solutions; and (d) the link is in the context of general resource
-              information.
-            </p>
-            <p>
-              These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b)
-              does not falsely imply sponsorship, endorsement or approval of the linking party and its products or
-              services; and (c) fits within the context of the linking party’s site.
-            </p>
-            <p>
-              If you are one of the organizations listed in paragraph 2 above and are interested in linking to our
-              website, you must inform us by sending an e-mail to Turning Point Retail Solutions. Please include your
-              name, your organization name, contact information as well as the URL of your site, a list of any URLs from
-              which you intend to link to our Website, and a list of the URLs on our site to which you would like to
-              link. Wait 2-3 weeks for a response.
-            </p>
-            <p>Approved organizations may hyperlink to our Website as follows:</p>
-            <ul>
-              <li>By use of our corporate name; or</li>
-              <li>By use of the uniform resource locator being linked to; or</li>
-              <li>
-                By use of any other description of our Website being linked to that makes sense within the context and
-                format of content on the linking party’s site.
-              </li>
-            </ul>
-            <p>
-              No use of Turning Point Retail Solutions logo or other artwork will be allowed for linking absent a
-              trademark license agreement.
-            </p>
-
-            <h2>iFrames</h2>
-            <p>
-              Without prior approval and written permission, you may not create frames around our Webpages that alter in
-              any way the visual presentation or appearance of our Website.
-            </p>
-
-            <h2>Content Liability</h2>
-            <p>
-              We shall not be hold responsible for any content that appears on your Website. You agree to protect and
-              defend us against all claims that is rising on your Website. No link(s) should appear on any Website that
-              may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates
-              the infringement or other violation of, any third party rights.
-            </p>
-
-            <h2>Your Privacy</h2>
-            <p>Please read Privacy Policy</p>
-
-            <h2>Reservation of Rights</h2>
-            <p>
-              We reserve the right to request that you remove all links or any particular link to our Website. You
-              approve to immediately remove all links to our Website upon request. We also reserve the right to amen
-              these terms and conditions and it’s linking policy at any time. By continuously linking to our Website,
-              you agree to be bound to and follow these linking terms and conditions.
-            </p>
-
-            <h2>Removal of links from our website</h2>
-            <p>
-              If you find any link on our Website that is offensive for any reason, you are free to contact and inform
-              us any moment. We will consider requests to remove links but we are not obligated to or so or to respond
-              to you directly.
-            </p>
-            <p>
-              We do not ensure that the information on this website is correct, we do not warrant its completeness or
-              accuracy; nor do we promise to ensure that the website remains available or that the material on the
-              website is kept up to date.
-            </p>
-
-            <h2>Disclaimer</h2>
-            <p>
-              To the maximum extent permitted by applicable law, we exclude all representations, warranties and
-              conditions relating to our website and the use of this website. Nothing in this disclaimer will:
-            </p>
-            <ul>
-              <li>limit or exclude our or your liability for death or personal injury;</li>
-              <li>limit or exclude our or your liability for fraud or fraudulent misrepresentation;</li>
-              <li>limit any of our or your liabilities in any way that is not permitted under applicable law; or</li>
-              <li>exclude any of our or your liabilities that may not be excluded under applicable law.</li>
-            </ul>
-            <p>
-              The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a)
-              are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer,
-              including liabilities arising in contract, in tort and for breach of statutory duty.
-            </p>
-            <p>
-              As long as the website and the information and services on the website are provided free of charge, we
-              will not be liable for any loss or damage of any nature.
-            </p>
-            <p>
-              <em>Last updated: 22nd November 2023</em>
-            </p>
-          </FadeIn>
+            {/* Contact Information */}
+            <ScrollReveal>
+              <Card className="border-0 shadow-lg bg-gradient-to-r from-green-50 to-yellow-50">
+                <CardContent className="p-8">
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900">Contact Us</h2>
+                  <div className="prose prose-gray max-w-none">
+                    <p className="text-gray-600 leading-relaxed mb-4">
+                      If you have any questions about these Terms and Conditions, please contact us:
+                    </p>
+                    <div className="space-y-2 text-gray-600">
+                      <p>
+                        <strong>Email:</strong> info@turningpointretail.com
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> +855 86 844 464
+                      </p>
+                      <p>
+                        <strong>Address:</strong> Office no: 2602, 26th floor, Diamond twin towers, Koh Pich, Phnom
+                        Penh, Cambodia
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
     </div>

@@ -27,7 +27,7 @@ export function Navigation() {
     { href: "/contact", label: "Contact" },
   ]
 
-  const languages = ["EN", "KH", "VN", "TH"]
+
 
   return (
     <nav
@@ -66,24 +66,7 @@ export function Navigation() {
               </Link>
             ))}
 
-            {/* Language Switcher */}
-            <div className="relative group">
-              <button className="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors font-medium">
-                <Globe className="w-5 h-5" />
-                <span>EN</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-xl border border-green-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                {languages.map((lang) => (
-                  <button
-                    key={lang}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:text-green-600 hover:bg-green-50 transition-colors"
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-            </div>
+            
 
             <Link
               href="/contact"
