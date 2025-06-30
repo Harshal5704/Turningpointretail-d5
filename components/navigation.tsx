@@ -35,7 +35,7 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center py-4">
-          {/* Professional Logo */}
+          {/* New Professional Logo */}
           <Link href="/" className="flex items-center group">
             <div className="relative">
               <Image
@@ -51,7 +51,7 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -85,7 +85,7 @@ export function Navigation() {
         {isOpen && (
           <div className="lg:hidden py-6 border-t border-green-200 bg-white/95 backdrop-blur-md rounded-b-2xl mt-4">
             <div className="space-y-4">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 <Link
                   key={item.href}
                   href={item.href}
