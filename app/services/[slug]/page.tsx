@@ -1,152 +1,132 @@
-import { notFound } from "next/navigation"
 import { getServiceBySlug, getAllServices } from "@/lib/services-data"
-import { FadeIn } from "@/components/animations/fade-in"
-import { SlideUp } from "@/components/animations/slide-up"
-import { ScrollReveal } from "@/components/animations/scroll-reveal"
-import { AnimatedButton } from "@/components/animations/animated-button"
-import { ArrowLeft, CheckCircle, Star, Award, Users, TrendingUp } from "lucide-react"
-import Link from "next/link"
+import { notFound } from "next/navigation"
 import Image from "next/image"
-
-interface ServicePageProps {
-  params: {
-    slug: string
-  }
-}
+import Link from "next/link"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft, CheckCircle, Star, ArrowRight, Users, TrendingUp, Target, Award } from "lucide-react"
+import { FadeIn } from "@/components/animations/fade-in"
+import { ScrollReveal } from "@/components/animations/scroll-reveal"
 
 export async function generateStaticParams() {
-  const allServices = getAllServices()
-  return allServices.map((service) => ({
+  const services = getAllServices()
+  return services.map((service) => ({
     slug: service.slug,
   }))
 }
 
-export async function generateMetadata({ params }: ServicePageProps) {
-  const service = getServiceBySlug(params.slug)
-
-  if (!service) {
-    return {
-      title: "Service Not Found",
-    }
-  }
-
-  return {
-    title: `${service.title} | Turning Point Retail Solutions`,
-    description: service.description,
-  }
-}
-
-export default function ServicePage({ params }: ServicePageProps) {
+export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
   const service = getServiceBySlug(params.slug)
 
   if (!service) {
     notFound()
   }
 
+  const processSteps = [
+    {
+      step: "01",
+      title: "Discovery & Assessment",
+      description: "We analyze your current operations and identify key improvement opportunities.",
+    },
+    {
+      step: "02",
+      title: "Strategy Development",
+      description: "Our experts create a customized solution tailored to your specific needs.",
+    },
+    {
+      step: "03",
+      title: "Implementation",
+      description: "We work closely with your team to implement the solution effectively.",
+    },
+    {
+      step: "04",
+      title: "Optimization & Support",
+      description: "Continuous monitoring and refinement to ensure lasting success.",
+    },
+  ]
+
+  const testimonials = [
+    {
+      name: "Sarah Chen",
+      position: "Operations Director",
+      company: "Fashion Forward",
+      content:
+        "The transformation in our operations has been remarkable. Our efficiency increased by 40% within the first quarter.",
+      rating: 5,
+    },
+    {
+      name: "Michael Rodriguez",
+      position: "CEO",
+      company: "Tech Retail Solutions",
+      content: "Professional, knowledgeable, and results-driven. They exceeded our expectations in every way.",
+      rating: 5,
+    },
+  ]
+
   return (
-    <div className="animate-fade-in" style={{ paddingTop: "var(--header-height)" }}>
+    <div className="min-h-screen bg-white">
       {/* Breadcrumb */}
-      <section className="bg-gray-50 py-8">
-        <div className="container-max">
-          <FadeIn>
-            <Link
-              href="/services"
-              className="inline-flex items-center text-green-700 hover:text-green-800 mb-4 font-semibold"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to All Services
+      <div className="pt-32 pb-8 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Link href="/" className="hover:text-green-600 transition-colors">
+              Home
             </Link>
-          </FadeIn>
+            <span>/</span>
+            <Link href="/services" className="hover:text-green-600 transition-colors">
+              Services
+            </Link>
+            <span>/</span>
+            <span className="text-green-600">{service.title}</span>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Hero Section with Internet-Sourced Image */}
-      <section className="section-padding bg-gradient-to-br from-green-50 to-white">
-        <div className="container-max">
+      {/* Hero Section */}
+      <section className="py-20 bg-gradient-to-r from-green-600 to-green-800">
+        <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
-            <div>
-              <FadeIn>
-                <div className="flex items-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-                    <Award className="w-10 h-10 text-green-100" />
-                  </div>
-                  <div>
-                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
-                      Professional Service
-                    </span>
-                  </div>
-                </div>
-              </FadeIn>
+            <FadeIn>
+              <div className="text-white">
+                <Link
+                  href="/services"
+                  className="inline-flex items-center space-x-2 text-green-100 hover:text-white transition-colors mb-6"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Services</span>
+                </Link>
 
-              <SlideUp delay={0.2}>
-                <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-6 leading-tight">{service.title}</h1>
-              </SlideUp>
+                <Badge variant="secondary" className="mb-4 bg-white/20 text-white border-white/30">
+                  {service.category}
+                </Badge>
 
-              <FadeIn delay={0.4}>
-                <p className="text-xl text-green-600 leading-relaxed mb-8">{service.description}</p>
-              </FadeIn>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6">{service.title}</h1>
 
-              <FadeIn delay={0.5}>
-                <div className="flex items-center space-x-8 mb-8">
-                  <div className="flex items-center space-x-2">
-                    <Star className="w-5 h-5 text-yellow-500" />
-                    <span className="text-green-700 font-semibold">Expert Consulting</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Award className="w-5 h-5 text-green-600" />
-                    <span className="text-green-700 font-semibold">Proven Results</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Users className="w-5 h-5 text-blue-600" />
-                    <span className="text-green-700 font-semibold">Expert Team</span>
-                  </div>
-                </div>
-              </FadeIn>
+                <p className="text-xl text-green-100 mb-8 leading-relaxed">{service.description}</p>
 
-              <FadeIn delay={0.6}>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <AnimatedButton
-                    href="/contact"
-                    className="bg-green-600 text-green-100 hover:bg-green-700 px-8 py-4 rounded-lg font-semibold text-lg shadow-lg"
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/contact">
+                    <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 text-green-900 font-semibold">
+                      Get Started
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white text-white hover:bg-white hover:text-green-600 bg-transparent"
                   >
-                    Get Started Now
-                  </AnimatedButton>
-                  <AnimatedButton
-                    href="/contact"
-                    variant="secondary"
-                    className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-green-100 px-8 py-4 rounded-lg font-semibold text-lg"
-                  >
-                    Schedule Consultation
-                  </AnimatedButton>
+                    Learn More
+                  </Button>
                 </div>
-              </FadeIn>
-            </div>
+              </div>
+            </FadeIn>
 
-            {/* Internet-Sourced Hero Image */}
-            <FadeIn delay={0.3}>
+            <FadeIn delay={0.2}>
               <div className="relative">
-                <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={service.image || "/placeholder.svg"}
-                    alt={`${service.title} - Professional retail consulting service`}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 1023px) calc(100vw - 2rem), (min-width: 1024px) calc(50vw - 4rem)"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-900/30 to-transparent"></div>
-                </div>
-
-                {/* Floating Elements */}
-                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl">
-                  <Award className="w-12 h-12 text-green-800" />
-                </div>
-                <div className="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-xl">
-                  <Award className="w-10 h-10 text-green-100" />
-                </div>
-                <div className="absolute top-1/2 -right-4 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                  <TrendingUp className="w-8 h-8 text-blue-100" />
+                <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+                  <Image src={service.image || "/placeholder.svg"} alt={service.title} fill className="object-cover" />
                 </div>
               </div>
             </FadeIn>
@@ -154,174 +134,195 @@ export default function ServicePage({ params }: ServicePageProps) {
         </div>
       </section>
 
-      {/* Service Highlights */}
-      <ScrollReveal>
-        <section className="section-padding bg-gradient-to-r from-green-50 to-yellow-50">
-          <div className="container-max">
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { icon: Users, title: "Expert Team", desc: "Experienced professionals with proven track record" },
-                {
-                  icon: TrendingUp,
-                  title: "Measurable Results",
-                  desc: "Data-driven outcomes that impact your bottom line",
-                },
-                {
-                  icon: Award,
-                  title: "Industry Recognition",
-                  desc: "Trusted by leading retail brands across Southeast Asia",
-                },
-              ].map((highlight, index) => (
-                <FadeIn key={index} delay={index * 0.1}>
-                  <div className="text-center p-6 bg-white rounded-2xl shadow-lg border border-green-100">
-                    <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <highlight.icon className="w-8 h-8 text-green-100" />
-                    </div>
-                    <h3 className="text-xl font-bold text-green-800 mb-2">{highlight.title}</h3>
-                    <p className="text-green-600">{highlight.desc}</p>
-                  </div>
-                </FadeIn>
-              ))}
+      {/* Overview */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              <FadeIn>
+                <h2 className="text-3xl font-bold mb-6 text-gray-900">Service Overview</h2>
+                <div className="prose prose-lg max-w-none text-gray-600">
+                  <p className="text-xl leading-relaxed mb-6">{service.overview}</p>
+                </div>
+              </FadeIn>
             </div>
-          </div>
-        </section>
-      </ScrollReveal>
 
-      {/* Features & Benefits with Enhanced Layout */}
-      <section className="section-padding">
-        <div className="container-max">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Key Features */}
-            <ScrollReveal>
-              <div>
-                <h2 className="text-3xl font-bold text-green-800 mb-8 flex items-center">
-                  <CheckCircle className="w-8 h-8 mr-3 text-green-600" />
-                  Key Features
-                </h2>
-                <div className="space-y-6">
-                  {service.features.map((feature, index) => (
-                    <FadeIn key={index} delay={index * 0.1}>
-                      <div className="flex items-start space-x-4 p-6 bg-gradient-to-r from-green-50 to-green-100 rounded-xl border-l-4 border-green-500 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                          <CheckCircle className="w-5 h-5 text-green-100" />
-                        </div>
-                        <span className="text-green-700 font-semibold text-lg">{feature}</span>
-                      </div>
-                    </FadeIn>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Benefits */}
-            <ScrollReveal delay={0.2}>
-              <div>
-                <h2 className="text-3xl font-bold text-green-800 mb-8 flex items-center">
-                  <Award className="w-8 h-8 mr-3 text-green-600" />
-                  Benefits & Results
-                </h2>
-                <div className="space-y-6">
-                  {service.benefits.map((benefit, index) => (
-                    <FadeIn key={index} delay={index * 0.1}>
-                      <div className="bg-white p-6 rounded-xl border border-green-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-green-300">
-                        <div className="flex items-start space-x-4">
-                          <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <Star className="w-5 h-5 text-green-100" />
-                          </div>
-                          <p className="text-green-700 font-semibold text-lg">{benefit}</p>
-                        </div>
-                      </div>
-                    </FadeIn>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
+            <div>
+              <ScrollReveal>
+                <Card className="p-6 bg-green-50 border-green-200">
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">Quick Facts</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-3">
+                      <Users className="w-5 h-5 text-green-600" />
+                      <span className="text-gray-700">Expert Team</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <TrendingUp className="w-5 h-5 text-green-600" />
+                      <span className="text-gray-700">Proven Results</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Target className="w-5 h-5 text-green-600" />
+                      <span className="text-gray-700">Customized Solutions</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Award className="w-5 h-5 text-green-600" />
+                      <span className="text-gray-700">23+ Years Experience</span>
+                    </div>
+                  </div>
+                </Card>
+              </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Process Overview */}
-      <ScrollReveal>
-        <section className="section-padding bg-gradient-to-r from-green-50 to-yellow-50">
-          <div className="container-max">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-green-800 mb-4">Our Proven Process</h2>
-              <p className="text-xl text-green-600 max-w-2xl mx-auto">
-                A systematic approach that delivers consistent results for your retail business
+      {/* Key Features */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Key Features & Benefits</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Discover how our comprehensive approach delivers measurable results for your business.
               </p>
             </div>
+          </FadeIn>
 
-            <div className="grid md:grid-cols-4 gap-8">
-              {service.process.map((step, index) => (
-                <FadeIn key={index} delay={index * 0.2}>
-                  <div className="text-center bg-white p-6 rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-shadow">
-                    <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                      <span className="text-2xl font-bold text-green-100">{index + 1}</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-green-800 mb-2">{step}</h3>
-                    <div className="w-12 h-1 bg-green-500 mx-auto mt-4 rounded-full"></div>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {service.keyFeatures.map((feature, index) => (
+              <ScrollReveal key={index} delay={index * 0.1}>
+                <Card className="p-6 h-full hover:shadow-lg transition-shadow">
+                  <CheckCircle className="w-8 h-8 text-green-600 mb-4" />
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900">{feature}</h3>
+                </Card>
+              </ScrollReveal>
+            ))}
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
 
-      {/* Case Study */}
-      {service.caseStudy && (
-        <ScrollReveal>
-          <section className="section-padding bg-gradient-to-r from-green-700 to-green-800">
-            <div className="container-max">
-              <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-3xl font-bold text-green-100 mb-8">Success Story</h2>
-                <div className="bg-green-600/20 backdrop-blur-sm p-8 md:p-12 rounded-3xl border border-green-500/30 shadow-2xl">
-                  <h3 className="text-2xl font-bold mb-6 text-green-100">{service.caseStudy.title}</h3>
-                  <p className="text-green-200 mb-8 text-lg leading-relaxed">{service.caseStudy.challenge}</p>
-                  <div className="grid md:grid-cols-3 gap-8">
-                    {service.caseStudy.results.map((result, index) => (
-                      <div key={index} className="text-center">
-                        <div className="text-4xl font-bold text-yellow-400 mb-2">{result}</div>
-                        <div className="w-12 h-1 bg-yellow-400 mx-auto rounded-full"></div>
-                      </div>
-                    ))}
+      {/* Benefits */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Expected Benefits</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                See the tangible improvements you can expect from our service implementation.
+              </p>
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {service.benefits.map((benefit, index) => (
+              <ScrollReveal key={index} delay={index * 0.1}>
+                <div className="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2 text-gray-900">{benefit}</h3>
                   </div>
                 </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="py-20 bg-gradient-to-br from-green-50 to-white">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Our Process</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                A proven methodology that ensures successful implementation and lasting results.
+              </p>
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map((step, index) => (
+              <ScrollReveal key={index} delay={index * 0.1}>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-white font-bold text-lg">{step.step}</span>
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{step.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Client Success Stories</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                See what our clients say about their experience working with us.
+              </p>
+            </div>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <ScrollReveal key={index} delay={index * 0.1}>
+                <Card className="p-8 h-full">
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-600 mb-6 italic leading-relaxed">"{testimonial.content}"</p>
+                  <div>
+                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                    <div className="text-sm text-gray-500">
+                      {testimonial.position}, {testimonial.company}
+                    </div>
+                  </div>
+                </Card>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-gradient-to-r from-green-600 to-green-800">
+        <div className="container mx-auto px-6">
+          <FadeIn>
+            <div className="text-center text-white">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
+              <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+                Let's discuss how {service.title.toLowerCase()} can transform your retail operations and drive growth.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/contact">
+                  <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 text-green-900 font-semibold px-8">
+                    Start Your Project
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/services">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white text-white hover:bg-white hover:text-green-600 px-8 bg-transparent"
+                  >
+                    View All Services
+                  </Button>
+                </Link>
               </div>
             </div>
-          </section>
-        </ScrollReveal>
-      )}
-
-      {/* Enhanced CTA Section */}
-      <ScrollReveal>
-        <section className="section-padding bg-gradient-to-r from-green-500 to-green-600">
-          <div className="container-max text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-green-100 mb-6">
-              Ready to Transform Your Retail Business?
-            </h2>
-            <p className="text-xl text-green-200 mb-8 max-w-2xl mx-auto">
-              Let's discuss how <strong>{service.title.toLowerCase()}</strong> can drive measurable results and
-              sustainable growth for your business.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <AnimatedButton
-                href="/contact"
-                className="bg-green-100 text-green-800 hover:bg-green-50 px-8 py-4 rounded-lg font-semibold text-lg shadow-lg"
-              >
-                Schedule Free Consultation
-              </AnimatedButton>
-              <AnimatedButton
-                href="/contact"
-                variant="secondary"
-                className="border-2 border-green-100 text-green-100 hover:bg-green-100 hover:text-green-800 px-8 py-4 rounded-lg font-semibold text-lg"
-              >
-                Request Detailed Proposal
-              </AnimatedButton>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
+          </FadeIn>
+        </div>
+      </section>
     </div>
   )
 }

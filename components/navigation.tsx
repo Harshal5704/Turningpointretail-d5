@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Globe, ChevronDown } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import Image from "next/image"
 
 export function Navigation() {
@@ -27,8 +27,6 @@ export function Navigation() {
     { href: "/contact", label: "Contact" },
   ]
 
-
-
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
@@ -37,7 +35,7 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center py-4">
-          {/* New Professional Logo */}
+          {/* Professional Logo */}
           <Link href="/" className="flex items-center group">
             <div className="relative">
               <Image
@@ -53,7 +51,7 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item, index) => (
+            {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -65,8 +63,6 @@ export function Navigation() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-600 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
-
-            
 
             <Link
               href="/contact"
@@ -89,7 +85,7 @@ export function Navigation() {
         {isOpen && (
           <div className="lg:hidden py-6 border-t border-green-200 bg-white/95 backdrop-blur-md rounded-b-2xl mt-4">
             <div className="space-y-4">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -103,24 +99,6 @@ export function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <div className="px-4 py-2">
-                <div className="flex items-center space-x-2 text-gray-600 mb-3">
-                  <Globe className="w-4 h-4" />
-                  <span className="font-medium">Language</span>
-                </div>
-                <div className="grid grid-cols-4 gap-2">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang}
-                      className={`py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-                        lang === "EN" ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-600 hover:bg-green-100"
-                      }`}
-                    >
-                      {lang}
-                    </button>
-                  ))}
-                </div>
-              </div>
               <div className="px-4">
                 <Link
                   href="/contact"
