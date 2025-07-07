@@ -84,26 +84,38 @@ export default function ContactPage() {
 
   return (
     <div className="animate-fade-in" style={{ paddingTop: "var(--header-height)" }}>
-      {/* Hero Section */}
+      {/* Hero Section with Enhanced CTA */}
       <section className="section-padding bg-gradient-to-br from-green-50 to-white">
         <div className="container-max">
           <div className="text-center mb-16">
             <FadeIn>
-              <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold mb-6 inline-block">
+              <span className="px-6 py-3 bg-green-100 text-green-800 rounded-full text-sm font-semibold mb-6 inline-block">
                 Get In Touch
               </span>
             </FadeIn>
             <SlideUp delay={0.2}>
-              <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold text-green-800 mb-6">
                 Let's Transform Your Retail Business
               </h1>
             </SlideUp>
             <FadeIn delay={0.4}>
-              <p className="text-xl text-green-600 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-green-600 max-w-3xl mx-auto leading-relaxed mb-8">
                 Ready to take your retail operations to the next level? Our expert team is here to help you achieve
                 sustainable growth and operational excellence.
               </p>
             </FadeIn>
+            {/* Prominent CTA Above the Fold */}
+            <ScrollReveal delay={0.6}>
+              <div className="bg-gradient-to-r from-green-600 to-green-700 p-8 rounded-3xl shadow-2xl max-w-2xl mx-auto mb-16">
+                <h3 className="text-2xl font-bold text-white mb-4">🚀 Free Consultation Available</h3>
+                <p className="text-green-100 mb-6">
+                  Book a 30-minute strategy session with our retail experts. No commitment required.
+                </p>
+                <AnimatedButton className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                  Book Free Consultation
+                </AnimatedButton>
+              </div>
+            </ScrollReveal>
           </div>
 
           {/* Contact Information Cards */}
@@ -115,14 +127,14 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-xl font-bold text-green-800 mb-4">Visit Our Office</h3>
                 <p className="text-green-600 mb-4">
-                  Office no: 2602, 26th floor
+                  Office No: 2602, 26th Floor
                   <br />
-                  Diamond twin towers
+                  Diamond Twin Towers
                   <br />
                   Koh Pich, Phnom Penh, Cambodia
                 </p>
                 <a
-                  href="https://maps.google.com/?q=Diamond+twin+towers+Koh+Pich+Phnom+Penh+Cambodia"
+                  href="https://maps.google.com/?q=Diamond+Twin+Towers+Koh+Pich+Phnom+Penh+Cambodia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-600 hover:text-green-700 font-semibold inline-flex items-center"
@@ -274,7 +286,7 @@ export default function ContactPage() {
                   <AnimatedButton
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-green-600 text-green-100 hover:bg-green-700 px-8 py-4 rounded-lg font-semibold text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="w-full bg-green-600 text-green-100 hover:bg-green-700 px-8 py-4 rounded-lg font-semibold text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center hover:scale-105 transition-all duration-300"
                   >
                     {isSubmitting ? (
                       <>

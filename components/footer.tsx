@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin, ArrowRight, Send } from "lucide-react"
+import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Send } from "lucide-react"
 
 export function Footer() {
   return (
@@ -128,7 +128,7 @@ export function Footer() {
                 ))}
               </div>
 
-              {/* Contact Info */}
+              {/* Contact Info - Updated Address */}
               <div className="space-y-4 pt-4">
                 <h4 className="text-lg font-semibold text-white border-b border-green-600 pb-2">Contact Info</h4>
 
@@ -136,8 +136,8 @@ export function Footer() {
                   <div className="flex items-start gap-3">
                     <MapPin className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                     <div className="text-gray-300">
-                      <p>Office no: 2602, 26th floor</p>
-                      <p>Diamond twin towers</p>
+                      <p>Office No: 2602, 26th Floor</p>
+                      <p>Diamond Twin Towers</p>
                       <p>Koh Pich, Phnom Penh, Cambodia</p>
                     </div>
                   </div>
@@ -151,105 +151,69 @@ export function Footer() {
                       >
                         info@turningpointretail.com
                       </a>
-                      <p className="text-xs text-gray-500">Response within 24hrs</p>
+                      <p className="text-xs text-gray-500">24hr response time</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <Phone className="h-4 w-4 text-green-500 flex-shrink-0" />
                     <div>
-                      <p className="text-gray-300">+855 86 844 464</p>
-                      <p className="text-xs text-gray-500">Mon-Fri 9AM-6PM ICT</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <Clock className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <div className="text-gray-300">
-                      <p>Mon-Fri: 9:00 AM - 6:00 PM</p>
-                      <p>Sat: 9:00 AM - 1:00 PM</p>
-                      <p className="text-xs text-gray-500">Cambodia Time (ICT)</p>
+                      <a href="tel:+85586844464" className="text-gray-300 hover:text-green-400 transition-colors">
+                        +855 86 844 464
+                      </a>
+                      <p className="text-xs text-gray-500">Mon-Fri 9AM-6PM</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* CTA Section */}
-          <div className="mt-16 pt-8 border-t border-gray-700">
-            <div className="bg-gradient-to-r from-green-600/20 to-blue-600/20 rounded-2xl p-8 text-center backdrop-blur-sm border border-green-500/20">
-              <h3 className="text-2xl font-bold text-white mb-4">Ready to Transform Your Retail Business?</h3>
-              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                Join hundreds of successful retailers who have partnered with us to achieve exceptional growth and
-                operational excellence.
-              </p>
-              <Button
-                asChild
-                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-3 text-lg font-semibold"
-              >
-                <Link href="/contact" className="inline-flex items-center gap-2">
-                  Get Started Today
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-
-          {/* Social Media */}
-          <div className="mt-12 pt-8 border-t border-gray-700">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="text-center md:text-left">
-                <h4 className="text-lg font-semibold text-white mb-2">Follow Us</h4>
-                <p className="text-gray-400 text-sm">Stay connected for updates and insights</p>
-              </div>
-
-              <div className="flex gap-4">
-                <a
-                  href="https://www.instagram.com/turningpoint_retail?igsh=MXUzYzEzZXcwdzlxaQ%3D%3D&utm_source=qr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 p-3 rounded-full transition-all duration-300 transform hover:scale-110"
-                >
-                  <Instagram className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://www.facebook.com/share/1BD1c5XAna/?mibextid=wwXIfr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition-all duration-300 transform hover:scale-110"
-                >
-                  <Facebook className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/company/turningpoint-retail/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-800 hover:bg-blue-700 p-3 rounded-full transition-all duration-300 transform hover:scale-110"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Bottom Footer */}
-        <div className="border-t border-gray-700 bg-gray-900/50 backdrop-blur-sm">
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-800">
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-center md:text-left">
-                <p className="text-gray-400 text-sm">© 2024 Turning Point Retail. All rights reserved.</p>
-                <p className="text-gray-500 text-xs mt-1">Powered by Innovation & Excellence</p>
+                <p className="text-gray-400 text-sm">© 2024 Turning Point Retail Solutions. All rights reserved.</p>
+                <p className="text-gray-500 text-xs mt-1">
+                  Transforming retail businesses across Southeast Asia since 2008
+                </p>
               </div>
 
-              <div className="flex gap-6 text-sm">
-                <Link href="/privacy-policy" className="text-gray-400 hover:text-green-400 transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link href="/terms-and-conditions" className="text-gray-400 hover:text-green-400 transition-colors">
-                  Terms & Conditions
-                </Link>
+              <div className="flex items-center gap-6">
+                {/* Social Links */}
+                <div className="flex items-center gap-3">
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-800 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors duration-200"
+                  >
+                    <Facebook className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-800 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors duration-200"
+                  >
+                    <Instagram className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-800 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors duration-200"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                </div>
+
+                {/* Legal Links */}
+                <div className="flex items-center gap-4 text-xs text-gray-500">
+                  <Link href="/privacy-policy" className="hover:text-green-400 transition-colors">
+                    Privacy Policy
+                  </Link>
+                  <span>•</span>
+                  <Link href="/terms-and-conditions" className="hover:text-green-400 transition-colors">
+                    Terms & Conditions
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
