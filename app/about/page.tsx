@@ -1,225 +1,190 @@
-"use client"
-
+import { Metadata } from "next"
 import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { ScrollReveal } from "@/components/animations/scroll-reveal"
 import { FadeIn } from "@/components/animations/fade-in"
-import { Award, Users, Globe, TrendingUp, Target, Lightbulb, CheckCircle, Star, Building, Calendar } from "lucide-react"
+import { SlideUp } from "@/components/animations/slide-up"
+
+export const metadata: Metadata = {
+  title: "About Walter Dantis | Turning Point Retail Solutions",
+  description: "Learn about Walter Dantis, founder of Turning Point Retail Solutions, with over 15 years of retail expertise and international brand experience.",
+}
 
 export default function AboutPage() {
-  const achievements = [
-    { icon: Building, number: "500+", label: "Stores Transformed" },
-    { icon: Users, number: "50+", label: "Retail Brands Served" },
-    { icon: Globe, number: "15+", label: "Countries Reached" },
-    { icon: Calendar, number: "16+", label: "Years Experience" },
-  ]
-
-  const coreValues = [
-    {
-      icon: Target,
-      title: "Excellence",
-      description: "We strive for excellence in every project, delivering solutions that exceed expectations.",
-    },
-    {
-      icon: Lightbulb,
-      title: "Innovation",
-      description: "We embrace cutting-edge technologies and innovative approaches to solve retail challenges.",
-    },
-    {
-      icon: Users,
-      title: "Partnership",
-      description: "We build long-term partnerships with our clients, becoming an extension of their team.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Growth",
-      description: "We are committed to driving sustainable growth for our clients and their businesses.",
-    },
-  ]
-
   const brandExperience = [
-    "Adidas",
-    "Nike",
-    "Puma",
-    "Under Armour",
-    "New Balance",
-    "Converse",
-    "Vans",
-    "Timberland",
-    "Clarks",
-    "Ecco",
-    "Geox",
-    "Crocs",
-    "Birkenstock",
-    "Dr. Martens",
-    "UGG",
-    "Toms",
-    "Allbirds",
-    "On Running",
-    "Hoka",
-    "Brooks",
-    "Asics",
-    "Mizuno",
-    "Saucony",
-    "New Era",
-    "Champion",
-    "Fila",
-    "Kappa",
-    "Umbro",
-    "Diadora",
-    "Le Coq Sportif",
-    "Lacoste",
-    "Polo Ralph Lauren",
-    "Tommy Hilfiger",
-    "Calvin Klein",
-    "Hugo Boss",
-    "Armani",
-    "Versace",
-    "Dolce & Gabbana",
-    "Prada",
-    "Gucci",
-    "Louis Vuitton",
-    "Hermès",
-    "Chanel",
-    "Dior",
-    "Burberry",
-    "Valentino",
-    "Roberto Cavalli",
-    "Bottega Veneta",
-    "Saint Laurent",
-    "Balenciaga",
-    "Givenchy",
-    "Fendi",
-    "Moschino",
+    "Adidas", "Nike", "Puma", "New Balance", "Converse", "Vans", 
+    "Timberland", "Dr. Martens", "Clarks", "Ecco", "Geox", "Crocs",
+    "Valentino", "Roberto Cavalli", "Calvin Klein", "Tommy Hilfiger", 
+    "Polo Ralph Lauren", "Lacoste", "Hugo Boss", "Armani Exchange"
+  ]
+
+  const achievements = [
+    {
+      title: "15+ Years Experience",
+      description: "Extensive retail industry expertise across multiple markets"
+    },
+    {
+      title: "50+ Brand Partnerships",
+      description: "Successful collaborations with leading international brands"
+    },
+    {
+      title: "Multi-Market Presence",
+      description: "Operations across Southeast Asia and international markets"
+    },
+    {
+      title: "Proven Track Record",
+      description: "Consistent delivery of exceptional retail solutions"
+    }
+  ]
+
+  const expertise = [
+    "Retail Operations Management",
+    "Brand Development & Strategy",
+    "International Market Expansion",
+    "Franchise Development",
+    "Digital Transformation",
+    "Performance Optimization",
+    "Risk Management",
+    "Team Leadership & Training"
   ]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-green-50 via-white to-yellow-50 pt-32 pb-20">
-        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1200')] opacity-5"></div>
-        <div className="container mx-auto px-6 relative">
-          <div className="max-w-4xl mx-auto text-center">
+      <section className="pt-32 pb-16 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <FadeIn>
-              <Badge variant="secondary" className="mb-6 px-4 py-2 text-sm font-semibold">
-                About Turning Point Retail
-              </Badge>
-              <h1 className="text-4xl md:text-6xl font-bold mb-8 text-gray-900">
-                Transforming Retail
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">
-                  Since 2008
-                </span>
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed mb-12">
-                We are Southeast Asia's leading retail consulting firm, dedicated to helping businesses achieve
-                operational excellence and sustainable growth through innovative solutions and strategic expertise.
-              </p>
+              <div className="space-y-6">
+                <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
+                  Founder & CEO
+                </Badge>
+                <h1 className="text-4xl lg:text-5xl font-bold text-green-800 leading-tight">
+                  Meet Walter Dantis
+                </h1>
+                <p className="text-xl text-green-700 leading-relaxed">
+                  Transforming retail businesses with over 15 years of industry expertise, 
+                  international brand experience, and a passion for operational excellence.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="text-2xl font-bold text-green-600">15+</div>
+                    <div className="text-sm text-green-700">Years Experience</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="text-2xl font-bold text-green-600">50+</div>
+                    <div className="text-sm text-green-700">Brand Partners</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="text-2xl font-bold text-green-600">100+</div>
+                    <div className="text-sm text-green-700">Projects Delivered</div>
+                  </div>
+                </div>
+              </div>
             </FadeIn>
+            
+            <ScrollReveal>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-yellow-400 rounded-2xl transform rotate-3"></div>
+                <Image
+                  src="/images/walter-dantis.jpg"
+                  alt="Walter Dantis - Founder & CEO"
+                  width={500}
+                  height={600}
+                  className="relative rounded-2xl shadow-2xl object-cover"
+                />
+              </div>
+            </ScrollReveal>
           </div>
+        </div>
+      </section>
 
-          {/* Achievement Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-16">
+      {/* Professional Journey */}
+      <section className="py-16 px-6 bg-white">
+        <div className="container mx-auto max-w-6xl">
+          <SlideUp>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-bold text-green-800 mb-4">
+                Professional Journey
+              </h2>
+              <p className="text-xl text-green-700 max-w-3xl mx-auto">
+                A proven track record of transforming retail businesses and building 
+                successful partnerships with leading international brands.
+              </p>
+            </div>
+          </SlideUp>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {achievements.map((achievement, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardContent className="p-6">
-                    <achievement.icon className="w-8 h-8 text-green-600 mx-auto mb-4" />
-                    <div className="text-3xl font-bold text-gray-900 mb-2">{achievement.number}</div>
-                    <div className="text-gray-600 font-medium">{achievement.label}</div>
+                <Card className="h-full hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6 text-center">
+                    <h3 className="text-lg font-semibold text-green-800 mb-2">
+                      {achievement.title}
+                    </h3>
+                    <p className="text-green-700 text-sm">
+                      {achievement.description}
+                    </p>
                   </CardContent>
                 </Card>
               </ScrollReveal>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Our Story Section */}
-      <section className="section-padding bg-white">
-        <div className="container-max">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <ScrollReveal>
-              <div className="relative">
-                <Image
-                  src="/images/walter-dantis.jpg"
-                  alt="Walter Dantis - Founder & CEO"
-                  width={600}
-                  height={700}
-                  className="rounded-2xl shadow-2xl"
-                />
-                <div className="absolute -bottom-6 -right-6 bg-gradient-to-r from-green-600 to-yellow-500 text-white p-6 rounded-2xl shadow-xl">
-                  <div className="text-2xl font-bold">16+ Years</div>
-                  <div className="text-sm opacity-90">Industry Experience</div>
-                </div>
-              </div>
-            </ScrollReveal>
+          <ScrollReveal>
+            <div className="prose prose-lg max-w-4xl mx-auto text-green-700">
+              <p className="text-xl leading-relaxed mb-6">
+                With over 15 years of dedicated experience in the retail industry, Walter Dantis 
+                has established himself as a leading expert in retail operations, brand development, 
+                and international market expansion. His journey began with a passion for creating 
+                exceptional customer experiences and has evolved into a comprehensive understanding 
+                of every aspect of retail business management.
+              </p>
+              
+              <p className="text-lg leading-relaxed mb-6">
+                Throughout his career, Walter has successfully partnered with over 50 international 
+                brands, helping them navigate complex market challenges and achieve sustainable growth. 
+                His expertise spans across multiple retail sectors, from fashion and footwear to 
+                lifestyle and luxury brands, providing him with unique insights into diverse 
+                consumer behaviors and market dynamics.
+              </p>
 
-            <ScrollReveal delay={0.2}>
-              <div>
-                <Badge variant="secondary" className="mb-4 px-4 py-2">
-                  Our Founder
-                </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Meet Walter Dantis</h2>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  With over 16 years of extensive experience in the retail industry, Walter Dantis founded Turning Point
-                  Retail with a vision to transform how businesses approach retail operations and customer experience.
-                </p>
-                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  His expertise spans across multiple retail sectors, having worked with some of the world's most
-                  prestigious brands and helping them achieve remarkable growth and operational excellence across
-                  Southeast Asian markets.
-                </p>
-
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">16+ years of retail industry expertise</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">Extensive experience with luxury and premium brands</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">Deep understanding of Southeast Asian markets</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">Proven track record of business transformation</span>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Brand Experience Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-max">
-          <FadeIn>
-            <div className="text-center mb-16">
-              <Badge variant="secondary" className="mb-4 px-4 py-2">
-                Brand Experience
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Trusted by Premium Brands</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Our extensive experience spans across luxury fashion, sportswear, and lifestyle brands, helping them
-                achieve excellence in the competitive retail landscape.
+              <p className="text-lg leading-relaxed">
+                Walter's approach combines strategic thinking with practical implementation, ensuring 
+                that every solution is not only theoretically sound but also practically viable. 
+                His commitment to excellence and innovation has made Turning Point Retail Solutions 
+                a trusted partner for businesses looking to transform their retail operations and 
+                achieve lasting success.
               </p>
             </div>
-          </FadeIn>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Brand Experience */}
+      <section className="py-16 px-6 bg-gradient-to-br from-green-50 to-yellow-50">
+        <div className="container mx-auto max-w-6xl">
+          <SlideUp>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-bold text-green-800 mb-4">
+                Brand Experience
+              </h2>
+              <p className="text-xl text-green-700 max-w-3xl mx-auto">
+                Trusted partnerships with leading international brands across multiple industries.
+              </p>
+            </div>
+          </SlideUp>
 
           <ScrollReveal>
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {brandExperience.map((brand, index) => (
                   <div
                     key={index}
-                    className="text-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                    className="bg-gradient-to-r from-green-50 to-yellow-50 p-4 rounded-lg text-center hover:shadow-md transition-shadow"
                   >
-                    <div className="text-gray-700 font-medium text-sm">{brand}</div>
+                    <span className="font-semibold text-green-800">{brand}</span>
                   </div>
                 ))}
               </div>
@@ -228,32 +193,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Core Values Section */}
-      <section className="section-padding bg-white">
-        <div className="container-max">
-          <FadeIn>
-            <div className="text-center mb-16">
-              <Badge variant="secondary" className="mb-4 px-4 py-2">
-                Our Values
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">What Drives Us Forward</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Our core values guide every decision we make and every solution we deliver, ensuring we consistently
-                exceed our clients' expectations.
+      {/* Core Expertise */}
+      <section className="py-16 px-6 bg-white">
+        <div className="container mx-auto max-w-6xl">
+          <SlideUp>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-bold text-green-800 mb-4">
+                Core Expertise
+              </h2>
+              <p className="text-xl text-green-700 max-w-3xl mx-auto">
+                Comprehensive skills and knowledge areas that drive exceptional retail results.
               </p>
             </div>
-          </FadeIn>
+          </SlideUp>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {coreValues.map((value, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {expertise.map((skill, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                  <CardContent className="p-8 text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                      <value.icon className="w-8 h-8 text-white" />
+                <Card className="h-full hover:shadow-lg transition-all hover:-translate-y-1">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">
+                        {skill.split(' ').map(word => word[0]).join('').slice(0, 2)}
+                      </span>
                     </div>
-                    <h3 className="text-xl font-bold mb-4 text-gray-900">{value.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                    <h3 className="font-semibold text-green-800 text-sm">
+                      {skill}
+                    </h3>
                   </CardContent>
                 </Card>
               </ScrollReveal>
@@ -262,28 +228,28 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & Vision Section */}
-      <section className="section-padding bg-gradient-to-br from-green-600 to-green-700 text-white">
-        <div className="container-max">
-          <div className="grid lg:grid-cols-2 gap-16">
+      {/* Vision & Mission */}
+      <section className="py-16 px-6 bg-gradient-to-br from-green-800 to-green-900 text-white">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12">
             <ScrollReveal>
-              <div className="text-center lg:text-left">
-                <Award className="w-12 h-12 text-yellow-400 mb-6 mx-auto lg:mx-0" />
-                <h3 className="text-2xl font-bold mb-6">Our Mission</h3>
-                <p className="text-lg leading-relaxed opacity-90">
-                  To empower retail businesses across Southeast Asia with innovative solutions, strategic expertise, and
-                  operational excellence that drive sustainable growth and create exceptional customer experiences.
+              <div>
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6">Our Vision</h2>
+                <p className="text-xl leading-relaxed text-green-100">
+                  To be the leading catalyst for retail transformation in Southeast Asia, 
+                  empowering businesses to achieve sustainable growth through innovative 
+                  solutions and strategic excellence.
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <div className="text-center lg:text-left">
-                <Star className="w-12 h-12 text-yellow-400 mb-6 mx-auto lg:mx-0" />
-                <h3 className="text-2xl font-bold mb-6">Our Vision</h3>
-                <p className="text-lg leading-relaxed opacity-90">
-                  To be the leading retail consulting firm in Southeast Asia, recognized for transforming businesses
-                  through innovation, excellence, and unwavering commitment to our clients' success.
+              <div>
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6">Our Mission</h2>
+                <p className="text-xl leading-relaxed text-green-100">
+                  To provide comprehensive retail solutions that transform businesses, 
+                  enhance customer experiences, and drive measurable results through 
+                  expertise, innovation, and unwavering commitment to excellence.
                 </p>
               </div>
             </ScrollReveal>
@@ -291,68 +257,32 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="section-padding bg-white">
-        <div className="container-max">
-          <FadeIn>
-            <div className="text-center mb-16">
-              <Badge variant="secondary" className="mb-4 px-4 py-2">
-                Why Choose Us
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Your Success is Our Priority</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                We combine deep industry expertise with innovative solutions to deliver measurable results that
-                transform your retail business.
-              </p>
+      {/* Call to Action */}
+      <section className="py-16 px-6 bg-white">
+        <div className="container mx-auto max-w-4xl text-center">
+          <SlideUp>
+            <h2 className="text-3xl lg:text-4xl font-bold text-green-800 mb-6">
+              Ready to Transform Your Retail Business?
+            </h2>
+            <p className="text-xl text-green-700 mb-8">
+              Let's discuss how our expertise can help you achieve your retail goals 
+              and drive sustainable growth.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="/contact"
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+              >
+                Schedule a Consultation
+              </a>
+              <a
+                href="/services"
+                className="bg-white text-green-600 border-2 border-green-600 hover:bg-green-50 px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+              >
+                Explore Our Services
+              </a>
             </div>
-          </FadeIn>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <ScrollReveal>
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                    <TrendingUp className="w-6 h-6 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">Proven Results</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Our track record speaks for itself with 500+ successful store transformations and measurable
-                    improvements in client performance metrics.
-                  </p>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.1}>
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                    <Globe className="w-6 h-6 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">Regional Expertise</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Deep understanding of Southeast Asian markets, consumer behavior, and regulatory environments across
-                    15+ countries.
-                  </p>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.2}>
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                    <Users className="w-6 h-6 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">Dedicated Partnership</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    We become an extension of your team, providing ongoing support and strategic guidance throughout
-                    your transformation journey.
-                  </p>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-          </div>
+          </SlideUp>
         </div>
       </section>
     </div>

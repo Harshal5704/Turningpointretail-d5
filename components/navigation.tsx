@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { Menu, X } from 'lucide-react'
 import Image from "next/image"
 
 export function Navigation() {
@@ -35,14 +35,14 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center py-4">
-          {/* Enhanced Logo - Larger for better brand visibility */}
+          {/* Smaller Logo for both desktop and mobile */}
           <Link href="/" className="flex items-center group">
             <div className="relative">
               <Image
                 src="/images/turning-point-new-logo.png"
                 alt="Turning Point Retail Solutions"
-                width={320}
-                height={90}
+                width={260}
+                height={70}
                 className="object-contain group-hover:scale-105 transition-transform duration-300"
                 priority
               />

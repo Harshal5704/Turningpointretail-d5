@@ -3,562 +3,482 @@ export interface Service {
   title: string
   slug: string
   description: string
-  longDescription: string
   image: string
   features: string[]
   benefits: string[]
   process: string[]
-  caseStudy?: {
-    title: string
-    challenge: string
-    solution: string
-    results: string[]
-  }
+  cta: string
 }
 
 export const services: Service[] = [
   {
-    id: "store-operations",
+    id: "1",
+    title: "Standard Operating Procedures",
+    slug: "standard-operating-procedures",
+    description: "Comprehensive SOPs that streamline operations, ensure consistency, and drive efficiency across all retail touchpoints.",
+    image: "/images/services/standard-operating-procedures.jpg",
+    features: [
+      "Custom SOP Development",
+      "Process Documentation",
+      "Staff Training Protocols",
+      "Quality Assurance Systems",
+      "Performance Monitoring"
+    ],
+    benefits: [
+      "Improved operational efficiency",
+      "Consistent customer experience",
+      "Reduced training time",
+      "Better quality control",
+      "Scalable business processes"
+    ],
+    process: [
+      "Current Process Analysis",
+      "Gap Identification",
+      "SOP Design & Documentation",
+      "Staff Training & Implementation",
+      "Monitoring & Optimization"
+    ],
+    cta: "Streamline Your Operations"
+  },
+  {
+    id: "2",
     title: "Store Operations",
     slug: "store-operations",
-    description: "Optimize your retail operations for maximum efficiency and customer satisfaction.",
-    longDescription:
-      "Our comprehensive store operations consulting helps retailers streamline their daily operations, improve customer experience, and maximize profitability through proven methodologies and best practices.",
+    description: "Optimize your store operations with our comprehensive solutions designed to enhance efficiency and customer satisfaction.",
     image: "/images/services/store-operations.jpg",
     features: [
       "Store Display Layout Plan",
       "Visual Merchandising",
-      "Staff Scheduling Optimization",
-      "Customer Service Excellence",
-      "Loss Prevention Strategies",
-      "Store Performance Analytics",
+      "Staff Scheduling Systems",
+      "Customer Flow Optimization",
+      "Loss Prevention Strategies"
     ],
     benefits: [
-      "Increased operational efficiency",
+      "Increased sales conversion",
       "Enhanced customer experience",
+      "Optimized staff productivity",
       "Reduced operational costs",
-      "Improved staff productivity",
-      "Better inventory turnover",
-      "Higher customer satisfaction scores",
+      "Improved store aesthetics"
     ],
     process: [
-      "Current operations assessment",
-      "Gap analysis and recommendations",
-      "Implementation planning",
-      "Staff training and development",
-      "Performance monitoring",
-      "Continuous improvement",
+      "Store Assessment",
+      "Layout Planning",
+      "Implementation Strategy",
+      "Staff Training",
+      "Performance Review"
     ],
-    caseStudy: {
-      title: "Fashion Retailer Transformation",
-      challenge: "A mid-size fashion retailer was struggling with inconsistent store layouts and declining sales.",
-      solution: "We implemented standardized visual merchandising guidelines and optimized store layouts.",
-      results: [
-        "25% increase in sales per square foot",
-        "40% improvement in customer dwell time",
-        "30% reduction in inventory shrinkage",
-      ],
-    },
+    cta: "Optimize Your Store"
   },
   {
-    id: "digital-transformation",
-    title: "Digital Transformation",
-    slug: "digital-transformation",
-    description: "Transform your retail business with cutting-edge digital solutions and technologies.",
-    longDescription:
-      "Navigate the digital landscape with confidence. Our digital transformation services help traditional retailers embrace technology to enhance customer experience, streamline operations, and drive growth in the digital age.",
-    image: "/images/services/digital-transformation.jpg",
+    id: "3",
+    title: "Risk Management",
+    slug: "risk-management",
+    description: "Comprehensive risk assessment and mitigation strategies to protect your retail business from operational, financial, and market risks.",
+    image: "/images/services/risk-management.jpg",
     features: [
-      "E-commerce Platform Development",
-      "Mobile App Solutions",
-      "POS System Integration",
-      "Customer Data Analytics",
-      "Digital Marketing Strategy",
-      "Omnichannel Experience Design",
+      "Risk Assessment & Analysis",
+      "Compliance Management",
+      "Insurance Optimization",
+      "Crisis Management Planning",
+      "Financial Risk Mitigation"
     ],
     benefits: [
-      "Expanded market reach",
-      "Improved customer insights",
-      "Streamlined operations",
-      "Enhanced customer engagement",
-      "Increased revenue streams",
-      "Future-ready business model",
+      "Reduced business vulnerabilities",
+      "Regulatory compliance",
+      "Lower insurance costs",
+      "Prepared crisis response",
+      "Protected profit margins"
     ],
     process: [
-      "Digital readiness assessment",
-      "Technology roadmap development",
-      "Platform selection and integration",
-      "Staff training and change management",
-      "Launch and optimization",
-      "Performance monitoring and scaling",
+      "Risk Identification",
+      "Impact Assessment",
+      "Mitigation Strategy Development",
+      "Implementation Planning",
+      "Ongoing Monitoring"
     ],
+    cta: "Secure Your Business"
   },
   {
-    id: "franchise-development",
-    title: "Franchise Development",
-    slug: "franchise-development",
-    description: "Scale your retail concept through strategic franchise development and management.",
-    longDescription:
-      "Expand your successful retail concept through franchising. We provide end-to-end franchise development services, from initial concept validation to ongoing franchisee support and brand management.",
-    image: "/images/services/franchise-development.jpg",
-    features: [
-      "Franchise Business Model Development",
-      "Legal Documentation & Compliance",
-      "Brand Negotiations",
-      "Franchisee Recruitment & Selection",
-      "Operations Manual Creation",
-      "Ongoing Support Systems",
-    ],
-    benefits: [
-      "Rapid market expansion",
-      "Reduced capital requirements",
-      "Shared operational risks",
-      "Increased brand presence",
-      "Recurring revenue streams",
-      "Local market expertise",
-    ],
-    process: [
-      "Franchise feasibility analysis",
-      "Business model optimization",
-      "Legal structure development",
-      "Marketing and recruitment",
-      "Franchisee onboarding",
-      "Ongoing support and monitoring",
-    ],
-  },
-  {
-    id: "performance-optimization",
+    id: "4",
     title: "Performance Optimization",
     slug: "performance-optimization",
-    description: "Maximize your retail performance through data-driven insights and strategic improvements.",
-    longDescription:
-      "Unlock your retail potential with our comprehensive performance optimization services. We analyze every aspect of your business to identify opportunities for improvement and implement strategies that drive measurable results.",
+    description: "Data-driven performance optimization strategies that maximize efficiency, profitability, and growth potential.",
     image: "/images/services/performance-optimization.jpg",
     features: [
       "KPI Development & Tracking",
-      "Sales Performance Analysis",
-      "Operational Efficiency Audits",
-      "Customer Journey Optimization",
+      "Performance Analytics",
+      "Efficiency Improvement",
       "Profit Margin Enhancement",
-      "Competitive Benchmarking",
+      "Growth Strategy Implementation"
     ],
     benefits: [
       "Increased profitability",
       "Better decision making",
-      "Improved operational efficiency",
-      "Enhanced customer satisfaction",
+      "Improved efficiency",
       "Competitive advantage",
-      "Sustainable growth",
+      "Sustainable growth"
     ],
     process: [
-      "Performance baseline assessment",
-      "Data collection and analysis",
-      "Opportunity identification",
-      "Strategy development",
-      "Implementation support",
-      "Results monitoring and optimization",
+      "Performance Baseline Assessment",
+      "KPI Definition",
+      "Optimization Strategy",
+      "Implementation & Training",
+      "Continuous Improvement"
     ],
+    cta: "Maximize Performance"
   },
   {
-    id: "risk-management",
-    title: "Risk Management",
-    slug: "risk-management",
-    description: "Protect your retail business with comprehensive risk assessment and mitigation strategies.",
-    longDescription:
-      "Safeguard your retail operations against various risks with our comprehensive risk management solutions. We help identify, assess, and mitigate risks to ensure business continuity and protect your investments.",
-    image: "/images/services/risk-management.jpg",
-    features: [
-      "Risk Assessment & Analysis",
-      "Business Continuity Planning",
-      "Insurance Strategy Development",
-      "Compliance Management",
-      "Crisis Management Protocols",
-      "Security System Implementation",
-    ],
-    benefits: [
-      "Reduced business risks",
-      "Improved compliance",
-      "Enhanced security",
-      "Business continuity assurance",
-      "Cost-effective risk mitigation",
-      "Peace of mind",
-    ],
-    process: [
-      "Risk identification and assessment",
-      "Risk prioritization and analysis",
-      "Mitigation strategy development",
-      "Implementation planning",
-      "Monitoring and review",
-      "Continuous improvement",
-    ],
-  },
-  {
-    id: "skill-academy",
+    id: "5",
     title: "Skill Academy",
     slug: "skill-academy",
-    description: "Empower your team with world-class retail training and development programs.",
-    longDescription:
-      "Invest in your most valuable asset - your people. Our Skill Academy offers comprehensive training programs designed to enhance retail skills, improve performance, and drive career development across all levels of your organization.",
+    description: "Comprehensive training programs designed to elevate your team's skills and drive exceptional retail performance.",
     image: "/images/services/skill-academy.jpg",
     features: [
-      "Customer Service Excellence Training",
-      "Sales Techniques & Upselling",
-      "Visual Merchandising Workshops",
-      "Leadership Development Programs",
+      "Leadership Development",
+      "Sales Training Programs",
+      "Customer Service Excellence",
       "Product Knowledge Training",
-      "Digital Skills Development",
+      "Digital Skills Development"
     ],
     benefits: [
-      "Improved staff performance",
-      "Higher customer satisfaction",
-      "Increased sales conversion",
+      "Enhanced team performance",
+      "Improved customer satisfaction",
+      "Higher sales conversion",
       "Better employee retention",
-      "Enhanced brand reputation",
-      "Competitive advantage",
+      "Stronger leadership pipeline"
     ],
     process: [
-      "Training needs assessment",
-      "Customized curriculum development",
-      "Interactive training delivery",
-      "Skills assessment and certification",
-      "Performance tracking",
-      "Ongoing development support",
+      "Skills Assessment",
+      "Training Program Design",
+      "Interactive Learning Sessions",
+      "Practical Application",
+      "Performance Evaluation"
     ],
+    cta: "Develop Your Team"
   },
   {
-    id: "branding-identity",
+    id: "6",
+    title: "Digital Transformation",
+    slug: "digital-transformation",
+    description: "Transform your retail business with cutting-edge digital solutions that enhance customer experience and operational efficiency.",
+    image: "/images/services/digital-transformation.jpg",
+    features: [
+      "Digital Strategy Development",
+      "Technology Integration",
+      "E-commerce Solutions",
+      "Mobile App Development",
+      "Digital Marketing Automation"
+    ],
+    benefits: [
+      "Enhanced customer reach",
+      "Improved operational efficiency",
+      "Better data insights",
+      "Competitive advantage",
+      "Future-ready business model"
+    ],
+    process: [
+      "Digital Readiness Assessment",
+      "Strategy Development",
+      "Technology Selection",
+      "Implementation & Integration",
+      "Training & Support"
+    ],
+    cta: "Go Digital Today"
+  },
+  {
+    id: "7",
     title: "Branding & Identity",
     slug: "branding-identity",
-    description: "Create a compelling brand identity that resonates with your target audience.",
-    longDescription:
-      "Build a strong, memorable brand that stands out in the competitive retail landscape. Our branding and identity services help you develop a cohesive brand strategy that connects with customers and drives loyalty.",
+    description: "Create a compelling brand identity that resonates with your target audience and drives customer loyalty.",
     image: "/images/services/branding-identity.jpg",
     features: [
       "Brand Strategy Development",
       "Visual Identity Design",
       "Brand Guidelines Creation",
-      "Store Design & Atmosphere",
       "Marketing Collateral Design",
-      "Brand Experience Optimization",
+      "Brand Experience Optimization"
     ],
     benefits: [
-      "Strong brand recognition",
+      "Stronger brand recognition",
       "Increased customer loyalty",
-      "Premium pricing opportunities",
-      "Consistent brand experience",
+      "Premium pricing capability",
       "Competitive differentiation",
-      "Enhanced market position",
+      "Consistent brand experience"
     ],
     process: [
-      "Brand discovery and research",
-      "Strategy development",
-      "Creative concept development",
-      "Design and implementation",
-      "Brand launch and rollout",
-      "Brand monitoring and evolution",
+      "Brand Discovery Workshop",
+      "Strategy Development",
+      "Creative Design Process",
+      "Brand Implementation",
+      "Brand Management Support"
     ],
+    cta: "Build Your Brand"
   },
   {
-    id: "retail-business-intelligence",
+    id: "8",
     title: "Retail Business Intelligence",
     slug: "retail-business-intelligence",
-    description: "Harness the power of data to make informed business decisions and drive growth.",
-    longDescription:
-      "Transform your data into actionable insights with our retail business intelligence solutions. We help you collect, analyze, and interpret data to make informed decisions that drive growth and improve performance.",
+    description: "Harness the power of data analytics to make informed decisions and drive strategic growth in your retail business.",
     image: "/images/services/retail-business-intelligence.jpg",
     features: [
       "Data Analytics & Reporting",
-      "Customer Behavior Analysis",
-      "Sales Forecasting",
+      "Sales Performance Analysis",
+      "Customer Behavior Insights",
       "Inventory Analytics",
-      "Market Trend Analysis",
-      "Performance Dashboards",
+      "Predictive Modeling"
     ],
     benefits: [
       "Data-driven decision making",
       "Improved forecasting accuracy",
-      "Better inventory management",
-      "Enhanced customer insights",
-      "Increased operational efficiency",
-      "Competitive advantage",
+      "Enhanced customer understanding",
+      "Optimized inventory management",
+      "Increased profitability"
     ],
     process: [
-      "Data audit and assessment",
-      "Analytics platform setup",
-      "Dashboard development",
-      "Training and implementation",
-      "Ongoing analysis and insights",
-      "Continuous optimization",
+      "Data Assessment",
+      "Analytics Platform Setup",
+      "Dashboard Development",
+      "Training & Implementation",
+      "Ongoing Support & Optimization"
     ],
+    cta: "Unlock Your Data"
   },
   {
-    id: "customer-experience",
+    id: "9",
+    title: "Franchise Development",
+    slug: "franchise-development",
+    description: "Comprehensive franchise development solutions to scale your retail concept and build a successful franchise network.",
+    image: "/images/services/franchise-development.jpg",
+    features: [
+      "Franchise Model Development",
+      "Legal Documentation",
+      "Brand Negotiations",
+      "Franchisee Recruitment",
+      "Ongoing Support Systems"
+    ],
+    benefits: [
+      "Rapid business expansion",
+      "Reduced capital requirements",
+      "Diversified revenue streams",
+      "Brand growth acceleration",
+      "Market penetration"
+    ],
+    process: [
+      "Franchise Feasibility Study",
+      "Business Model Development",
+      "Legal Framework Creation",
+      "Marketing & Recruitment",
+      "Launch & Support"
+    ],
+    cta: "Expand Your Franchise"
+  },
+  {
+    id: "10",
     title: "Customer Experience",
     slug: "customer-experience",
-    description: "Design exceptional customer experiences that drive loyalty and increase lifetime value.",
-    longDescription:
-      "Create memorable customer experiences that differentiate your brand and drive loyalty. Our customer experience services help you understand your customers' needs and design touchpoints that exceed expectations.",
+    description: "Design and implement customer experience strategies that create memorable interactions and drive loyalty.",
     image: "/images/services/customer-experience.jpg",
     features: [
       "Customer Journey Mapping",
-      "Touchpoint Optimization",
-      "Service Design",
-      "Customer Feedback Systems",
-      "Loyalty Program Development",
-      "Personalization Strategies",
+      "Experience Design",
+      "Service Excellence Training",
+      "Feedback Systems",
+      "Loyalty Program Development"
     ],
     benefits: [
       "Increased customer satisfaction",
       "Higher customer retention",
-      "Improved brand loyalty",
-      "Increased customer lifetime value",
-      "Positive word-of-mouth marketing",
-      "Competitive differentiation",
+      "Improved word-of-mouth marketing",
+      "Enhanced brand reputation",
+      "Increased lifetime value"
     ],
     process: [
-      "Customer research and analysis",
-      "Journey mapping and gap analysis",
-      "Experience design and optimization",
-      "Implementation and training",
-      "Performance monitoring",
-      "Continuous improvement",
+      "Customer Research",
+      "Journey Analysis",
+      "Experience Strategy",
+      "Implementation & Training",
+      "Continuous Improvement"
     ],
+    cta: "Enhance Customer Experience"
   },
   {
-    id: "market-entry-strategy",
+    id: "11",
     title: "Market Entry Strategy",
     slug: "market-entry-strategy",
-    description: "Successfully enter new markets with strategic planning and local market expertise.",
-    longDescription:
-      "Expand into new markets with confidence. Our market entry strategy services provide comprehensive analysis, strategic planning, and implementation support to ensure successful market penetration and sustainable growth.",
+    description: "Strategic market entry planning and execution to successfully launch your retail business in new markets.",
     image: "/images/services/market-entry-strategy.jpg",
     features: [
       "Market Research & Analysis",
-      "Competitive Landscape Assessment",
+      "Competitive Intelligence",
       "Entry Strategy Development",
-      "Local Partnership Facilitation",
-      "Regulatory Compliance Guidance",
-      "Launch Planning & Execution",
+      "Risk Assessment",
+      "Launch Planning"
     ],
     benefits: [
       "Reduced market entry risks",
       "Faster market penetration",
-      "Local market insights",
-      "Strategic partnerships",
-      "Regulatory compliance",
-      "Sustainable growth foundation",
+      "Competitive positioning",
+      "Optimized resource allocation",
+      "Higher success probability"
     ],
     process: [
-      "Market opportunity assessment",
-      "Entry strategy development",
-      "Partner identification and evaluation",
-      "Implementation planning",
-      "Launch execution",
-      "Performance monitoring and optimization",
+      "Market Analysis",
+      "Strategy Development",
+      "Risk Assessment",
+      "Implementation Planning",
+      "Launch Execution"
     ],
+    cta: "Enter New Markets"
   },
   {
-    id: "international-expansion",
+    id: "12",
     title: "International Expansion",
     slug: "international-expansion",
-    description: "Scale your retail business globally with expert guidance and strategic support.",
-    longDescription:
-      "Take your retail business global with our international expansion services. We provide end-to-end support for retailers looking to expand internationally, from market selection to operational setup and ongoing management.",
+    description: "Navigate the complexities of international retail expansion with our comprehensive global market entry solutions.",
     image: "/images/services/international-expansion.jpg",
     features: [
-      "Global Market Assessment",
+      "Global Market Analysis",
       "Cultural Adaptation Strategies",
-      "International Business Setup",
-      "Cross-border Operations",
-      "Global Supply Chain Management",
-      "Multi-market Brand Management",
+      "Regulatory Compliance",
+      "Local Partnership Development",
+      "Cross-border Operations"
     ],
     benefits: [
       "Global market access",
       "Diversified revenue streams",
       "Reduced market dependency",
-      "Enhanced brand recognition",
-      "Economies of scale",
-      "Competitive advantage",
+      "Enhanced brand presence",
+      "Economies of scale"
     ],
     process: [
-      "Global opportunity assessment",
-      "Market prioritization and selection",
-      "Entry strategy development",
-      "Operational setup and launch",
-      "Performance monitoring",
-      "Scaling and optimization",
+      "Global Market Assessment",
+      "Entry Strategy Development",
+      "Local Adaptation Planning",
+      "Partnership & Compliance",
+      "Launch & Scale"
     ],
+    cta: "Go Global"
   },
   {
-    id: "visual-merchandising",
+    id: "13",
     title: "Visual Merchandising",
     slug: "visual-merchandising",
-    description: "Create compelling visual displays that attract customers and drive sales.",
-    longDescription:
-      "Transform your retail space into a compelling shopping destination with our visual merchandising expertise. We help you create displays that not only attract customers but also guide them through an engaging shopping journey that drives sales.",
+    description: "Create compelling visual displays that attract customers, enhance brand image, and drive sales performance.",
     image: "/images/services/visual-merchandising.jpg",
     features: [
-      "Store Layout Optimization",
-      "Window Display Design",
-      "Product Presentation Strategies",
-      "Seasonal Campaign Development",
-      "Brand Storytelling Through Visuals",
-      "Staff Training on VM Principles",
+      "Store Layout Design",
+      "Product Display Strategies",
+      "Window Display Creation",
+      "Seasonal Merchandising",
+      "Brand Consistency"
     ],
     benefits: [
       "Increased foot traffic",
       "Higher conversion rates",
-      "Improved average transaction value",
       "Enhanced brand perception",
-      "Better product visibility",
-      "Memorable shopping experience",
+      "Improved product visibility",
+      "Better customer engagement"
     ],
     process: [
-      "Store assessment and analysis",
-      "Visual merchandising strategy development",
-      "Design concept creation",
-      "Implementation and installation",
-      "Staff training and guidelines",
-      "Performance monitoring and optimization",
+      "Store Assessment",
+      "Design Concept Development",
+      "Implementation Planning",
+      "Installation & Setup",
+      "Performance Monitoring"
     ],
+    cta: "Transform Your Displays"
   },
   {
-    id: "ai-retail-analytics",
+    id: "14",
     title: "AI Retail Analytics",
     slug: "ai-retail-analytics",
-    description: "Leverage artificial intelligence to gain deeper insights and automate decision-making.",
-    longDescription:
-      "Harness the power of artificial intelligence to transform your retail operations. Our AI retail analytics solutions provide advanced insights, predictive capabilities, and automated decision-making tools that give you a competitive edge.",
+    description: "Leverage artificial intelligence and machine learning to gain deeper insights and optimize your retail operations.",
     image: "/images/services/ai-retail-analytics.jpg",
     features: [
-      "Predictive Analytics",
-      "Customer Behavior AI",
-      "Inventory Optimization AI",
-      "Price Optimization Algorithms",
+      "AI-Powered Analytics",
+      "Predictive Modeling",
+      "Customer Behavior Analysis",
       "Demand Forecasting",
-      "Automated Reporting Systems",
+      "Automated Insights"
     ],
     benefits: [
-      "Improved forecasting accuracy",
-      "Automated decision making",
-      "Enhanced customer insights",
-      "Optimized inventory levels",
-      "Dynamic pricing capabilities",
-      "Reduced operational costs",
+      "Advanced predictive capabilities",
+      "Automated decision support",
+      "Real-time insights",
+      "Improved accuracy",
+      "Competitive advantage"
     ],
     process: [
-      "Data infrastructure assessment",
-      "AI solution design and development",
-      "Model training and validation",
-      "System integration and deployment",
-      "Performance monitoring",
-      "Continuous model improvement",
+      "Data Infrastructure Setup",
+      "AI Model Development",
+      "Integration & Testing",
+      "Training & Deployment",
+      "Continuous Optimization"
     ],
+    cta: "Embrace AI Analytics"
   },
   {
-    id: "retail-software-solutions",
+    id: "15",
     title: "Retail Software Solutions",
     slug: "retail-software-solutions",
-    description: "Custom software solutions designed specifically for retail operations and management.",
-    longDescription:
-      "Streamline your retail operations with custom software solutions tailored to your specific needs. From point-of-sale systems to inventory management and customer relationship management, we develop solutions that integrate seamlessly with your business processes.",
+    description: "Custom software solutions designed to streamline retail operations and enhance business efficiency.",
     image: "/images/services/retail-software-solutions.jpg",
     features: [
-      "Custom POS Systems",
+      "POS System Integration",
       "Inventory Management Software",
-      "Customer Relationship Management",
-      "E-commerce Platform Development",
-      "Mobile App Development",
-      "System Integration Services",
+      "CRM Solutions",
+      "Analytics Dashboards",
+      "Mobile Applications"
     ],
     benefits: [
       "Streamlined operations",
+      "Real-time data access",
       "Improved efficiency",
-      "Better data management",
-      "Enhanced customer service",
-      "Scalable solutions",
-      "Competitive advantage",
+      "Better customer management",
+      "Scalable solutions"
     ],
     process: [
-      "Requirements analysis",
-      "Solution design and architecture",
-      "Development and testing",
-      "Implementation and training",
-      "Support and maintenance",
-      "Continuous improvement",
+      "Requirements Analysis",
+      "Solution Design",
+      "Development & Testing",
+      "Implementation & Training",
+      "Support & Maintenance"
     ],
+    cta: "Digitize Your Operations"
   },
   {
-    id: "ecommerce-integration",
+    id: "16",
     title: "E-commerce Integration",
     slug: "ecommerce-integration",
-    description: "Seamlessly integrate online and offline retail channels for a unified customer experience.",
-    longDescription:
-      "Bridge the gap between your physical and digital retail presence with our e-commerce integration services. We help you create a seamless omnichannel experience that meets customers wherever they are in their shopping journey.",
+    description: "Seamlessly integrate online and offline retail channels to create a unified omnichannel experience.",
     image: "/images/services/ecommerce-integration.jpg",
     features: [
-      "Omnichannel Strategy Development",
+      "Omnichannel Strategy",
       "Platform Integration",
       "Inventory Synchronization",
-      "Order Management Systems",
-      "Customer Data Unification",
-      "Cross-channel Analytics",
+      "Order Management",
+      "Customer Data Unification"
     ],
     benefits: [
       "Unified customer experience",
-      "Increased sales opportunities",
-      "Better inventory management",
-      "Improved customer insights",
-      "Enhanced operational efficiency",
-      "Competitive advantage",
+      "Increased sales channels",
+      "Better inventory control",
+      "Enhanced customer insights",
+      "Competitive advantage"
     ],
     process: [
-      "Current system assessment",
-      "Integration strategy development",
-      "Platform selection and setup",
-      "Data migration and synchronization",
-      "Testing and optimization",
-      "Launch and ongoing support",
+      "Channel Assessment",
+      "Integration Strategy",
+      "Technical Implementation",
+      "Testing & Optimization",
+      "Launch & Support"
     ],
-  },
-  {
-    id: "standard-operating-procedures",
-    title: "Standard Operating Procedures",
-    slug: "standard-operating-procedures",
-    description: "Develop comprehensive SOPs to ensure consistent operations across all locations.",
-    longDescription:
-      "Establish consistency and efficiency across your retail operations with comprehensive Standard Operating Procedures. We help you document, implement, and maintain SOPs that ensure quality service delivery and operational excellence.",
-    image: "/images/services/standard-operating-procedures.jpg",
-    features: [
-      "Process Documentation",
-      "Workflow Optimization",
-      "Quality Control Standards",
-      "Training Material Development",
-      "Compliance Procedures",
-      "Performance Monitoring Systems",
-    ],
-    benefits: [
-      "Consistent operations",
-      "Improved efficiency",
-      "Better quality control",
-      "Easier staff training",
-      "Regulatory compliance",
-      "Scalable operations",
-    ],
-    process: [
-      "Current process analysis",
-      "SOP development and documentation",
-      "Staff training and implementation",
-      "Monitoring and feedback",
-      "Continuous improvement",
-      "Regular updates and maintenance",
-    ],
-  },
+    cta: "Integrate Your Channels"
+  }
 ]
 
 export function getServiceBySlug(slug: string): Service | undefined {
-  return services.find((service) => service.slug === slug)
+  return services.find(service => service.slug === slug)
 }
 
 export function getAllServices(): Service[] {
