@@ -209,10 +209,10 @@ export function Hero() {
                     </h4>
                     <p className="text-gray-700 text-sm leading-relaxed mb-4">
                       <strong>Executive leadership</strong> of major international retail brands including Escada, M&S,
-                      Kenzo, and Hush Puppies across Southeast Asia with proven business transformation results.
+                      Kenzo,Valentino and Roberto Cavalli brands across Southeast Asia with proven business transformation results.
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {["Escada", "M&S", "Kenzo", "Hush Puppies"].map((brand, index) => (
+                      {["Escada", "M&S", "Kenzo", "Valentino","Roberto Cavalli"].map((brand, index) => (
                         <span
                           key={index}
                           className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold border border-green-200"
