@@ -143,7 +143,7 @@ export function Hero() {
               <div className="grid grid-cols-3 gap-8 pt-8 border-t border-green-200">
                 <div className="text-center lg:text-left">
                   <div className="text-3xl font-bold text-green-800">
-                    <Counter end={23} suffix="+" />
+                    <Counter end={25} suffix="+" />
                   </div>
                   <div className="text-sm text-gray-600 font-medium">Years in Business</div>
                 </div>
@@ -197,7 +197,7 @@ export function Hero() {
                     <div className="ml-6">
                       <h3 className="font-bold text-2xl text-gray-900">Walter Dantis</h3>
                       <p className="text-green-600 font-bold">Business Founder & CEO</p>
-                      <p className="text-gray-600 text-sm font-semibold">23+ Years Retail Business Expert</p>
+                      <p className="text-gray-600 text-sm font-semibold">25+ Years Retail Business Expert</p>
                     </div>
                   </div>
 
@@ -273,7 +273,7 @@ export function Hero() {
               {/* Business Achievement Badges */}
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-xl">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-800">23+</div>
+                  <div className="text-2xl font-bold text-green-800">25+</div>
                   <div className="text-xs text-green-800 font-bold">Years</div>
                 </div>
               </div>

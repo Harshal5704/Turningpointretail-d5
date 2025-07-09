@@ -2,115 +2,100 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X } from 'lucide-react'
 import Image from "next/image"
+import { Menu, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 10)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/services", label: "Services" },
-    { href: "/news", label: "News" },
-    { href: "/contact", label: "Contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "News", href: "/news" },
+    { name: "Contact", href: "/contact" },
   ]
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? "bg-white/95 backdrop-blur-md shadow-xl border-b border-green-100" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-white/90 backdrop-blur-sm"
       }`}
     >
       <div className="container mx-auto px-6">
-        <div className="flex justify-between items-center py-4">
-          {/* Smaller Logo for both desktop and mobile */}
-          <Link href="/" className="flex items-center group">
-            <div className="relative">
-              <Image
-                src="/images/turning-point-new-logo.png"
-                alt="Turning Point Retail Solutions"
-                width={260}
-                height={70}
-                className="object-contain group-hover:scale-105 transition-transform duration-300"
-                priority
-              />
-            </div>
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex-shrink-0 hover:opacity-80 transition-opacity">
+            <Image
+              src="/images/turning-point-new-logo.png"
+              alt="Turning Point Retail"
+              width={260}
+              height={70}
+              className="h-auto w-auto max-h-12"
+              priority
+            />
           </Link>
 
-          {/* Desktop Navigation with Enhanced Hover Effects */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item, index) => (
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
               <Link
-                key={item.href}
+                key={item.name}
                 href={item.href}
-                className={`font-semibold text-base transition-all duration-300 relative group px-3 py-2 rounded-lg ${
-                  pathname === item.href
-                    ? "text-green-600 bg-green-50"
-                    : "text-gray-700 hover:text-green-600 hover:bg-green-50"
-                }`}
+                className="text-gray-700 hover:text-green-600 font-medium transition-colors duration-200 relative group"
               >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-green-600 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
+                {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
 
-            {/* Enhanced CTA Button */}
-            <Link
-              href="/contact"
-              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-green-100 px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 hover:scale-105"
+            <Button
+              asChild
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
             >
-              Get Started
-            </Link>
+              <Link href="/contact">Get Started</Link>
+            </Button>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 rounded-xl bg-green-100 hover:bg-green-200 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-6 h-6 text-green-600" /> : <Menu className="w-6 h-6 text-green-600" />}
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {/* Enhanced Mobile Navigation */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden py-6 border-t border-green-200 bg-white/95 backdrop-blur-md rounded-b-2xl mt-4">
-            <div className="space-y-4">
-              {navItems.map((item, index) => (
+          <div className="md:hidden py-4 border-t border-gray-200">
+            <div className="flex flex-col space-y-4">
+              {navItems.map((item) => (
                 <Link
-                  key={item.href}
+                  key={item.name}
                   href={item.href}
-                  className={`block py-4 px-6 font-semibold text-lg rounded-xl transition-colors ${
-                    pathname === item.href
-                      ? "text-green-600 bg-green-50"
-                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
-                  }`}
+                  className="text-gray-700 hover:text-green-600 font-medium py-2 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  {item.label}
+                  {item.name}
                 </Link>
               ))}
-              <div className="px-6 pt-4">
-                <Link
-                  href="/contact"
-                  className="block w-full text-center bg-gradient-to-r from-green-600 to-green-700 text-green-100 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg"
-                  onClick={() => setIsOpen(false)}
-                >
+              <Button asChild className="bg-green-600 hover:bg-green-700 text-white mt-4 w-full">
+                <Link href="/contact" onClick={() => setIsOpen(false)}>
                   Get Started
                 </Link>
-              </div>
+              </Button>
             </div>
           </div>
         )}

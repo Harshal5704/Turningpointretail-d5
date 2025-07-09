@@ -1,125 +1,93 @@
 "use client"
 
-import { TrendingUp, Users, Globe, Award, BarChart3, Target } from "lucide-react"
+import { ScrollReveal } from "@/components/animations/scroll-reveal"
+import { FadeIn } from "@/components/animations/fade-in"
 import { Counter } from "@/components/animations/counter"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { TrendingUp, Users, Target, Award, Globe, Briefcase } from "lucide-react"
 
 export function RetailInsights() {
   const insights = [
     {
       icon: TrendingUp,
-      title: "Revenue Growth",
-      value: 150,
-      suffix: "%",
-      description: "Average revenue increase for our clients within 12 months",
-      color: "text-green-700",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
+      number: 150,
+      suffix: "+",
+      title: "Successful Projects",
+      description: "Retail transformations completed across Southeast Asia",
     },
     {
       icon: Users,
-      title: "Trained Staff",
-      value: 5000,
+      number: 50,
       suffix: "+",
-      description: "Retail professionals trained across Southeast Asia",
-      color: "text-yellow-700",
-      bgColor: "bg-yellow-50",
-      borderColor: "border-yellow-200",
-    },
-    {
-      icon: Globe,
-      title: "Countries Served",
-      value: 8,
-      suffix: "",
-      description: "Active operations across Southeast Asian markets",
-      color: "text-green-700",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
-    },
-    {
-      icon: Award,
-      title: "Success Rate",
-      value: 98,
-      suffix: "%",
-      description: "Client satisfaction and project success rate",
-      color: "text-yellow-700",
-      bgColor: "bg-yellow-50",
-      borderColor: "border-yellow-200",
-    },
-  ]
-
-  const achievements = [
-    {
-      icon: BarChart3,
-      title: "Operational Excellence",
-      description: "Streamlined operations for 200+ retail outlets across the region",
+      title: "Happy Clients",
+      description: "Brands trust us with their retail operations",
     },
     {
       icon: Target,
-      title: "Strategic Growth",
-      description: "Facilitated market expansion for 50+ franchise brands",
+      number: 85,
+      suffix: "%",
+      title: "Success Rate",
+      description: "Average improvement in client performance metrics",
+    },
+    {
+      icon: Award,
+      number: 25,
+      suffix: "+",
+      title: "Years Experience",
+      description: "Proven track record in retail consulting",
+    },
+    {
+      icon: Globe,
+      number: 12,
+      suffix: "+",
+      title: "Countries Served",
+      description: "International reach across Asia-Pacific region",
+    },
+    {
+      icon: Briefcase,
+      number: 200,
+      suffix: "+",
+      title: "Store Audits",
+      description: "Comprehensive retail assessments conducted",
     },
   ]
 
   return (
-    <section className="py-20 bg-gray-50 relative">
+    <section className="section-padding bg-gradient-to-br from-green-50 to-yellow-50">
       <div className="container-max">
-        {/* Section Header - More Visible */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-8 py-4 bg-white border-2 border-green-200 text-green-800 rounded-full text-lg font-bold mb-8 shadow-lg">
-            <BarChart3 className="w-6 h-6 mr-3 text-green-600" />
-            Retail Insights
+        <FadeIn>
+          <div className="text-center mb-16">
+            <Badge variant="secondary" className="mb-6 px-6 py-3 text-base font-semibold">
+              Our Impact
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900">Retail Insights & Results</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Numbers that speak to our commitment to excellence and the transformative impact we deliver for retail
+              businesses across the region.
+            </p>
           </div>
+        </FadeIn>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Proven Retail Insights Across
-            <span className="block text-green-700 mt-2">Southeast Asia</span>
-          </h2>
-
-          <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium">
-            Our data-driven approach delivers measurable outcomes for retail businesses of all sizes.
-          </p>
-        </div>
-
-        {/* Stats Grid - Enhanced Visibility */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {insights.map((insight, index) => (
-            <div key={index} className="group">
-              <div
-                className={`bg-white rounded-3xl p-8 text-center shadow-xl border-2 ${insight.borderColor} hover:shadow-2xl transition-all duration-300 hover:-translate-y-2`}
-              >
-                <div
-                  className={`w-20 h-20 ${insight.bgColor} rounded-3xl flex items-center justify-center mx-auto mb-6 border-2 ${insight.borderColor}`}
-                >
-                  <insight.icon className={`w-10 h-10 ${insight.color}`} />
-                </div>
-
-                <div className="mb-6">
-                  <div className={`text-5xl font-black ${insight.color} mb-3`}>
-                    <Counter end={insight.value} suffix={insight.suffix} />
+            <ScrollReveal key={index} delay={index * 0.1}>
+              <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm">
+                <CardContent className="p-8 text-center h-full flex flex-col justify-between min-h-[280px]">
+                  <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                      <insight.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                      <Counter end={insight.number} />
+                      <span className="text-green-600">{insight.suffix}</span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-4 text-gray-900">{insight.title}</h3>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{insight.title}</h3>
-                </div>
-
-                <p className="text-gray-600 text-base leading-relaxed font-medium">{insight.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Achievements - Enhanced Visibility */}
-        <div className="grid md:grid-cols-2 gap-10">
-          {achievements.map((achievement, index) => (
-            <div key={index} className="group">
-              <div className="flex items-start space-x-6 p-8 bg-white rounded-3xl border-2 border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-yellow-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <achievement.icon className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{achievement.title}</h3>
-                  <p className="text-gray-700 leading-relaxed text-lg font-medium">{achievement.description}</p>
-                </div>
-              </div>
-            </div>
+                  <p className="text-gray-600 leading-relaxed mt-auto">{insight.description}</p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>
