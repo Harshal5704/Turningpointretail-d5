@@ -3,12 +3,12 @@
 import { ScrollReveal } from "@/components/animations/scroll-reveal"
 import { FadeIn } from "@/components/animations/fade-in"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { servicesData } from "@/lib/services-data"
+import { services } from "@/lib/services-data"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, CheckCircle } from "lucide-react"
 
 export default function ServicesPage() {
   return (
@@ -38,7 +38,7 @@ export default function ServicesPage() {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {servicesData.map((service, index) => (
+            {services.map((service, index) => (
               <ScrollReveal key={service.slug} delay={index * 0.1}>
                 <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
                   <div className="relative overflow-hidden rounded-t-lg">
@@ -52,21 +52,11 @@ export default function ServicesPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
 
-                  <CardHeader>
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-yellow-500 rounded-xl flex items-center justify-center">
-                        <service.icon className="w-6 h-6 text-white" />
-                      </div>
-                      <Badge variant="secondary" className="text-xs">
-                        {service.category}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-green-600 transition-colors">
+                  <CardContent className="p-6 flex-grow">
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-green-600 transition-colors mb-4">
                       {service.title}
-                    </CardTitle>
-                  </CardHeader>
+                    </h3>
 
-                  <CardContent className="flex-grow">
                     <p className="text-gray-600 leading-relaxed mb-6">{service.description}</p>
 
                     <div className="space-y-3 mb-6">
@@ -74,7 +64,7 @@ export default function ServicesPage() {
                       <ul className="space-y-2">
                         {service.features.slice(0, 3).map((feature, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                             {feature}
                           </li>
                         ))}

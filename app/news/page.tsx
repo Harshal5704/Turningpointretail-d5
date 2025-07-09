@@ -1,14 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
-import { Calendar, User, ArrowRight, AlertCircle } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, User, ChevronDown, ChevronUp } from "lucide-react"
 import type { BlogPost } from "@/lib/supabase"
 
 export default function NewsPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string>("")
+  const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     fetchPosts()
@@ -20,112 +23,163 @@ export default function NewsPage() {
       setError("")
 
       const response = await fetch("/api/blog")
+      const contentType = response.headers.get("content-type")
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+      if (!contentType || !contentType.includes("application/json")) {
+        const rawText = await response.text()
+        console.error("Received non-JSON response:", rawText)
+        throw new Error("Unexpected server response")
       }
 
       const data = await response.json()
-      setPosts(data)
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong while fetching posts")
+      }
+
+      setPosts(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error("Error fetching posts:", error)
-      setError(`Failed to load posts: ${error instanceof Error ? error.message : "Unknown error"}`)
+      setError(error instanceof Error ? error.message : "Failed to load posts")
     } finally {
       setLoading(false)
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-700 mx-auto mb-4"></div>
-          <p className="text-green-600">Loading latest news...</p>
-        </div>
-      </div>
+  const toggleExpanded = (postId: string) => {
+    const newExpanded = new Set(expandedPosts)
+    if (newExpanded.has(postId)) {
+      newExpanded.delete(postId)
+    } else {
+      newExpanded.add(postId)
+    }
+    setExpandedPosts(newExpanded)
+  }
+
+  const formatContent = (content: string) => {
+    return content.split("\n").map(
+      (paragraph, index) =>
+        paragraph.trim() && (
+          <p key={index} className="mb-4">
+            {paragraph}
+          </p>
+        ),
     )
   }
 
-  if (error) {
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto p-6">
-          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-red-800 mb-2">Error Loading News</h2>
-          <p className="text-red-600 mb-4">{error}</p>
-          <button onClick={fetchPosts} className="btn-primary">
-            Try Again
-          </button>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <p className="mt-4 text-green-600">Loading news...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="animate-fade-in">
-      {/* Simplified Header Section */}
-      <section className="section-padding bg-gradient-to-br from-blue-50 to-white">
-        <div className="container-max">
-          <div className="text-center mb-16">
-            <h1 className="heading-primary mb-6 text-green-800">News & Events</h1>
+    <div className="min-h-screen bg-gray-50">
+      <div className="pt-32 pb-16">
+        <div className="container-max max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-green-800 mb-4">Latest News & Insights</h1>
+            <p className="text-xl text-green-600">
+              Stay updated with the latest trends and insights in retail consulting
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Blog Posts */}
-      <section className="section-padding">
-        <div className="container-max">
-          {posts.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Calendar className="w-12 h-12 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-green-800 mb-4">No news yet. Stay tuned!</h3>
-              <p className="text-green-600 max-w-md mx-auto">
-                We're working on bringing you the latest retail insights and company updates. Check back soon for
-                exciting content!
-              </p>
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <p className="text-red-600">{error}</p>
             </div>
+          )}
+
+          {posts.length === 0 ? (
+            <Card>
+              <CardContent className="text-center py-12">
+                <p className="text-green-600 text-lg">No news articles available at the moment.</p>
+              </CardContent>
+            </Card>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
-                <article
-                  key={post.id}
-                  className="bg-white rounded-xl shadow-sm border hover:shadow-lg transition-all duration-300 overflow-hidden"
-                >
-                  <div className="aspect-video relative">
-                    <Image
-                      src={post.image || "/placeholder.svg?height=200&width=400&query=blog post"}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+            <div className="grid gap-8">
+              {posts.map((post) => {
+                const isExpanded = expandedPosts.has(post.id)
+                const shouldShowReadMore = post.content.length > 300
 
-                  <div className="p-6">
-                    <div className="flex items-center text-sm text-green-600 mb-3">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      {new Date(post.created_at).toLocaleDateString()}
-                      <User className="w-4 h-4 ml-4 mr-2" />
-                      {post.author}
-                    </div>
+                return (
+                  <Card key={post.id} className={`transition-all duration-300 ${isExpanded ? "lg:col-span-2" : ""}`}>
+                    <CardHeader>
+                      <div className="flex flex-col lg:flex-row gap-4">
+                        {post.image && (
+                          <div className={`${isExpanded ? "lg:w-1/3" : "lg:w-48"} flex-shrink-0`}>
+                            <img
+                              src={post.image || "/placeholder.svg"}
+                              alt={post.title}
+                              className="w-full h-48 object-cover rounded-lg"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement
+                                target.style.display = "none"
+                              }}
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <CardTitle className="text-2xl text-green-800 mb-3">{post.title}</CardTitle>
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-green-600 mb-4">
+                            <div className="flex items-center gap-1">
+                              <User className="w-4 h-4" />
+                              <span>{post.author}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Calendar className="w-4 h-4" />
+                              <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                            </div>
+                            <Badge variant="secondary">News</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className={`${isExpanded ? "lg:flex lg:gap-6" : ""}`}>
+                        <div className="flex-1">
+                          {isExpanded ? (
+                            <div className="text-green-700 leading-relaxed">{formatContent(post.content)}</div>
+                          ) : (
+                            <p className="text-green-700 leading-relaxed">
+                              {shouldShowReadMore ? `${post.content.substring(0, 300)}...` : post.content}
+                            </p>
+                          )}
 
-                    <h3 className="text-xl font-bold text-green-800 mb-3 line-clamp-2">{post.title}</h3>
-
-                    <p className="text-green-600 mb-4 line-clamp-3">{post.content.substring(0, 150)}...</p>
-
-                    <button className="text-green-700 font-semibold flex items-center hover:text-green-800 transition-colors">
-                      Read More
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </button>
-                  </div>
-                </article>
-              ))}
+                          {shouldShowReadMore && (
+                            <Button
+                              onClick={() => toggleExpanded(post.id)}
+                              variant="outline"
+                              className="mt-4 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+                            >
+                              {isExpanded ? (
+                                <>
+                                  <ChevronUp className="w-4 h-4 mr-2" />
+                                  Show Less
+                                </>
+                              ) : (
+                                <>
+                                  <ChevronDown className="w-4 h-4 mr-2" />
+                                  Read More
+                                </>
+                              )}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              })}
             </div>
           )}
         </div>
-      </section>
+      </div>
     </div>
   )
 }

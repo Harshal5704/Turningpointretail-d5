@@ -61,12 +61,21 @@ export default function AdminPage() {
       setIsLoading(true)
       const response = await fetch("/api/blog")
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+      const contentType = response.headers.get("content-type")
+
+      // If the response is not JSON, log raw response and throw an error
+      if (!contentType || !contentType.includes("application/json")) {
+        const rawText = await response.text()
+        console.error("Received non-JSON response:", rawText)
+        throw new Error("Unexpected server response")
       }
 
       const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong while fetching posts")
+      }
+
       setPosts(data)
     } catch (error) {
       console.error("Error fetching posts:", error)
@@ -148,11 +157,10 @@ export default function AdminPage() {
       }
 
       const postData = {
-        ...formData,
-        image: imageUrl,
         title: formData.title.trim(),
         content: formData.content.trim(),
         author: formData.author.trim(),
+        image: imageUrl?.trim() || null,
       }
 
       // Add ID for updates
@@ -166,10 +174,19 @@ export default function AdminPage() {
         body: JSON.stringify(postData),
       })
 
+      const contentType = response.headers.get("content-type")
+
+      // If the response is not JSON, log raw response and throw an error
+      if (!contentType || !contentType.includes("application/json")) {
+        const rawText = await response.text()
+        console.error("Received non-JSON response:", rawText)
+        throw new Error("Unexpected server response")
+      }
+
       const responseData = await response.json()
 
       if (!response.ok) {
-        throw new Error(responseData.error || `HTTP error! status: ${response.status}`)
+        throw new Error(responseData.error || "Something went wrong while saving the post")
       }
 
       setSuccess(editingPost ? "Post updated successfully!" : "Post created successfully!")
@@ -201,9 +218,19 @@ export default function AdminPage() {
       setIsLoading(true)
       const response = await fetch(`/api/blog?id=${id}`, { method: "DELETE" })
 
+      const contentType = response.headers.get("content-type")
+
+      // If the response is not JSON, log raw response and throw an error
+      if (!contentType || !contentType.includes("application/json")) {
+        const rawText = await response.text()
+        console.error("Received non-JSON response:", rawText)
+        throw new Error("Unexpected server response")
+      }
+
+      const responseData = await response.json()
+
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+        throw new Error(responseData.error || "Something went wrong while deleting the post")
       }
 
       setSuccess("Post deleted successfully!")
