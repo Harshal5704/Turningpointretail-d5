@@ -19,6 +19,9 @@ import {
   Building2,
   Globe,
   MessageSquare,
+  Users,
+  Target,
+  Zap,
 } from "lucide-react"
 
 const contactSchema = z.object({
@@ -84,36 +87,108 @@ export default function ContactPage() {
 
   return (
     <div className="animate-fade-in" style={{ paddingTop: "var(--header-height)" }}>
-      {/* Hero Section with Enhanced CTA */}
-      <section className="section-padding bg-gradient-to-br from-green-50 to-white">
-        <div className="container-max">
+      {/* Enhanced Get in Touch Hero Section */}
+      <section className="section-padding bg-gradient-to-br from-green-50 via-white to-green-50 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-green-600 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-40 h-40 bg-green-400 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-green-300 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container-max relative">
           <div className="text-center mb-16">
             <FadeIn>
-              <span className="px-6 py-3 bg-green-100 text-green-800 rounded-full text-sm font-semibold mb-6 inline-block">
-                Get In Touch
-              </span>
+              <div className="flex items-center justify-center mb-6">
+                <div className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-100 to-green-200 text-green-800 rounded-full text-sm font-semibold border border-green-300">
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Get In Touch</span>
+                </div>
+              </div>
             </FadeIn>
+
             <SlideUp delay={0.2}>
-              <h1 className="text-4xl md:text-6xl font-bold text-green-800 mb-6">
-                Let's Transform Your Retail Business
+              <h1 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900">
+                Ready to Transform Your
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-700">
+                  Retail Business?
+                </span>
               </h1>
             </SlideUp>
+
             <FadeIn delay={0.4}>
-              <p className="text-xl text-green-600 max-w-3xl mx-auto leading-relaxed mb-8">
-                Ready to take your retail operations to the next level? Our expert team is here to help you achieve
-                sustainable growth and operational excellence.
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
+                Connect with our retail experts and discover how we can help you achieve sustainable growth, optimize
+                operations, and create exceptional customer experiences that drive results.
               </p>
             </FadeIn>
-            {/* Prominent CTA Above the Fold */}
+
+            {/* Enhanced Value Propositions */}
             <ScrollReveal delay={0.6}>
-              <div className="bg-gradient-to-r from-green-600 to-green-700 p-8 rounded-3xl shadow-2xl max-w-2xl mx-auto mb-16">
-                <h3 className="text-2xl font-bold text-white mb-4">🚀 Free Consultation Available</h3>
-                <p className="text-green-100 mb-6">
-                  Book a 30-minute strategy session with our retail experts. No commitment required.
-                </p>
-                <AnimatedButton className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                  Book Free Consultation
-                </AnimatedButton>
+              <div className="grid md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
+                <div className="flex items-center justify-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-green-100 shadow-sm">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-semibold text-gray-900">Expert Team</p>
+                    <p className="text-sm text-gray-600">15+ Years Experience</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-green-100 shadow-sm">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <Target className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-semibold text-gray-900">Proven Results</p>
+                    <p className="text-sm text-gray-600">Measurable Impact</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-green-100 shadow-sm">
+                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-semibold text-gray-900">Fast Response</p>
+                    <p className="text-sm text-gray-600">Within 24 Hours</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Enhanced CTA */}
+            <ScrollReveal delay={0.8}>
+              <div className="bg-gradient-to-r from-green-600 via-green-700 to-green-600 p-8 md:p-10 rounded-3xl shadow-2xl max-w-3xl mx-auto mb-16 relative overflow-hidden">
+                {/* CTA Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-4 right-4 w-20 h-20 bg-white rounded-full blur-2xl"></div>
+                  <div className="absolute bottom-4 left-4 w-16 h-16 bg-white rounded-full blur-2xl"></div>
+                </div>
+
+                <div className="relative">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+                      <span className="text-2xl">🚀</span>
+                    </div>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Free Strategy Consultation</h3>
+                  <p className="text-green-100 mb-6 text-lg leading-relaxed">
+                    Book a complimentary 30-minute strategy session with our retail experts. Get personalized insights
+                    and actionable recommendations for your business.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                    <AnimatedButton className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                      <Phone className="w-5 h-5" />
+                      <span>Book Free Consultation</span>
+                    </AnimatedButton>
+                    <div className="flex items-center space-x-2 text-green-100">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="text-sm">No commitment required</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -121,7 +196,7 @@ export default function ContactPage() {
           {/* Contact Information Cards */}
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <ScrollReveal delay={0.1}>
-              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-shadow">
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <MapPin className="w-8 h-8 text-green-100" />
                 </div>
@@ -137,7 +212,7 @@ export default function ContactPage() {
                   href="https://maps.google.com/?q=Diamond+Twin+Towers+Koh+Pich+Phnom+Penh+Cambodia"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-600 hover:text-green-700 font-semibold inline-flex items-center"
+                  className="text-green-600 hover:text-green-700 font-semibold inline-flex items-center transition-colors"
                 >
                   <Globe className="w-4 h-4 mr-2" />
                   View on Map
@@ -146,30 +221,30 @@ export default function ContactPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-shadow">
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Phone className="w-8 h-8 text-blue-100" />
                 </div>
                 <h3 className="text-xl font-bold text-green-800 mb-4">Call Us</h3>
                 <p className="text-green-600 mb-2">Ready to discuss your project?</p>
                 <p className="text-2xl font-bold text-green-700 mb-4">+855 86 844 464</p>
-                <p className="text-sm text-green-500">
-                  <Clock className="w-4 h-4 inline mr-1" />
+                <p className="text-sm text-green-500 flex items-center justify-center">
+                  <Clock className="w-4 h-4 mr-1" />
                   Response within 2 hours
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.3}>
-              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-shadow">
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-green-100 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Mail className="w-8 h-8 text-purple-100" />
                 </div>
                 <h3 className="text-xl font-bold text-green-800 mb-4">Email Us</h3>
                 <p className="text-green-600 mb-2">Send us a detailed message</p>
                 <p className="text-lg font-semibold text-green-700 mb-4">info@turningpointretail.com</p>
-                <p className="text-sm text-green-500">
-                  <Clock className="w-4 h-4 inline mr-1" />
+                <p className="text-sm text-green-500 flex items-center justify-center">
+                  <Clock className="w-4 h-4 mr-1" />
                   Response within 24 hours
                 </p>
               </div>

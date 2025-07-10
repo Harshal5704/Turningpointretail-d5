@@ -1,119 +1,136 @@
 "use client"
 
-import { Store, GraduationCap, Star, BarChart3, TrendingUp } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
 import { ScrollReveal } from "@/components/animations/scroll-reveal"
 import { FadeIn } from "@/components/animations/fade-in"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import Image from "next/image"
+import { ArrowRight, CheckCircle } from "lucide-react"
 
-const services = [
+const highlightedServices = [
   {
-    icon: Store,
-    title: "Store Operations",
-    description: "Streamline your retail operations with proven systems and processes.",
-    href: "/services/store-operations",
-    color: "from-green-600 to-green-700",
+    title: "Store Operations Excellence",
+    description:
+      "Optimize your daily operations with proven systems and processes that drive efficiency and profitability.",
+    image: "/images/services/store-operations.jpg",
+    features: ["Standard Operating Procedures", "Staff Training & Development", "Performance Monitoring Systems"],
+    slug: "store-operations",
   },
   {
-    icon: Star,
-    title: "Customer Experience",
-    description: "Create memorable experiences that drive loyalty and repeat business.",
-    href: "/services/customer-experience",
-    color: "from-yellow-500 to-yellow-600",
+    title: "Digital Transformation",
+    description: "Modernize your retail business with cutting-edge technology solutions and digital strategies.",
+    image: "/images/services/digital-transformation.jpg",
+    features: ["E-commerce Integration", "POS System Optimization", "Digital Marketing Strategies"],
+    slug: "digital-transformation",
   },
   {
-    icon: BarChart3,
-    title: "Business Intelligence",
-    description: "Data-driven insights for informed decision making and growth.",
-    href: "/services/retail-business-intelligence",
-    color: "from-green-700 to-green-800",
+    title: "Customer Experience Design",
+    description: "Create exceptional shopping experiences that build customer loyalty and drive repeat business.",
+    image: "/images/services/customer-experience.jpg",
+    features: ["Journey Mapping", "Touchpoint Optimization", "Loyalty Program Development"],
+    slug: "customer-experience",
   },
   {
-    icon: TrendingUp,
-    title: "Retail Analytics",
-    description: "Advanced analytics solutions to optimize performance and profitability.",
-    href: "/services/ai-retail-analytics",
-    color: "from-yellow-600 to-yellow-700",
+    title: "Performance Optimization",
+    description: "Maximize your retail performance through data-driven insights and strategic improvements.",
+    image: "/images/services/performance-optimization.jpg",
+    features: ["KPI Development", "Analytics Implementation", "Continuous Improvement"],
+    slug: "performance-optimization",
   },
   {
-    icon: GraduationCap,
-    title: "Staff Training",
-    description: "Comprehensive training programs for retail excellence.",
-    href: "/services/skill-academy",
-    color: "from-green-800 to-green-900",
+    title: "Franchise Development",
+    description: "Scale your successful retail concept through strategic franchise development and support.",
+    image: "/images/services/franchise-development.jpg",
+    features: ["Franchise Model Development", "Partner Selection & Training", "Ongoing Support Systems"],
+    slug: "franchise-development",
+  },
+  {
+    title: "Market Entry Strategy",
+    description: "Successfully enter new markets with comprehensive research and strategic planning.",
+    image: "/images/services/market-entry-strategy.jpg",
+    features: ["Market Research & Analysis", "Competitive Intelligence", "Entry Strategy Development"],
+    slug: "market-entry-strategy",
   },
 ]
 
 export function ServiceHighlights() {
   return (
-    <section className="section-padding bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-green-200/20 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-200/20 rounded-full blur-2xl"></div>
-      </div>
-
-      <div className="container-max relative z-10">
+    <section className="section-padding bg-white">
+      <div className="container-max">
         <FadeIn>
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm font-semibold">
+            <Badge
+              variant="secondary"
+              className="mb-8 px-8 py-4 text-xl font-bold bg-gradient-to-r from-green-100 to-yellow-100 text-green-800 border-2 border-green-200"
+            >
               Our Services
             </Badge>
-            <h2 className="heading-secondary mb-6">Comprehensive Retail Solutions</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900">Comprehensive Retail Solutions</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Transform your retail business with our proven expertise across operations, customer experience,
-              analytics, and team development.
+              We provide end-to-end retail consulting services to transform your business operations and drive
+              sustainable growth.
             </p>
           </div>
         </FadeIn>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ScrollReveal key={service.title} delay={index * 0.1}>
-              <Link href={service.href} className="group block">
-                <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm">
-                  <CardContent className="p-8">
-                    <div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      <service.icon className="w-8 h-8 text-white" />
-                    </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {highlightedServices.map((service, index) => (
+            <ScrollReveal key={service.slug} delay={index * 0.1}>
+              <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                <div className="relative overflow-hidden rounded-t-lg">
+                  <Image
+                    src={service.image || "/placeholder.svg"}
+                    alt={service.title}
+                    width={400}
+                    height={250}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
 
-                    <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-green-700 transition-colors">
-                      {service.title}
-                    </h3>
+                <CardContent className="p-6 flex-grow">
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-green-600 transition-colors mb-4">
+                    {service.title}
+                  </h3>
 
-                    <p className="text-gray-600 leading-relaxed mb-6">{service.description}</p>
+                  <p className="text-gray-600 leading-relaxed mb-6">{service.description}</p>
 
-                    <div className="flex items-center text-green-600 font-semibold group-hover:text-green-700 transition-colors">
+                  <div className="space-y-3 mb-6">
+                    <h4 className="font-semibold text-gray-900">Key Features:</h4>
+                    <ul className="space-y-2">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
+                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Link href={`/services/${service.slug}`}>
+                    <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 group">
                       Learn More
-                      <svg
-                        className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
             </ScrollReveal>
           ))}
         </div>
 
-        <FadeIn delay={0.6}>
-          <div className="text-center mt-16">
-            <Link
-              href="/services"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-full hover:from-green-700 hover:to-green-800 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-            >
-              View All Services
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+        <FadeIn>
+          <div className="text-center">
+            <Link href="/services">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+              >
+                View All Services
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
             </Link>
           </div>
         </FadeIn>
