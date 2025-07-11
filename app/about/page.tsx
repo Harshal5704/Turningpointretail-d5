@@ -18,7 +18,7 @@ export default function AboutPage() {
   const achievements = [
     {
       icon: TrendingUp,
-      number: 150,
+      number: 50,
       suffix: "+",
       title: "Projects Completed",
       description: "Successfully delivered across Southeast Asia",
@@ -203,7 +203,7 @@ export default function AboutPage() {
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-6">
                   Meet Walter Dantis
-                  <span className="block text-xl font-normal text-green-600 mt-2">Founder & Managing Director</span>
+                  <span className="block text-xl font-normal text-green-600 mt-2">Founder & CEO</span>
                 </h2>
                 <div className="space-y-4 text-green-700 leading-relaxed">
                   <p>
