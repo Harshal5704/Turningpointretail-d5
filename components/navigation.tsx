@@ -59,6 +59,22 @@ export function Navigation() {
               </Link>
             ))}
 
+            {/* Add this download button */}
+            <Button
+              asChild
+              variant="outline"
+              className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 bg-transparent"
+            >
+              <a
+                href="https://drive.google.com/uc?export=download&id=14-cpX09fp9CykW392meUMdFlpr5_Y-r2"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="Turning-Point-Catalogue.pdf"
+              >
+                Download Catalogue
+              </a>
+            </Button>
+
             <Button
               asChild
               className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
@@ -91,6 +107,24 @@ export function Navigation() {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Add this download button for mobile */}
+              <Button
+                asChild
+                variant="outline"
+                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white w-full mt-2 bg-transparent"
+              >
+                <a
+                  href="https://drive.google.com/uc?export=download&id=14-cpX09fp9CykW392meUMdFlpr5_Y-r2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Turning-Point-Catalogue.pdf"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Download Catalogue
+                </a>
+              </Button>
+
               <Button asChild className="bg-green-600 hover:bg-green-700 text-white mt-4 w-full">
                 <Link href="/contact" onClick={() => setIsOpen(false)}>
                   Get Started
