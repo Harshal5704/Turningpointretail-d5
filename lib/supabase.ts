@@ -9,9 +9,8 @@ export interface BlogPost {
   id: string
   title: string
   content: string
-  image?: string | null
+  image?: string
   author: string
   created_at: string
   updated_at?: string
-  slug?: string
 }
